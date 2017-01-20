@@ -8,3 +8,9 @@
 *.bbl
 *.cls
 *.dtx
+
+# MATLAB
+*.m~
+
+# OS
+.DS_Store
