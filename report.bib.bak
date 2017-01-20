@@ -1,6 +1,5 @@
 % Encoding: UTF-8
 
-@Article{acelluar,
   author  = {K.Nagel and M.Schreckenberg},
   title   = {A cellular automaton model for freeway traffic},
   journal = {J.PHYS.I(France)2,2221~2229},

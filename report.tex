@@ -1,22 +1,35 @@
-
-%% The original source files were:
-%%
-%% mcmthesis.dtx  (with options: `demo')
-%% 
 \documentclass{mcmthesis}
 \mcmsetup{CTeX = false, 
-        tcn =57566, problem = A,
+        tcn =57566, problem = B,
         sheet = true, titleinsheet = true, keywordsinsheet = true,
         titlepage = false, abstract = true}
 \usepackage{palatino}
 \usepackage{lipsum}
-\title{THE TITLE}
+\title{An optimized design of the area following the toll barrier }
 
+\bibliographystyle{apalike}
 \begin{document}
+
+	
+	
 \begin{abstract}
-  YOUR ABSTRACT
+	
+In order to determine the optimal area following the toll barrier, this paper proposes a function model for the turnpike authority in favor of the promotion of the toll station.
+
+First, after seeking examples of toll stations in common use and analyzing the complicated situations, we enumerate the important elements which will quantify the performance of the station design. The performance is mainly constituted by throughput, accident rate and cost. Their weights are determined by principal component analysis. 
+
+Next, we applique Nagel-Schreckenberg (NS) model and then develop a function model to simulate the process for vehicles to pull out and every decision made by observing the surroundings. Meanwhile we can model the accident probability as well. In which way the quantity of vehicles via the toll station in unit time is obtained. And the cost is defined by the area the station takes and the number and proportions of tollbooths. 
+
+Then, according to this generalized adaptive model, we can adjust some parameters to reach a bigger throughput. And we recalculate accident rate and cost. By means of adjustments and experiments on MATLAB, a better solution with obvious advantage is designed. Its size, shape and merging pattern are detailed in our report.
+
+Finally, with different parameters set, the condition of heavy traffic or light traffic is established, in which we compare the performance of our design with the common ones. The situation where more autonomous vehicles are added or the proportions of tollbooths are changed can also be tested in this model. The result turns out that our solution is an optimized design.
+
+   
+  
+  
+  
 \begin{keywords}
-keyword1; keyword2
+ Nagel-Schreckenberg (NS) model;
 \end{keywords}
 \end{abstract}
 
@@ -24,25 +37,42 @@ keyword1; keyword2
 \tableofcontents
 \clearpage
 
+
+
+
+
+
+
+
+\section{A letter to the New Jersey Turnpike Authority}
+
+
+New Jersey Turnpike Authority,
+
+Our team has proposed an optimized toll station design allowing the increase of throughput and the decrease of cost and accident rate. And a new mathematical model is built in order to help evaluate the performances of designs. 
+
+More specifically, the performance model is developed after taking all important elements related to this problem into consideration, like number of lanes and tollbooths, proportions of tollbooths, varieties of vehicles, change of flows, every decision made by drivers to turn right or left and traffic conditions. 
+
+
+
 \section{Introduction}
-YOUR INTRODUCTION
 
+\subsection{Statement of the problem}
+The design of toll station is undoubtedly a kind of art as it is hard to find the balance among safety, capacity and cost facing different situations. But As a promotion of toll station is in demand, we applique mathematical methods and function models for optimize our design.
+
+Here we list the elements that will influence the throughput of our toll station:
 \begin{itemize}
- \item 
+\item Number of lanes and tollbooths $L$, $B$
+\item Total flow $F_t$
+\item Probability of large-scale automobiles, midium-sized vehicles and compact cars $P_l$,  $P_m$, $P_s$
+\item Cell size $C$
 \end{itemize}
 
-\begin{itemize}
-\item 
 
-\end{itemize}
-\lipsum[3]
-\begin{itemize}
-\item the angular velocity of the bat,
-\item the velocity of the ball, and
-\item the position of impact along the bat.
-\end{itemize}
-\lipsum[4]
-\emph{center of percussion} [Brody 1986], \lipsum[5]
+
+
+
+
 
 \begin{Theorem} \label{thm:latex}
 
@@ -57,7 +87,7 @@ The proof of theorem.
 \end{proof}
 
 \subsection{Other Assumptions}
-\lipsum[6]
+
 \begin{itemize}
 \item
 \item
@@ -65,7 +95,7 @@ The proof of theorem.
 \item
 \end{itemize}
 
-\lipsum[7]
+
 
 \section{Analysis of the Problem}
 \begin{figure}[h]
@@ -75,7 +105,7 @@ The proof of theorem.
 \caption{aa} \label{fig:aa}
 \end{figure}
 
-\lipsum[8] \eqref{aa}
+
 \begin{equation}
 a^2 \label{aa}
 \end{equation}
@@ -107,24 +137,23 @@ a^2 \label{aa}
 \]
 
 \section{Calculating and Simplifying the Model  }
-\lipsum[11]
+
 
 \section{The Model Results}
-\lipsum[6]
+
 
 \section{Validating the Model}
-\lipsum[9]
+
 
 \section{Conclusions}
-\lipsum[6]
 
 \section{A Summary}
-\lipsum[6]
+
 
 \section{Evaluate of the Mode}
 
 \section{Strengths and weaknesses}
-\lipsum[12]
+
 
 \subsection{Strengths}
 \begin{itemize}
@@ -136,16 +165,10 @@ a^2 \label{aa}
 \end{itemize}
 
 
-\nocite{*}
-\bibliographystyle{apalike}
-\bibliography{report}
-
-
 \begin{appendices}
 
 \section{First appendix}
 
-\lipsum[13]
 
 Here are simulation programmes we used in our model as follow.\\
 
@@ -158,5 +181,11 @@ some more text \textcolor[rgb]{0.98,0.00,0.00}{\textbf{Input C++ source:}}
 \lstinputlisting[language=C++]{./code/sudoku.cpp}
 
 \end{appendices}
+
+	\nocite{*}
+
+\bibliography{report}
+
+	
 \end{document}
 
