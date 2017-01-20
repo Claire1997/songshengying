@@ -4,7 +4,8 @@ L = 3; % Regular lane number
 cell_size = 0.5; % cutting the road into small cells of 0.25 m^2
 shapePoints = [32 0; 24 50;20 100;16 150; 12 200]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
 % only the middle 3 points are needed
-boundaryPoints = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:400),'spline');
+globle boundaryPoints
+boundaryPoints = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:200),'spline');
                         
 toll_barrier_state = zeros(70,B); % track vehicle departing from the tollbooth with historical info
 toll_barrier_config = [3,3,3,3,3,3,3,3; 10,10,10,10,10,10,10,10];
