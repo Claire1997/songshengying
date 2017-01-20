@@ -22,7 +22,7 @@ if flow_total > critical_flow
         % respect time interval of vehicles
         for j = 1:B
             if toll_barrier_state(j,i) == 1
-                if j >= 30 + toll_barrier_config(2,i)
+                if j >= 10 + toll_barrier_config(2,i)
                     % toll ready for next vehicle
                     tmp = rand(1);
                     if toll_barrier_config(1,i) == 3
@@ -48,7 +48,7 @@ if flow_total > critical_flow
                     break
                 end % j < 30, port not ready
             elseif toll_barrier_state(j,i) == 2
-                if j >= 40 + toll_barrier_config(2,i)
+                if j >= 15 + toll_barrier_config(2,i)
                     % toll ready for next vehicle
                     tmp = rand(1);
                     if toll_barrier_config(1,i) == 3
@@ -72,7 +72,7 @@ if flow_total > critical_flow
                     break
                 end % j < 40, port not ready
             elseif toll_barrier_state(j,i) == 3
-                if j >= 50 + toll_barrier_config(2,i)
+                if j >= 30 + toll_barrier_config(2,i)
                     % toll ready for next vehicle
                     tmp = rand(1);
                     if toll_barrier_config(1,i) == 3
@@ -117,7 +117,7 @@ else
             % respect time interval of vehicles
             for j = 1:B
                 if toll_barrier_state(j,i) == 1
-                    if j >= 30 + toll_barrier_config(2,i)
+                    if j >= 10 + toll_barrier_config(2,i)
                         % toll ready for next vehicle
                         count = count + 1;
                         tolls_available_ind(count) = i;
@@ -125,7 +125,7 @@ else
                         break
                     end % j < 30, port not ready
                 elseif toll_barrier_state(j,i) == 2
-                    if j >= 40 + toll_barrier_config(2,i)
+                    if j >= 15 + toll_barrier_config(2,i)
                         % toll ready for next vehicle
                         count = count + 1;
                         tolls_available_ind(count) = i;
@@ -133,7 +133,7 @@ else
                         break
                     end % j < 40, port not ready
                 elseif toll_barrier_state(j,i) == 3
-                    if j >= 50 + toll_barrier_config(2,i)
+                    if j >= 30 + toll_barrier_config(2,i)
                         % toll ready for next vehicle
                         count = count + 1;
                         tolls_available_ind(count) = i;
