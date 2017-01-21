@@ -1,6 +1,8 @@
-function [ output_args ] = addNewVehicle( toll_barrier_state_line )
+function [  ] = addNewVehicle( toll_barrier_state_line )
 % all vehicles freshly passed the toll join the flow
 % generate lines of vehicle array
+global vehicle_array
+global vehicle_number
 D = size(toll_barrier_state_line,2);
 vehicle = zeros(D, 5);
 count = 0;
@@ -24,4 +26,6 @@ if count > 0
     else
         output_args = [];
 end
+vehicle_array(vehicle_number+1:vehicle_number+ count,:) = output_args;
+vehicle_number = vehicle_number+count;
 end

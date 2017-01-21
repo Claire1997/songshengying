@@ -2,7 +2,7 @@ function [toll_barrier_state, flow_queue] = updateTollStation(flow_total, flow_i
 % B for lane number, D for time stamp
 B = size(toll_barrier_state,1);
 D = size(toll_barrier_state,2);
-critical_flow = 30;
+critical_flow = 300;
 % aging the info
 i = B;
 while i > 1
