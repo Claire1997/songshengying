@@ -26,7 +26,6 @@ boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge
 global has_collision
 has_collision = 0;
 toll_barrier_state = zeros(70,B); % track vehicle departing from the tollbooth with historical info
-
 global small_delay
 global medium_delay
 global large_delay
@@ -162,11 +161,22 @@ for i=1:80 % one simulation per second;
     plot(boundaryPoints(:,1),1:200,boundaryPoints(:,2),1:200);
     axis([-100 100 0 200])
     pic = imread('./blue.png');
+    
+    points = zeros(2,4);
     for t = 1:vehicle_number
          if vehicle_array(t,5) > 0
             hold on
             pic1 = imrotate(pic, vehicle_array(t,4));
-            imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2, vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],[vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 , vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic1);
+            
+            imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2, vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],[vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 , vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic1);      
+            Trans1 = [cos(-vehicle_array(t,4)) -sin(-vehicle_array(t,4)); sin(-vehicle_array(t,4)) cos(-vehicle_array(t,3))];
+            points(:,1) = Trans1 * [+ width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,2) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,3) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,4) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            plot(points(1,:),points(2,:),'.');
+            
+            hold on 
          end
     end
     time_now = yyyymmdd(datetime('now'));
