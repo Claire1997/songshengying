@@ -27,7 +27,7 @@ global boundaryPoints
 global vehicle_array
 global vehicle_number
 % shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
-shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
+shapePoints = [32 0; 29.3 merge_length/4;26.1 merge_length/2;22 merge_length/4*3; 12 merge_length];
 boundaryPoints = zeros(merge_length,2); % the second row presents the left boundary.
 boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge_length),'spline');
              
@@ -71,11 +71,11 @@ for i=1:70 % one simulation per second;
                 completion_count = completion_count + 1;
             else
                 % check if out of boundary
-                isOut = isOutBoundary([vehicle_array(j,1),vehicle_array(j,2)]);
+                isOut = isOutBoundary([vehicle_array(j,1),vehicle_array(j,2)],vehicle_array(j,5));
                 if isOut == 1 % collision with road
                     has_collision = has_collision||isOut;
                     vehicle_array(j,6) = 1;
-                    vehicle_array(j,3) = 0; % set speed to 0
+                    vehicle_array(j,3) = 0; % set speed to 0  
                 end
                 % check if collision with other cars
                 for a = 1:vehicle_number
