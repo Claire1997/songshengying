@@ -1,4 +1,11 @@
-load('traffic_400.mat')
+filename = 'traffic_400.mat';
+load(filename);
+time_now = yyyymmdd(datetime('now'));
+[hh,mm,~] = hms(datetime('now'));
+filename = ['../../figure/',filename,num2str(time_now),'_',num2str(hh),'_',num2str(mm)];
+if exist(filename,'dir')==0
+    mkdir(filename);
+end
 
 % this code contains one simulation of the traffic
 B = 8; % Tollbooth number
@@ -172,11 +179,7 @@ for i=1:70 % one simulation per second;
             hold on 
          end
     end
-    time_now = yyyymmdd(datetime('now'));
-    [hh,mm,~] = hms(datetime('now'));
-    if exist(['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm)],'dir')==0
-        mkdir(['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm)]);
-    end
-    saveas(gcf,['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm),'/',num2str(i),'.png']) ;
+    
+    saveas(gcf,[filename,'/',num2str(i),'.png']) ;
     close figure 1
 end
