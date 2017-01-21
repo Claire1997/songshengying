@@ -7,8 +7,8 @@ global vehicle_number
 global boundaryPoints
 global test_acc
 global v_max;
-lamda =  0.8;
-L = 1.0;
+lamda =  0.05;
+L = 3.0;
 m = 0.9;
 alpha = 0.005;
 L2 = 0.5;
