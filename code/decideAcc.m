@@ -9,8 +9,13 @@ global test_acc
 lamda =  0.8;
 L = 1.0;
 m = 0.9;
+<<<<<<< HEAD
 alpha = 0.01;
 L2 = 0.5;
+=======
+alpha = 0.0005;
+L2 = 3.0;
+>>>>>>> 16eca557ad2616a99bd703eec06fd24faa8bc588
 m2 = 1.0;
 beta = 0.03;
 v_max = 15; 

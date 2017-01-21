@@ -51,7 +51,8 @@ vehicle_number = 0; % the total vehicle number after the simulation start.
 
 completion_count = 0;
 
-for i=1:30 % one simulation per second;
+for i=1:80 % one simulation per second;
+    figure
     [toll_barrier_state, flow_queue] = updateTollStation(flow_total, flow_instant(i), toll_barrier_state, toll_barrier_config);
     flow_instant(i+1) = flow_queue + flow_instant(i+1);
          
@@ -78,7 +79,8 @@ for i=1:30 % one simulation per second;
                         
                        is_collide = isCollide([vehicle_array(j,1:2) vehicle_array(j,4)],[vehicle_array(a,1:2) vehicle_array(a,4)],vehicle_array(j,5),vehicle_array(a,5));
                        if is_collide == 1
-%                           showVehicule()
+
+                          %showVehicule()
                            % collision with car
                            has_collision = has_collision||is_collide;
                            vehicle_array(j,3) = 0;
@@ -139,7 +141,7 @@ for i=1:30 % one simulation per second;
     end
     
     % test part
-    figure
+    %figure
     plot(boundaryPoints(:,1),1:200,boundaryPoints(:,2),1:200);
     axis([-100 100 0 200])
     pic = imread('./blue.png');
@@ -150,4 +152,11 @@ for i=1:30 % one simulation per second;
             imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2, vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],[vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 , vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic1);
          end
     end
+    time_now = yyyymmdd(datetime('now'));
+    [hh,mm,~] = hms(datetime('now'));
+    if exist(['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm)],'dir')==0
+        mkdir(['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm)]);
+    end
+    saveas(gcf,['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm),'/',num2str(i),'.png']) ;
+    close figure 1
 end
