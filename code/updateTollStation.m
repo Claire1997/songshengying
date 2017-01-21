@@ -1,4 +1,7 @@
 function [toll_barrier_state, flow_queue] = updateTollStation(flow_total, flow_instant, toll_barrier_state, toll_barrier_config)
+global small_delay
+global medium_delay
+global large_delay
 % B for lane number, D for time stamp
 B = size(toll_barrier_state,1);
 D = size(toll_barrier_state,2);
@@ -22,7 +25,7 @@ if flow_total > critical_flow
         % respect time interval of vehicles
         for j = 1:B
             if toll_barrier_state(j,i) == 1
-                if j >= 10 + toll_barrier_config(2,i)
+                if j >= small_delay + toll_barrier_config(2,i)
                     % toll ready for next vehicle
                     tmp = rand(1);
                     if toll_barrier_config(1,i) == 3
@@ -48,13 +51,13 @@ if flow_total > critical_flow
                     break
                 end % j < 30, port not ready
             elseif toll_barrier_state(j,i) == 2
-                if j >= 15 + toll_barrier_config(2,i)
+                if j >= medium_delay + toll_barrier_config(2,i)
                     % toll ready for next vehicle
                     tmp = rand(1);
                     if toll_barrier_config(1,i) == 3
                         if tmp > 0.8 % 20% large vehicle
                             toll_barrier_state(1,i) = 3;
-                        elseif tmp > 0.5 % 30% medium vehicle
+                        elseif tmp > 0.5 % large_delay% medium vehicle
                             toll_barrier_state(1,i) = 2;
                         else
                             toll_barrier_state(1,i) = 1;
@@ -72,7 +75,7 @@ if flow_total > critical_flow
                     break
                 end % j < 40, port not ready
             elseif toll_barrier_state(j,i) == 3
-                if j >= 30 + toll_barrier_config(2,i)
+                if j >= large_delay + toll_barrier_config(2,i)
                     % toll ready for next vehicle
                     tmp = rand(1);
                     if toll_barrier_config(1,i) == 3
@@ -117,15 +120,15 @@ else
             % respect time interval of vehicles
             for j = 1:B
                 if toll_barrier_state(j,i) == 1
-                    if j >= 10 + toll_barrier_config(2,i)
+                    if j >= small_delay + toll_barrier_config(2,i)
                         % toll ready for next vehicle
                         count = count + 1;
                         tolls_available_ind(count) = i;
                     else
                         break
-                    end % j < 30, port not ready
+                    end % j < large_delay, port not ready
                 elseif toll_barrier_state(j,i) == 2
-                    if j >= 15 + toll_barrier_config(2,i)
+                    if j >= medium_delay + toll_barrier_config(2,i)
                         % toll ready for next vehicle
                         count = count + 1;
                         tolls_available_ind(count) = i;
@@ -133,7 +136,7 @@ else
                         break
                     end % j < 40, port not ready
                 elseif toll_barrier_state(j,i) == 3
-                    if j >= 30 + toll_barrier_config(2,i)
+                    if j >= large_delay + toll_barrier_config(2,i)
                         % toll ready for next vehicle
                         count = count + 1;
                         tolls_available_ind(count) = i;
