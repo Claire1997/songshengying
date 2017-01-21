@@ -18,7 +18,8 @@ length_veh = [4 7 10];
 global boundaryPoints
 global vehicle_array
 global vehicle_number
-shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
+% shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
+shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
 boundaryPoints = zeros(merge_length,2); % the second row presents the left boundary.
 boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge_length),'spline');
              
@@ -37,7 +38,7 @@ initial_speed = 5;
 % line 1 for vehicle types: 1, small, 2, medium, 3, large
 % line 2 for delay caused by charge mechanisms: 10, conventional, 5, exact exchange, 2,
 % electronic
-flow_total = 600; % total flow
+flow_total = 300; % total flow
 flow_instant = zeros(901,1); % number of vehicles per 15 minutes
 % distribute flow into each second
 for i=1:flow_total
@@ -50,7 +51,7 @@ vehicle_number = 0; % the total vehicle number after the simulation start.
 
 completion_count = 0;
 
-for i=1:10 % one simulation per second;
+for i=1:30 % one simulation per second;
     [toll_barrier_state, flow_queue] = updateTollStation(flow_total, flow_instant(i), toll_barrier_state, toll_barrier_config);
     flow_instant(i+1) = flow_queue + flow_instant(i+1);
          
@@ -77,7 +78,7 @@ for i=1:10 % one simulation per second;
                         
                        is_collide = isCollide([vehicle_array(j,1:2) vehicle_array(j,4)],[vehicle_array(a,1:2) vehicle_array(a,4)],vehicle_array(j,5),vehicle_array(a,5));
                        if is_collide == 1
-                          showVehicule()
+%                           showVehicule()
                            % collision with car
                            has_collision = has_collision||is_collide;
                            vehicle_array(j,3) = 0;
