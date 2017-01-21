@@ -5,25 +5,43 @@ global length_veh
 %width_veh = [1, 3*sqrt(2)/2]; %only use for test
 %length_veh = [3,3*sqrt(2)];
 %type1 = 1; type2 = 2;
-%pos1 = [4.5;1.5;pi/2]; pos2=[4.75;4.75;pi/4];
+%pos1 = [4.5;1.5;-pi/2]; pos2=[5.75;4.75;-pi/4];
+
+
 pos1 = pos1';
 pos2 = pos2';
-dist = norm(pos2(1:2,:)-pos1(1:2,:));
-y2 = (pos2(1)-pos1(1))*sin(pos1(3)) + (pos2(2)-pos1(2))*cos(pos1(3));
-x2 = (pos2(1)-pos1(1))*cos(pos1(3)) - (pos2(2)-pos1(2))*sin(pos1(3));% x2,y2 is the position of pos2 in the coord of pos1
+Trans1 = [cos(-pos1(3)) -sin(-pos1(3)); sin(-pos1(3)) cos(-pos1(3))];
+points1(:,1) = Trans1 * [+ width_veh(type1)/2 ;  + length_veh(type1)/2]+[pos1(1) ;pos1(2)];
+points1(:,2) = Trans1 * [ - width_veh(type1)/2 ;  + length_veh(type1)/2]+[pos1(1) ;pos1(2)];
+points1(:,3) = Trans1 * [ - width_veh(type1)/2 ;  - length_veh(type1)/2]+[pos1(1) ;pos1(2)];
+points1(:,4) = Trans1 * [ + width_veh(type1)/2 ;  - length_veh(type1)/2]+[pos1(1) ;pos1(2)];
 
-if abs(abs(pos2(3)-pos1(3))-pi/2)<0.002
-    notcollide3 = dist > max((length_veh(type1)+length_veh(type2))/2,(width_veh(type1)+width_veh(type2))/2);
-    collide = ~notcollide3;
-elseif abs(pos2(3)-pos1(3)) < 0.002
-    notcollide4 = dist > (width_veh(type1)+width_veh(type2))/2;
-    collide = ~notcollide4;
-else
-    notcollide1 = (abs((abs(x2) - width_veh(type1)/2 - width_veh(type2)/2/cos(pos2(3)-pos1(3)))/tan(pos2(3)-pos1(3))) - (length_veh(type1)/2-y2) > 0.002);
-    notcollide2 = (abs((abs(x2) - width_veh(type1)/2 - width_veh(type2)/2/cos(pos2(3)-pos1(3)))/sin(pos2(3)-pos1(3))) -( length_veh(type2)/2 - width_veh(type2)/2*tan(pos2(3)-pos1(3))) > 0.002);
+Trans2 = [cos(-pos2(3)) -sin(-pos2(3)); sin(-pos2(3)) cos(-pos2(3))];
+points2(:,1) = Trans2 * [width_veh(type2)/2 ; + length_veh(type2)/2]+[pos2(1);pos2(2) ];
+points2(:,2) = Trans2 * [- width_veh(type2)/2 ;length_veh(type2)/2]+[pos2(1);pos2(2) ];
+points2(:,3) = Trans2 * [- width_veh(type2)/2 ;  - length_veh(type2)/2]+[pos2(1);pos2(2) ];
+points2(:,4) = Trans2 * [width_veh(type2)/2 ; - length_veh(type2)/2]+[pos2(1);pos2(2) ];
 
-    collide = ~(notcollide1||notcollide2);
-    if collide == 1
-        warning('collide!');
+collide = 0;
+for i = 1:4
+    for j = 1:4
+        if i==4
+            i2 = 1;
+        else i2 = i+1;
+        end
+        if j ==4
+            j2 = 1;
+        else j2 = j+1;
+        end
+        
+        collide = isCollideHelp(points1(:,i),points1(:,i2),points2(:,j),points2(:,j2));
+        if collide == 1
+            %warning('collode!');
+            break;
+        end
     end
 end
+
+
+
+
