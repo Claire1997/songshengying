@@ -97,6 +97,7 @@ The proof of theorem.
 	\item We take each vehicle as a point located on the center of gravity, but the vehicles still have the volume.
     \item Time is devided into 1 second, drivers' decisions in every second depend on the surroundings and the status are updated every second. \footnote{Nagel-Schreckenberg model applied.}
 	\item The accelerations of all the vehicles depend on the others who surround themselves.\footnote{Car following model applied.}
+	\item The biggest wheel steering angle is $45^{\circ}$, and the turning radius is negleted.
 \end{itemize}
 
 
@@ -149,11 +150,14 @@ In which case (this $\ne$ $n$),
 $$\overrightarrow{a_i(t)}=\overrightarrow{a_{interaction}(t)}=\lambda (v_{this}(t))^m \times \sum_n\frac{v_n(t)-v_{this}(t)}{(d_n(t))^l}\times \overrightarrow{dir_{n,this}(t)}$$
 $$d_n(t)=distance_n(t)=\sqrt{\delta pos_x(t)^2+\delta pos_y(t)^2}$$
 $$\overrightarrow{dir_n(t)}=\frac{(pos_x-pos_{x,n},pos_y-pos_{y,n})}{\parallel (pos_{x,this}-pos_{x,n},pos_{y,this}-pos_{y,n}) \parallel} $$\\
-$$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{baundry-left}^{-l'} \times v(t)^m'\times \overrightarrow{right} \times 1_{d>d_{critical}$$
-	$$+\alpha \times distance_{baundry-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d>d_{critical}}$$
+$$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{baundry-left}^{-l'} \times v(t)^m'\times \overrightarrow{right} \times 1_{d<d_{critical}$$
+	$$+\alpha \times distance_{baundry-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$
 $$distance_{baundry}=\arrowvert pos_x-pos_{distance}(pos_y)} \arrowvert$$\\
 $$a_a(t)=a_{acceleration}(t)=\beta (v_{max}-v(t)) \times a_{max} \times \overrightarrow{forward}$$\\
 Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the parameters that we can adjust.
+
+Our simulation comes as follows:
+
 
 
 
