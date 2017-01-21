@@ -36,7 +36,7 @@ for i = 1:4
         
         collide = isCollideHelp(points1(:,i),points1(:,i2),points2(:,j),points2(:,j2));
         if collide == 1
-            warning('collode!');
+            %warning('collode!');
             break;
         end
     end
