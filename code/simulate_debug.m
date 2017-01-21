@@ -6,6 +6,8 @@ filename = ['../../figure/',filename,num2str(time_now),'_',num2str(hh),'_',num2s
 if exist(filename,'dir')==0
     mkdir(filename);
 end
+figure(1);
+filename = [filename, '.gif'];
 
 % this code contains one simulation of the traffic
 B = 8; % Tollbooth number
@@ -60,7 +62,7 @@ global test_acc
 test_acc = zeros(1,6);
 
 for i=1:70 % one simulation per second;
-%     figure
+    
          
     % detect position for collision and merge completion
     for j = 1:vehicle_number
@@ -110,7 +112,7 @@ for i=1:70 % one simulation per second;
     for j = 1:vehicle_number
         if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             decision_array(j,:) = decideAcc(j);
-            all_info_matrice(i, j, 7:12) = test_acc(1, 1:6);
+%             all_info_matrice(i, j, 7:12) = test_acc(1, 1:6);
             acc = decision_array(j,:)';
             angle = vehicle_array(j,4);
             speed_old = [vehicle_array(j,3)*cos(angle+pi/2) ;vehicle_array(j,3)*sin(angle+pi/2)];
@@ -159,32 +161,38 @@ for i=1:70 % one simulation per second;
            vehicle_array(j,3) = norm(speed);
         end
     end
-    all_info_matrice(i, :, 1:6) = vehicle_array(:, 1:6);
+%     all_info_matrice(i, :, 1:6) = vehicle_array(:, 1:6);
     
-    % test part
-    %figure
-%     plot(boundaryPoints(:,1),1:200,boundaryPoints(:,2),1:200);
-%     axis([-100 100 0 200])
-%     pic = imread('./blue.png');
+%     test part
+    plot(boundaryPoints(:,1),1:200,boundaryPoints(:,2),1:200);
+    axis([-100 100 0 200])
+    pic = imread('./blue.png');
     
-%     points = zeros(2,4);
-%     for t = 1:vehicle_number
-%          if vehicle_array(t,5) > 0
-%             hold on
-%             pic1 = imrotate(pic, vehicle_array(t,4));
-%             
-%             imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2, vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],[vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 , vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic1);      
-%             Trans1 = [cos(vehicle_array(t,4)) -sin(vehicle_array(t,4)); sin(vehicle_array(t,4)) cos(vehicle_array(t,4))];
-%             points(:,1) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-%             points(:,2) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-%             points(:,3) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-%             points(:,4) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-%             plot(points(1,:),points(2,:),'.');
-%             
-%             hold on 
-%          end
-%     end
+    points = zeros(2,4);
+    for t = 1:vehicle_number
+         if vehicle_array(t,5) > 0
+            hold on
+            pic1 = imrotate(pic, vehicle_array(t,4));
+            
+            imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2, vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],[vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 , vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic1);      
+            Trans1 = [cos(vehicle_array(t,4)) -sin(vehicle_array(t,4)); sin(vehicle_array(t,4)) cos(vehicle_array(t,4))];
+            points(:,1) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,2) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,3) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,4) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            plot(points(1,:),points(2,:),'.');
+            
+            hold on 
+         end
+    end
     
-%     saveas(gcf,[filename,'/',num2str(i),'.png']) ;
-%     close figure 1
+    drawnow
+    frame = getframe(1);
+    im = frame2im(frame);
+    [imind,cm] = rgb2ind(im,256);
+    if i == 1
+        imwrite(imind,cm,filename,'gif', 'Loopcount',inf);
+    else
+        imwrite(imind,cm,filename,'gif','WriteMode','append');
+    end
 end
