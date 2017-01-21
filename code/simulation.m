@@ -31,6 +31,10 @@ global small_delay
 global medium_delay
 global large_delay
 global initial_speed
+
+global v_max;
+v_max = 15; 
+
 small_delay = 10; % delay caused by a small vehicle to pass a booth
 medium_delay = 15;
 large_delay = 30;
@@ -120,19 +124,32 @@ for i=1:80 % one simulation per second;
                 vehicle_array(j,3) = 0;
                 continue
            end
-            
-           if speed_v(2) > abs(speed_v(1)) %45 degree            
-           elseif speed_v(1) > 0
-               speed_v(1) = speed_v(2);
-               acc_v(1) = speed_v(1) - speed_old_v(1);
-               acc = Trans_back * acc_v;
-               speed = Trans_back *  speed_v;
-           elseif speed_v(1) < 0
-               speed_v(1) = -speed_v(2);
-               acc_v(1) = speed_v(1) - speed_old_v(1);
-               acc = Trans_back * acc_v;
-               speed = Trans_back *  speed_v;
-           end 
+           
+           if speed_v(2) > abs(speed_v(1)) %45 degree
+              if norm(speed_v) > v_max
+                speed_v = speed_v/norm(speed_v);
+                acc_v = speed_v - speed_old_v;
+                acc = Trans_back * acc_v;
+                speed = Trans_back *  speed_v;
+              end
+           else 
+               if norm(speed_v) > v_max
+                    speed_v = speed_v/norm(speed_v);
+               end
+               if speed_v(1) > 0
+                    speed_v(1) = speed_v(2);
+                    acc_v(1) = speed_v(1) - speed_old_v(1);
+                    acc = Trans_back * acc_v;
+                    speed = Trans_back *  speed_v;
+               
+               elseif speed_v(1) < 0
+                    speed_v(1) = -speed_v(2);
+                    acc_v(1) = speed_v(1) - speed_old_v(1);
+                    acc = Trans_back * acc_v;
+                    speed = Trans_back *  speed_v;
+               end
+           end
+               
            vehicle_array(j,4) = atan2(speed(2),speed(1)) - pi/2;
            vehicle_array(j,1) = 1/2 * acc(1)+ speed_old(1) + vehicle_array(j,1);
            vehicle_array(j,2) = 1/2 * acc(2)+ speed_old(2) + vehicle_array(j,2);
