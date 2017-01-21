@@ -18,9 +18,9 @@ In order to determine the optimal area following the toll barrier, this paper pr
 
 First, after seeking examples of toll stations in common use and analyzing the complicated situations, we enumerate the important elements which will quantify the performance of the station design. The performance is mainly constituted by throughput, accident rate and cost. Their weights are determined by principal component analysis. 
 
-Next, we apply Nagel-Schreckenberg (NS) model and then develop a function model to simulate the process for vehicles to pull out and every decision made by observing the surroundings. Meanwhile we can model the accident probability as well. In which way the quantity of vehicles via the toll station in unit time is obtained. And the cost is defined by the area the station takes and the number and proportions of tollbooths. 
+Next, taking  Nagel-Schreckenberg (NS) model \footnote{K.Nagel and M.Schreckenberg in 1992}, car following (CF) model \footnote{Reuschel and Pipes in 1956, Herman and Rothory in 1960}and GM model \footnote{Gazis,Herman and Rothery}as reference, we  develop a function model to simulate the process for vehicles to pull out and every decision made by observing the surroundings. Meanwhile we can model the accident probability as well. In which way the quantity of vehicles via the toll station in unit time is obtained. And the cost is defined by the area the station takes and the number and proportions of tollbooths. 
 
-Then, according to this generalized adaptive model, we can adjust some parameters to reach a bigger throughput. And we recalculate accident rate and cost. By means of adjustments and experiments on MATLAB, a better solution with obvious advantage is designed. Its size, shape and merging pattern are detailed in our report.
+Then, according to this generalized adaptive model, we can adjust some parameters to reach a bigger throughput. And we recalculate accident rate and cost. By means of adjustments and experiments on $MATLAB$, a better solution with obvious advantage is designed. Its size, shape and merging pattern are detailed in our report.
 
 Finally, with different parameters set, the condition of heavy traffic or light traffic is established, in which we compare the performance of our design with the common ones. The situation where more autonomous vehicles are added or the proportions of tollbooths are changed can also be tested in this model. The result turns out that our solution is an optimized design.
 
@@ -29,7 +29,7 @@ Finally, with different parameters set, the condition of heavy traffic or light 
   
   
 \begin{keywords}
- Nagel-Schreckenberg (NS) model;
+;
 \end{keywords}
 \end{abstract}
 
@@ -59,7 +59,9 @@ More specifically, the performance model is developed after taking all important
 
 \subsection{Statement of the problem}
 
+
   The design of toll station is undoubtedly a kind of art as it is hard to find a balance among safety, capacity and cost facing different situations. But it also acts as an essential part in the high-way traffic system. As a promotion of toll station is in demand, we apply mathematical methods and function models for optimize our design, striving to increase the throughput, decrease the cost and accident rate.
+
 
 
 \begin{itemize}
@@ -92,7 +94,9 @@ The proof of theorem.
 	\item There is a critical flow $F_c$, when the total flow  $F_t>F_c$, the vehicles begin to queue up before the toll station.
 	\item The proportions of different types of vehicles are invariable along the time.
 	\item In light traffic, the tollbooths the vehicles arrive are random.
-	\item We apply Nagel-Schreckenberg (NS) model here.
+	\item We take each vehicle as a point located on the center of gravity, but the vehicles still have the volume.
+    \item Time is devided into 1 second, drivers' decisions in every second depend on the surroundings and the status are updated every second. \footnote{Nagel-Schreckenberg model applied.}
+	\item The accelerations of all the vehicles depend on the others who surround themselves.\footnote{Car following model applied.}
 \end{itemize}
 
 
@@ -113,18 +117,12 @@ Here we list the elements that will influence the throughput of our toll station
      \hline
      $P_l$,  $P_m$, $P_s$ & Probability of large-scale automobiles, midium-sized vehicles and compact cars\\
      \hline
-    $C$ & Cell size (in the model Nagel-Schreckenberg (NS) that we will use)\\
-    \hline
+     $v_{this}$, $a_{this}$ & Speed and acceleration of the vehicle we study\\
+     \hline
+      $v_n$, $a_n$ &  Speed and acceleration of the other vehicles which surround the vehicle we study\\
+   \hline
      
 \end{tabular}
-
-\begin{itemize}
-\item
-\item
-\item
-\item
-\end{itemize}
-
 
 
 \section{Analysis of the Problem}
@@ -135,8 +133,39 @@ Here we list the elements that will influence the throughput of our toll station
 \includegraphics{img3.png}
 \end{figure}
 
+Due to the discrete traffic problem we meet, here we try to apply some mathematical models, and we take Nagel-Schreckenberg (NS) model \cite{acelluar}, CF (car following) model and GM model for reference.
 
-\section{Calculating and Simplifying the Model  }
+In our merging area, all the vehicles from $B$ tollbooths are merging into $L$ lanes. To begin with, every fifteen minutes there is $F_t$ through the tollbooths, the flows of large-scale automobiles, midium-sized vehicles and compact cars are $F_tP_l$, $F_tP_m$, $F_tP_s$.
+
+Now we focus on one vehicle, the speeds of the other vehicles around it are taken as vector quantities which will be added on the one chosen.  The relative speeds and relative distances of those vehicles around in last second will influence the decision the vehicle chosen takes in the next second. 
+
+Based on the active vehicles on the road and the road shape, the driver's decision includes acceleration on each direction \footnote{considering safe distance and GM model applied.}.
+
+
+The total acceleration is constitutedy of 3 parts: 
+$$\overrightarrow{a_{this}(t)}=\overrightarrow{a_i(t)}+\overrightarrow{a_r(t)}+\overrightarrow{a_a(t)}$$
+
+In which case (this $\ne$ $n$),
+$$\overrightarrow{a_i(t)}=\overrightarrow{a_{interaction}(t)}=\lambda (v_{this}(t))^m \times \sum_n\frac{v_n(t)-v_{this}(t)}{(d_n(t))^l}\times \overrightarrow{dir_{n,this}(t)}$$
+$$d_n(t)=distance_n(t)=\sqrt{\delta pos_x(t)^2+\delta pos_y(t)^2}$$
+$$\overrightarrow{dir_n(t)}=\frac{(pos_x-pos_{x,n},pos_y-pos_{y,n})}{\parallel (pos_{x,this}-pos_{x,n},pos_{y,this}-pos_{y,n}) \parallel} $$\\
+$$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{baundry-left}^{-l'} \times v(t)^m'\times \overrightarrow{right} \times 1_{d>d_{critical}$$
+	$$+\alpha \times distance_{baundry-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d>d_{critical}}$$
+$$distance_{baundry}=\arrowvert pos_x-pos_{distance}(pos_y)} \arrowvert$$\\
+$$a_a(t)=a_{acceleration}(t)=\beta (v_{max}-v(t)) \times a_{max} \times \overrightarrow{forward}$$\\
+Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the parameters that we can adjust.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \section{The Model Results}
