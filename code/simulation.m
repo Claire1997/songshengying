@@ -170,7 +170,8 @@ for i=1:80 % one simulation per second;
             
             imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2, vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],[vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 , vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic1);      
             Trans1 = [cos(-vehicle_array(t,4)) -sin(-vehicle_array(t,4)); sin(-vehicle_array(t,4)) cos(-vehicle_array(t,4))];
-            points(:,1) = Trans1 * [+ width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+
+            points(:,1) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
             points(:,2) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
             points(:,3) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
             points(:,4) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
