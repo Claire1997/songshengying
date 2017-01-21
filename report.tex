@@ -56,8 +56,7 @@ More specifically, the performance model is developed after taking all important
 
 \subsection{Statement of the problem}
 
-
-  The design of toll station is undoubtedly a kind of art as it is hard to find a balance among safety, capacity and cost facing different situations. But it also acts as an essential part in the high-way traffic system. As a promotion of toll station is in demand, we apply mathematical methods and function models for optimize our design, striving to increase the throughput, decrease the cost and accident rate.
+The design of toll plaza is undoubtedly a state of art as it is hard to find a balance among safety, capacity and cost, facing different situations. It also acts as an essential part in the high-way traffic system. Considering a better toll station design is in demand, mathematical methods and simulation models are implemented to optimize the design schemes, striving to increase the throughput, decrease the cost and accident rate.
 
 
 
@@ -91,7 +90,7 @@ The proof of theorem.
 	\begin{itemize}
          \item Toll station has a fixed configuration for each simulation: vehicle type & charging process.
          \item Tollbooths allowing large vehicles are also available for smaller vehicles to pass.
-         	\item It takes a contain time for every vehicle to leave the tollbooth, an extra delay is caused by the charging process.
+       	 \item It takes a contain time for every vehicle to leave the tollbooth, an extra delay is caused by the charging process.
 	\end{itemize}
 
     \item Assumptions for the vehicles.
@@ -107,7 +106,7 @@ The proof of theorem.
     \item Assumptions for the flow generating:
     \begin{itemize}
     \item A fixed total flow $F_t$ is uniformly distributed into seconds, which passes the tollbooths, and then gain the merging flow.
-    	\item In cicumstances where traffic is light, the tollbooths the vehicles arrive are random.
+   	\item In cicumstances where traffic is light, the tollbooths the vehicles arrive are random.
     \item In circumsatances where traffic is busy, the vehicles begin to queue up before the tollbooths, therefore every tollbooth is allowing a maximun flow to pass following the proportiional.
     \item Light and heavy traffic is distinguished by a critical flow  $F_c$, which is determined by tollbooth simulation.
     \end{itemize}
@@ -136,14 +135,18 @@ Here we list the elements that will influence the throughput of our toll station
      $v_{this}$, $a_{this}$ & Speed and acceleration of the vehicle we study\\
      \hline
       $v_n$, $a_n$ &  Speed and acceleration of the other vehicles which surround the vehicle we study\\
-      \hline
-      $pos_x$, $pos_y$ & We build a rectangular coordinate system  with the leftmost tollbooth constructed as the origin.\\
-   \hline
-     
+     \hline
+     $pos_x$, $pos_y$ & We build a rectangular coordinate system  with the leftmost tollbooth constructed as the origin.\\
+     \hline
+     $L_{length}$ & Merging area length \\
+     \hline
+
 \end{tabular}
 
 
 \section{Analysis of the Problem}
+To respect the notion of "barrier", and to avoid the complexity of gradient, this article discusses only the toll stations of one storey. It is considered that the approach ramps would complicate the traffic flow in both edge of the station, and the cost would be enormous.
+
 \begin{figure}[htbp]
 \small
 \centering
@@ -151,16 +154,31 @@ Here we list the elements that will influence the throughput of our toll station
 \includegraphics{img3.png}
 \end{figure}
 
-Due to the discrete traffic problem we meet, here we try to apply some mathematical models, and we take Nagel-Schreckenberg (NS) model \cite{acelluar}, CF (car following) model and GM model for reference.
 
-In our merging area, all the vehicles from $B$ tollbooths are merging into $L$ lanes. To begin with, every fifteen minutes there is $F_t$ through the tollbooths, the flows of large-scale automobiles, midium-sized vehicles and compact cars are $F_tP_l$, $F_tP_m$, $F_tP_s$.
+In the merging area, all the vehicles merging from $B$ tollbooths into $L$ lanes in a short distance of $L_length$ meters.
+With lane width predifined as 2 meters, the merging area is defined as the area surrounded by two curves on a finite two-dimension plane. The curves are represented by two functions, which would be a parameter to be optimized in the problem.
 
-Now we focus on one vehicle, the speeds of the other vehicles around it are taken as vector quantities which will be added on the one chosen.  The relative speeds and relative distances of those vehicles around in last second will influence the decision the vehicle chosen takes in the next second. 
+To begin with, the traffic flow scale is fixed for each simulation experience. $F_t$ stands for the quantity of cars, of various size, passing through the tollbooths every fifteen minutes. The flows of large-scale automobiles, midium-sized vehicles and compact cars are $F_tP_l$, $F_tP_m$, $F_tP_s$.
+
+Since only the traffic after the toll station is to be considered, all details of incoming vehicles are simplified in the model. As the assumptions stated, the proportion of vehicle size and the capability of autonomous driving are implemented by a probabilist model, of which the proportions are fixed by us. We note that different vehicles takes different times to leave the booth, and the time difference arised by different charging method is also taken into consideration by adding a minimum time gap for each booth to allow the next passage.
+
+The merging flow are constituted by vehicles leaving the tollbooth. It is suggested that at the moment where the vehicle leaves the booth, its speed and direction are restricted by the booth, since a speed limit is implemented and the car can only follow the shape of the lane passing through the booth. Thus, the shape of the booth are represented by the initial speed and direction of the vehicles. With each design of the toll station, an interpretation of initial speed and direction would be given.
+
 
 Based on the active vehicles on the road and the road shape, the driver's decision includes acceleration on each direction.
 
+The human-driven vehicles are represented in the model by an approximation of their vertical projection, rectangles of different sizes. To implement the dynamics, GNagel-Schreckenberg (NS) model \cite{acelluar}, M model and CF (car following) model are taken reference to simulate the driving strategies. The model presented by this paper considers the acceleration of each vehicle a compound decision of three factors: avoidance for collision with other vehicles interpreted as interactions between the vehicles, avoidance for collision with the road boundary, and its intrinsic willingness to achieve a maximum speed. 
 
-The total acceleration is constituted of 3 parts: 
+
+For the interactions, the acceleration decision is made as an two dimensional extention of [REF]. The decision is contributed positively by the current speed, the relative speed in reference with other vehicles and nagatively by the corresponding distance and the cosinus of the relative position angle. This model agrees with the fact that the driver is more stimulated by near-by vehicles, and a deceleration of the vehicle ahead would cause a deceleration of the following vehicle, a fast vehicle would push away the slow vehicle aside.
+
+
+It is also suggested by the safe-distance psychological model that the drivers drive away from the edge of the road, if the distance between the vehicle and the boundary is too small. The model treats the avoidance of the edge in a similar way of the previous acceleration.
+
+It is also considered, that on leaving a speed limited zone, the vehicles are supposed to reattain a speed of normal level. This process is simulated by a positive factor of the gap of current speed and the ideal speed.
+
+Therefore, the acceleration is represented mathematically by: 
+
 $$\overrightarrow{a_{this}(t)}=\overrightarrow{a_i(t)}+\overrightarrow{a_r(t)}+\overrightarrow{a_a(t)}$$
 
 In which case (this $\ne$ $n$),
@@ -171,7 +189,9 @@ $$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{b
 	$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$
 $$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y)} \arrowvert$$\\
 $$a_a(t)=a_{acceleration}(t)=\beta (v_{max}-v(t)) \times a_{max} \times \overrightarrow{forward}$$\\
-Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the parameters that we can adjust.
+Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the parameters that we can adjust.\\
+
+The simulation model is based on a large amount of extensions based on current model, thus takes many parameters that is merely experimental.
 
 \begin{figure}[htbp]
 	\small 
@@ -180,24 +200,19 @@ Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the par
 	\includegraphics{simulation.jpg}
 \end{figure}
 
+A crucial difference of the model presented compared with the classic ones is that this model preserves the physical dimensions of the vehicle, and enables a relative free movement in a two-dimension plane, instead of a strict restraint of one lane. 
+
+In order to propose a better design, the performance of the design can be addressed as a weighted average index of three factors: throughput, accident rate and cost. Through program simulations, the performance can be evaluated. On running optimization algorithms, the parameters could be addressed as the parameters to be optimized, which is promised to be of certain value.
 
 
 
-
-
-
-
-
-
-
-
-
+\section{Validating the Model}
 
 
 \section{The Model Results}
 
 
-\section{Validating the Model}
+
 
 
 \section{Conclusions}
@@ -205,7 +220,7 @@ Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the par
 \section{A Summary}
 
 
-\section{Evaluate of the Mode}
+\section{Evaluate of the Model}
 
 \section{Strengths and weaknesses}
 
