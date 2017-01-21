@@ -57,5 +57,5 @@ acc = acc_inter + acc_road + acc_will;
 if norm(acc) >3 
     warning('acc is too large');
 end
-test_acc(i,:) = [acc_inter acc_road acc_will];
+test_acc(1,:) = [acc_inter acc_road acc_will];
 end
