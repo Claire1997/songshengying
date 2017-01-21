@@ -24,7 +24,7 @@ for j = 1: vehicle_number
     if j == i || vehicle_array(j,5) == 0
         continue
     end
-    temp_inter = temp_inter + (vehicle_array(i,3) - vehicle_array(j,3)) / norm(vehicle_array(i,1:2)-vehicle_array(j,1:2))^L * (vehicle_array(j,1:2) - vehicle_array(i,1:2));
+    temp_inter = temp_inter + (vehicle_array(j,3) - vehicle_array(i,3)) / norm(vehicle_array(i,1:2)-vehicle_array(j,1:2))^L * (vehicle_array(j,1:2) - vehicle_array(i,1:2));
 end
 acc_inter(1,:)= lamda * (vehicle_array(i,3))^m * temp_inter;
 
