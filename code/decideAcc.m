@@ -9,7 +9,7 @@ global test_acc
 lamda =  0.8;
 L = 1.0;
 m = 0.9;
-alpha = 0.01;
+alpha = 0.005;
 L2 = 0.5;
 m2 = 1.0;
 beta = 0.03;
@@ -40,7 +40,7 @@ end
 %acc of road boundary
 distance_boundary_right = abs(vehicle_array(i,1) - boundaryPoints(floor(vehicle_array(i,2))+1,1));
 distance_boundary_left = abs(vehicle_array(i,1) - boundaryPoints(floor(vehicle_array(i,2))+1,2));
-critical = 3;
+critical = 2;
 if distance_boundary_left < critical
     acc_road(1,1) = + alpha* distance_boundary_left^(- L2) * vehicle_array(i,3)^m2;
 elseif distance_boundary_right < critical

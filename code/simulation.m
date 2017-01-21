@@ -38,7 +38,7 @@ initial_speed = 5;
 % line 1 for vehicle types: 1, small, 2, medium, 3, large
 % line 2 for delay caused by charge mechanisms: 10, conventional, 5, exact exchange, 2,
 % electronic
-flow_total = 300; % total flow
+flow_total = 400; % total flow
 flow_instant = zeros(901,1); % number of vehicles per 15 minutes
 % distribute flow into each second
 for i=1:flow_total
@@ -73,7 +73,7 @@ for i=1:80 % one simulation per second;
                 end
                 % check if collision with other cars
                 for a = 1:vehicle_number
-                    if a ~= j
+                    if a ~= j && vehicle_array(j,5) ~= -1
                         
                        % showVehicule()
                         
@@ -158,5 +158,5 @@ for i=1:80 % one simulation per second;
         mkdir(['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm)]);
     end
     saveas(gcf,['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm),'/',num2str(i),'.png']) ;
-    close figure 1
+%     close figure 1
 end
