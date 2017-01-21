@@ -56,7 +56,7 @@ More specifically, the performance model is developed after taking all important
 
 \subsection{Statement of the problem}
 
-The design of toll plaza is undoubtedly a state of art as it is hard to find a balance among safety, capacity and cost, facing different situations. It also acts as an essential part in the high-way traffic system. As a consideration for a better toll station design is in demand, mathematical methods and simulation models are implemented to optimize the design schemes, striving to increase the throughput, decrease the cost and accident rate.
+The design of toll plaza is undoubtedly a state of art as it is hard to find a balance among safety, capacity and cost, facing different situations. It also acts as an essential part in the high-way traffic system. Considering a better toll station design is in demand, mathematical methods and simulation models are implemented to optimize the design schemes, striving to increase the throughput, decrease the cost and accident rate.
 
 
 
@@ -86,14 +86,32 @@ The proof of theorem.
 \subsection{Assumptions}
 
 \begin{itemize}
-	\item All the vehicles leave the tollbooths with a given speed.
-	\item There is a critical flow $F_c$, when the total flow  $F_t>F_c$, the vehicles begin to queue up before the toll station.
-	\item The proportions of different types of vehicles are invariable along the time.
-	\item In light traffic, the tollbooths the vehicles arrive are random.
-	\item We take each vehicle as a point located on the center of gravity, but the vehicles still have the volume.
-    \item Time is devided into 1 second, drivers' decisions in every second depend on the surroundings and the status are updated every second. \footnote{Nagel-Schreckenberg model applied.}
-	\item The accelerations of all the vehicles depend on the others who surround themselves.\footnote{Car following model applied.}
-	\item The biggest wheel steering angle is $45^{\circ}$, and the turning radius is negleted.
+	\item Assumptions for the toll station:
+	\begin{itemize}
+         \item Toll station has a fixed configuration for each simulation: vehicle type & charging process.
+         \item Tollbooths allowing large vehicles are also available for smaller vehicles to pass.
+       	 \item It takes a contain time for every vehicle to leave the tollbooth, an extra delay is caused by the charging process.
+	\end{itemize}
+
+    \item Assumptions for the vehicles.
+    \begin{itemize}
+    	\item The proportions of different types of vehicles are fixed along the time.
+    	\item All vehicles are enabled for all 3 types of charging.
+    	\item All vehicles leave the tollbooths with a given speed.
+    	\item Each vehicle is regarded as a point located in the center of gravity, but the vehicles still have a volume.
+    	\item The accelerations of all the vehicles depend on the others who surround themselves.Time is devided into 1 second, drivers' decisions in every second depend on the surroundings and the status are updated every second.
+    	\item The biggest wheel steering angle is $45^{\circ}$, and the turning radius is negleted.
+    	
+    \end{itemize}
+    \item Assumptions for the flow generating:
+    \begin{itemize}
+    \item A fixed total flow $F_t$ is uniformly distributed into seconds, which passes the tollbooths, and then gain the merging flow.
+   	\item In cicumstances where traffic is light, the tollbooths the vehicles arrive are random.
+    \item In circumsatances where traffic is busy, the vehicles begin to queue up before the tollbooths, therefore every tollbooth is allowing a maximun flow to pass following the proportiional.
+    \item Light and heavy traffic is distinguished by a critical flow  $F_c$, which is determined by tollbooth simulation.
+    \end{itemize}
+	
+	
 \end{itemize}
 
 
@@ -106,26 +124,27 @@ Here we list the elements that will influence the throughput of our toll station
 	\hline
 	 $L$ &  Number of lanes \\
 	\hline
-	 $B$ &  Number of tollbooths \\
-  \hline
-   $L_length$ & Merging area length \\
-	\hline
-   $F_t$ & Total flow \\
-  \hline
-   $F_c$ & Critical flow (the maximum capacity demonstrated by the toll booth) \\
-  \hline
-   $P_l$,  $P_m$, $P_s$ & Probability of large vehicles, midium vehicles and small cars\\
-  \hline
-   $v_{this}$, $a_{this}$ & Speed and acceleration of the vehicle of current focus\\
-  \hline
-   $v_n$, $a_n$ &  Speed and acceleration of the other vehicles which surround the vehicle of current focus\\
-  \hline
-     
+	 $B$ &  Number of tollbooths\\
+	 \hline
+     $F_t$ & 	 Total flow\\
+     \hline
+     $F_c$ & Critical flow (the maximum of the total flow)\\
+     \hline
+     $P_l$,  $P_m$, $P_s$ & Probability of large-scale automobiles, midium-sized vehicles and compact cars\\
+     \hline
+     $v_{this}$, $a_{this}$ & Speed and acceleration of the vehicle we study\\
+     \hline
+      $v_n$, $a_n$ &  Speed and acceleration of the other vehicles which surround the vehicle we study\\
+     \hline
+     $pos_x$, $pos_y$ & We build a rectangular coordinate system  with the leftmost tollbooth constructed as the origin.\\
+     \hline
+     $L_{length}$ & Merging area length \\
+     \hline
+
 \end{tabular}
 
 
 \section{Analysis of the Problem}
-
 To respect the notion of "barrier", and to avoid the complexity of gradient, this article discusses only the toll stations of one storey. It is considered that the approach ramps would complicate the traffic flow in both edge of the station, and the cost would be enormous.
 
 \begin{figure}[htbp]
@@ -141,46 +160,45 @@ With lane width predifined as 2 meters, the merging area is defined as the area 
 
 To begin with, the traffic flow scale is fixed for each simulation experience. $F_t$ stands for the quantity of cars, of various size, passing through the tollbooths every fifteen minutes. The flows of large-scale automobiles, midium-sized vehicles and compact cars are $F_tP_l$, $F_tP_m$, $F_tP_s$.
 
-Since only the traffic after the toll station is to be considered, all details of incoming vehicles are simplified in the model. As the assumptions stated, the proportion of vehicle size and the capability of autonomous driving are implemented by a probabilist model, of which the proportions are fixed by the author of the article. Note that different vehicles takes different times to leave the booth, and the time difference arised by different charging method is also taken into consideration by adding a minimum time gap for each booth to allow the next passage.
+Since only the traffic after the toll station is to be considered, all details of incoming vehicles are simplified in the model. As the assumptions stated, the proportion of vehicle size and the capability of autonomous driving are implemented by a probabilist model, of which the proportions are fixed by us. We note that different vehicles takes different times to leave the booth, and the time difference arised by different charging method is also taken into consideration by adding a minimum time gap for each booth to allow the next passage.
 
 The merging flow are constituted by vehicles leaving the tollbooth. It is suggested that at the moment where the vehicle leaves the booth, its speed and direction are restricted by the booth, since a speed limit is implemented and the car can only follow the shape of the lane passing through the booth. Thus, the shape of the booth are represented by the initial speed and direction of the vehicles. With each design of the toll station, an interpretation of initial speed and direction would be given.
 
-The human-driven vehicles are represented in the model by an approximation of their vertical projection, rectangles of different sizes. To implement the dynamics, GM model, CF (car following) model and Nagel-Schreckenberg (NS) model \cite{acelluar} are taken reference to simulate the driving strategies. The model presented by this paper considers the acceleration of each vehicle a compound decision of three factors: avoidance for collision with other vehicles interpreted as interactions between the vehicles, avoidance for collision with the road boundary, and its intrinsic willingness to achieve a maximum speed. 
+
+Based on the active vehicles on the road and the road shape, the driver's decision includes acceleration on each direction.
+
+The human-driven vehicles are represented in the model by an approximation of their vertical projection, rectangles of different sizes. To implement the dynamics, GNagel-Schreckenberg (NS) model \cite{acelluar}, M model and CF (car following) model are taken reference to simulate the driving strategies. The model presented by this paper considers the acceleration of each vehicle a compound decision of three factors: avoidance for collision with other vehicles interpreted as interactions between the vehicles, avoidance for collision with the road boundary, and its intrinsic willingness to achieve a maximum speed. 
+
 
 For the interactions, the acceleration decision is made as an two dimensional extention of [REF]. The decision is contributed positively by the current speed, the relative speed in reference with other vehicles and nagatively by the corresponding distance and the cosinus of the relative position angle. This model agrees with the fact that the driver is more stimulated by near-by vehicles, and a deceleration of the vehicle ahead would cause a deceleration of the following vehicle, a fast vehicle would push away the slow vehicle aside.
 
-It is also suggested by the safe-distance psychological model that the drivers drive away from the edge of the road, if the distance between the vehicle and the boundary is too tight. The model treats the avoidance of the edge in a similar fashion of the previous acceleration.
+
+It is also suggested by the safe-distance psychological model that the drivers drive away from the edge of the road, if the distance between the vehicle and the boundary is too small. The model treats the avoidance of the edge in a similar way of the previous acceleration.
 
 It is also considered, that on leaving a speed limited zone, the vehicles are supposed to reattain a speed of normal level. This process is simulated by a positive factor of the gap of current speed and the ideal speed.
 
-Therefore, the \acceleration is represented mathematically by: 
+Therefore, the acceleration is represented mathematically by: 
+
 $$\overrightarrow{a_{this}(t)}=\overrightarrow{a_i(t)}+\overrightarrow{a_r(t)}+\overrightarrow{a_a(t)}$$
 
 In which case (this $\ne$ $n$),
 $$\overrightarrow{a_i(t)}=\overrightarrow{a_{interaction}(t)}=\lambda (v_{this}(t))^m \times \sum_n\frac{v_n(t)-v_{this}(t)}{(d_n(t))^l}\times \overrightarrow{dir_{n,this}(t)}$$
-$$d_n(t)=distance_n(t)=\sqrt{\delta pos_x(t)^2+\delta pos_y(t)^2}$$
-$$\overrightarrow{dir_n(t)}=\frac{(pos_x-pos_{x,n},pos_y-pos_{y,n})}{\parallel (pos_{x,this}-pos_{x,n},pos_{y,this}-pos_{y,n}) \parallel} $$\\
+$$d_{n}(t)=distance_n(t)=\sqrt{\delta pos_x(t)^2+\delta pos_y(t)^2}$$
+$$\overrightarrow{dir_{n,this}(t)}=\frac{(pos_x-pos_{x,n},pos_y-pos_{y,n})}{\parallel (pos_{x,this}-pos_{x,n},pos_{y,this}-pos_{y,n}) \parallel} $$\\
 $$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{baundary-left}^{-l'} \times v(t)^m'\times \overrightarrow{right} \times 1_{d<d_{critical}$$
 	$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$
 $$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y)} \arrowvert$$\\
 $$a_a(t)=a_{acceleration}(t)=\beta (v_{max}-v(t)) \times a_{max} \times \overrightarrow{forward}$$\\
-Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the parameters that we can adjust.
-
-The autonomous vehicles are ...
-
-
-Our simulation comes as follows:
-
-
-
-
-
-
-
-
-
+Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the parameters that we can adjust.\\
 
 The simulation model is based on a large amount of extensions based on current model, thus takes many parameters that is merely experimental.
+
+\begin{figure}[htbp]
+	\small 
+	\centering
+	\caption{Our simulation}
+	\includegraphics{simulation.jpg}
+\end{figure}
 
 A crucial difference of the model presented compared with the classic ones is that this model preserves the physical dimensions of the vehicle, and enables a relative free movement in a two-dimension plane, instead of a strict restraint of one lane. 
 
@@ -188,11 +206,13 @@ In order to propose a better design, the performance of the design can be addres
 
 
 
+\section{Validating the Model}
+
 
 \section{The Model Results}
 
 
-\section{Validating the Model}
+
 
 
 \section{Conclusions}
@@ -200,7 +220,7 @@ In order to propose a better design, the performance of the design can be addres
 \section{A Summary}
 
 
-\section{Evaluate of the Mode}
+\section{Evaluate of the Model}
 
 \section{Strengths and weaknesses}
 
