@@ -6,6 +6,7 @@ global vehicle_array % colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type
 global vehicle_number
 global boundaryPoints
 global test_acc
+global v_max;
 lamda =  0.8;
 L = 1.0;
 m = 0.9;
