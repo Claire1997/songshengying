@@ -2,10 +2,10 @@ function[collide] = isCollide(pos1,pos2,type1,type2)
 % pos including [x;y;alpha] alpha is between 0 to pi (pi/2 is vertical)
 global width_veh 
 global length_veh 
-width_veh = [1, 3*sqrt(2)/2]; %only use for test
-length_veh = [3,3*sqrt(2)];
-type1 = 1; type2 = 2;
-pos1 = [4.5;1.5;pi/2]; pos2=[4.75;4.75;pi/4];
+%width_veh = [1, 3*sqrt(2)/2]; %only use for test
+%length_veh = [3,3*sqrt(2)];
+%type1 = 1; type2 = 2;
+%pos1 = [4.5;1.5;pi/2]; pos2=[4.75;4.75;pi/4];
 
 dist = norm(pos2(1:2,:)-pos1(1:2,:));
 y2 = (pos2(1)-pos1(1))*sin(pos1(3)) + (pos2(2)-pos1(2))*cos(pos1(3));
