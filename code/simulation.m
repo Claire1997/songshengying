@@ -20,12 +20,12 @@ for i=1:flow_total
     flow_instant(ind) = flow_instant(ind) + 1;
 end
 
-vehicle_array = []; % colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type
+vehicle_array = zeros(flow_total,5); % colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type
 for i=1:900 % one simulation per second;
     [toll_barrier_state, flow_queue] = updateTollStation(flow_total, flow_instant(i), toll_barrier_state, toll_barrier_config);
     flow_instant(i+1) = flow_queue + flow_instant(i+1);
     
-    vehicle_number = size(vehicle_array,1);
+    vehicle_number = size(find(vehicle_array(:,5)),1);
     
     % detect position for collision and merge completion
     for j = 1:vehicle_number
@@ -33,8 +33,8 @@ for i=1:900 % one simulation per second;
     end
     
     % insert new cars into the traffic
-    vehicle_array = [vehicle_array; addNewVehicle(toll_barrier_state(1,:))];
-    vehicle_number = size(vehicle_array,1);
+    vehicle_array(vehicle_number+1,:) = addNewVehicle(toll_barrier_state(1,:));
+    vehicle_number = vehicle_number+1;
     
     % make and store decision for each driver
     decision_array = zeros(vehicle_number,2); % colomn 1: acc_forward, 2: acc_side
