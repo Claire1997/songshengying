@@ -77,7 +77,7 @@ for i=1:80 % one simulation per second;
                 end
                 % check if collision with other cars
                 for a = 1:vehicle_number
-                    if a ~= j && vehicle_array(j,5) ~= -1
+                    if a ~= j && vehicle_array(a,5) ~= -1 && vehicle_array(a,5) ~= 0
                         
                        % showVehicule()
                         
@@ -175,5 +175,5 @@ for i=1:80 % one simulation per second;
         mkdir(['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm)]);
     end
     saveas(gcf,['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm),'/',num2str(i),'.png']) ;
-%     close figure 1
+    close figure 1
 end
