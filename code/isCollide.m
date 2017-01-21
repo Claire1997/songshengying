@@ -10,13 +10,13 @@ global length_veh
 
 pos1 = pos1';
 pos2 = pos2';
-Trans1 = [cos(-pos1(3)) -sin(-pos1(3)); sin(-pos1(3)) cos(-pos1(3))];
+Trans1 = [cos(pos1(3)) -sin(pos1(3)); sin(pos1(3)) cos(pos1(3))];
 points1(:,1) = Trans1 * [+ width_veh(type1)/2 ;  + length_veh(type1)/2]+[pos1(1) ;pos1(2)];
 points1(:,2) = Trans1 * [ - width_veh(type1)/2 ;  + length_veh(type1)/2]+[pos1(1) ;pos1(2)];
 points1(:,3) = Trans1 * [ - width_veh(type1)/2 ;  - length_veh(type1)/2]+[pos1(1) ;pos1(2)];
 points1(:,4) = Trans1 * [ + width_veh(type1)/2 ;  - length_veh(type1)/2]+[pos1(1) ;pos1(2)];
 
-Trans2 = [cos(-pos2(3)) -sin(-pos2(3)); sin(-pos2(3)) cos(-pos2(3))];
+Trans2 = [cos(pos2(3)) -sin(pos2(3)); sin(pos2(3)) cos(pos2(3))];
 points2(:,1) = Trans2 * [width_veh(type2)/2 ; + length_veh(type2)/2]+[pos2(1);pos2(2) ];
 points2(:,2) = Trans2 * [- width_veh(type2)/2 ;length_veh(type2)/2]+[pos2(1);pos2(2) ];
 points2(:,3) = Trans2 * [- width_veh(type2)/2 ;  - length_veh(type2)/2]+[pos2(1);pos2(2) ];
