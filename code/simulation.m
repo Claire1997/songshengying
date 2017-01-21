@@ -37,7 +37,7 @@ initial_speed = 5;
 % line 1 for vehicle types: 1, small, 2, medium, 3, large
 % line 2 for delay caused by charge mechanisms: 10, conventional, 5, exact exchange, 2,
 % electronic
-flow_total = 300; % total flow
+flow_total = 600; % total flow
 flow_instant = zeros(901,1); % number of vehicles per 15 minutes
 % distribute flow into each second
 for i=1:flow_total
@@ -50,7 +50,7 @@ vehicle_number = 0; % the total vehicle number after the simulation start.
 
 completion_count = 0;
 
-for i=1:20 % one simulation per second;
+for i=1:10 % one simulation per second;
     [toll_barrier_state, flow_queue] = updateTollStation(flow_total, flow_instant(i), toll_barrier_state, toll_barrier_config);
     flow_instant(i+1) = flow_queue + flow_instant(i+1);
          
