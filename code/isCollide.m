@@ -6,8 +6,6 @@ global length_veh
 %length_veh = [3,3*sqrt(2)];
 %type1 = 1; type2 = 2;
 %pos1 = [4.5;1.5;-pi/2]; pos2=[5.75;4.75;-pi/4];
-
-
 pos1 = pos1';
 pos2 = pos2';
 Trans1 = [cos(-pos1(3)) -sin(-pos1(3)); sin(-pos1(3)) cos(-pos1(3))];
