@@ -41,6 +41,9 @@ initial_speed = 5;
 % line 1 for vehicle types: 1, small, 2, medium, 3, large
 % line 2 for delay caused by charge mechanisms: 10, conventional, 5, exact exchange, 2,
 % electronic
+    time_now = yyyymmdd(datetime('now'));
+    [hh,mm,~] = hms(datetime('now'));
+    
 flow_total = 400; % total flow
 flow_instant = zeros(901,1); % number of vehicles per 15 minutes
 % distribute flow into each second
@@ -169,19 +172,17 @@ for i=1:80 % one simulation per second;
             pic1 = imrotate(pic, vehicle_array(t,4));
             
             imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2, vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],[vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 , vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic1);      
-            Trans1 = [cos(-vehicle_array(t,4)) -sin(-vehicle_array(t,4)); sin(-vehicle_array(t,4)) cos(-vehicle_array(t,4))];
+            Trans1 = [cos(vehicle_array(t,4)) -sin(vehicle_array(t,4)); sin(vehicle_array(t,4)) cos(vehicle_array(t,4))];
 
             points(:,1) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
             points(:,2) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
             points(:,3) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
             points(:,4) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
             plot(points(1,:),points(2,:),'.');
-            
             hold on 
          end
     end
-    time_now = yyyymmdd(datetime('now'));
-    [hh,mm,~] = hms(datetime('now'));
+
     if exist(['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm)],'dir')==0
         mkdir(['../../figure/',num2str(time_now),'_',num2str(hh),'_',num2str(mm)]);
     end
