@@ -43,16 +43,19 @@ end
 
 vehicle_array = zeros(flow_total,7); % colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type, 6 collision, 7 is_AI
 vehicle_number = 0; % the total vehicle number after the simulation start.
+
+completion_count = 0;
 for i=1:900 % one simulation per second;
     [toll_barrier_state, flow_queue] = updateTollStation(flow_total, flow_instant(i), toll_barrier_state, toll_barrier_config);
     flow_instant(i+1) = flow_queue + flow_instant(i+1);
          
     % detect position for collision and merge completion
     for j = 1:vehicle_number
-        if vehicle_array(j,5) > 0 && vehicle_array(j,6) == 1
+        if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             % check if the merge is completed
             if vehicle_array(j,2) > merge_length
                 vehicle_array(j,5) = -1;
+                completion_count = completion_count + 1;
             else
                 % check if out of boundary
                 isOut = isOutBoundary([vehicle_array(j,1),vehicle_array(j,2)]);
@@ -78,8 +81,7 @@ for i=1:900 % one simulation per second;
             end
         end
     end
-        
-end
+
     
     % insert new cars into the traffic
     addNewVehicle(toll_barrier_state(1,:));
@@ -88,7 +90,7 @@ end
     % make and store decision for each driver
     decision_array = zeros(vehicle_number,2); % colomn 1: acc_x, 2: acc_y
     for j = 1:vehicle_number
-        if vehicle_array(j,5) > 0 && vehicle_array(j,6) == 1
+        if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             decision_array(j,:) = decideAcc(j);
             angle = vehicle_array(j,4);
             speed_x = vehicle_array(j,3)*cos(angle) +  decideAcc(j,1);
@@ -99,3 +101,4 @@ end
             vehicle_array(j,4) = tan(speed_y/speed_x);
         end 
     end
+end
