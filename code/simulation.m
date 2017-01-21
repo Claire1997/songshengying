@@ -1,16 +1,30 @@
 % this code contains one simulation of the traffic
 B = 8; % Tollbooth number
 L = 3; % Regular lane number
-cell_size = 0.5; % cutting the road into small cells of 0.25 m^2
+global merge_length; % Whole merge part length
+merge_length = 200;
+global width_veh % vehicle size config
+global length_veh
+width_veh = [2 3 3];
+length_veh = [4 7 10];
 shapePoints = [32 0; 24 50;20 100;16 150; 12 200]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
 % only the middle 3 points are needed
 global boundaryPoints
 global vehicle_array
 global vehicle_number
+global has_collision
 boundaryPoints = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:200),'spline');
                         
 toll_barrier_state = zeros(70,B); % track vehicle departing from the tollbooth with historical info
 toll_barrier_config = [3,3,3,3,3,3,3,3; 10,10,10,10,10,10,10,10];
+global small_delay
+global medium_delay
+global large_delay
+global initial_speed
+small_delay = 10; % delay caused by a small vehicle to pass a booth
+medium_delay = 15;
+large_delay = 30;
+initial_speed = 5;
 % line 1 for vehicle types: 1, small, 2, medium, 3, large
 % line 2 for delay caused by charge mechanisms: 10, conventional, 5, exact exchange, 2,
 % electronic
@@ -22,7 +36,7 @@ for i=1:flow_total
     flow_instant(ind) = flow_instant(ind) + 1;
 end
 
-vehicle_array = zeros(flow_total,5); % colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type
+vehicle_array = zeros(flow_total,7); % colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type, 6 collision, 7 is_AI
 vehicle_number = 0; % the total vehicle number after the simulation start.
 for i=1:900 % one simulation per second;
     [toll_barrier_state, flow_queue] = updateTollStation(flow_total, flow_instant(i), toll_barrier_state, toll_barrier_config);
@@ -30,10 +44,35 @@ for i=1:900 % one simulation per second;
          
     % detect position for collision and merge completion
     for j = 1:vehicle_number
-        if vehicle_array(j,5) > 0
-        % Gaspard
-        
+        if vehicle_array(j,5) > 0 && vehicle_array(j,6) == 1
+            % check if the merge is completed
+            if vehicle_array(j,2) > merge_length
+                vehicle_array(j,5) = -1;
+            else
+                % check if out of boundary
+                isOut = isOutBoundary([vehicle_array(j,1),vehicle_array(j,2)])
+                if isOut == 1 % collision with road
+                    has_collision = has_collision||isOut;
+                    vehicle_array(j,6) = 1;
+                    vehicle_array(j,3) = 0; % set speed to 0
+                end
+                % check if collision with other cars
+                for a = 1:vehicle_number
+                    if a ~= j
+                       isCollide = isCollide([vehicle_array(j,1),vehicle_array(j,2)],[vehicle_array(a,1),vehicle_array(a,2)],vehicle_array(j,5),vehicle_array(a,5));
+                       if isCollide == 1
+                           % collision with car
+                           has_collision = has_collision||isCollide;
+                           vehicle_array(j,3) = 0;
+                           vehicle_array(a,3) = 0;
+                           vehicle_array(j,6) = 1;
+                           vehicle_array(a,6) = 1;
+                       end
+                    end
+                end
+            end
         end
+    end
         
     end
     
