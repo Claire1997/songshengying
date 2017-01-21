@@ -8,9 +8,9 @@ global boundaryPoints
 global test_acc
 global v_max;
 lamda =  0.05;
-L = 3.0;
+L = 2.0;
 m = 0.9;
-alpha = 0.005;
+alpha = 0.01;
 L2 = 0.5;
 m2 = 1.0;
 beta = 0.03;
