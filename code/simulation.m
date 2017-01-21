@@ -92,13 +92,39 @@ for i=1:900 % one simulation per second;
     for j = 1:vehicle_number
         if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             decision_array(j,:) = decideAcc(j);
+            acc = decision_array(j,:);
             angle = vehicle_array(j,4);
-            speed_x = vehicle_array(j,3)*cos(angle) +  decideAcc(j,1);
-            speed_y = vehicle_array(j,3)*sin(angle) +  decideAcc(j,2);
-        	vehicle_array(j,1) = 1/2 * decideAcc(j,1)+ vehicle_array(j,3)*cos(angle);
-            vehicle_array(j,2) = 1/2 * decideAcc(j,2)+ vehicle_array(j,3)*sin(angle);
-            vehicle_array(j,3) = norm( [speed_x;speed_y]);
-            vehicle_array(j,4) = tan(speed_y/speed_x);
-        end 
+            speed_old = [vehicle_array(j,3)*cos(angle) ;vehicle_array(j,3)*sin(angle)];
+            speed = [speed_old(1) +  acc(1);speed_old(2) +  acc(2)];
+            
+            Trans = [cos(angle) -sin(angle); sin(angle) cos(angle)];
+            Trans_back = Trans^-1;
+            speed_old_v = Trans * speed_old;
+            speed_v= Trans * speed;
+                    %speed of vehicule in coord. vehicule.
+            acc_v = Trans * acc;
+            
+           if speed_v(2) <= 0
+                vehicle_array(j,3) = 0;
+                continue
+           end
+            
+           if speed_v(2) > abs(speed_v(1)) %45 degree            
+           elseif speed_v(1) > 0
+               speed_v(1) = speed_v(2);
+               acc_v(1) = speed_v(1) - speed_old_v(1);
+               acc = Trans_back * acc_v;
+               speed = Trans_back *  speed_v;
+           elseif speed_x < 0
+               speed_v(1) = -speed_v(2);
+               acc_v(1) = speed_v(1) - speed_old_v(1);
+               acc = Trans_back * acc_v;
+               speed = Trans_back *  speed_v;
+           end 
+           vehicle_array(j,4) = tan(speed(2)/speed(1));
+           vehicle_array(j,1) = 1/2 * acc(1)+ speed_old(1) + vehicle_array(j,1);
+           vehicle_array(j,2) = 1/2 * acc(2)+ speed_old(2) + vehicle_array(j,2);
+           vehicle_array(j,3) = norm(speed);
+        end
     end
 end

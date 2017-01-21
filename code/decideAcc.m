@@ -5,15 +5,15 @@ function[acc] = decideAcc(i)
 global vehicle_array % colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type
 global vehicle_number
 global boundaryPoints
-lamda = 
-L =
-m =
-alpha =
-L2 = 
-m2 = 
-beta =
-v_max
-acc_max =
+lamda =  1
+L = 1.0;
+m = 0.9;
+alpha = 0.001
+L2 = 1.0;
+m2 = 1.0;
+beta = 0.03
+v_max = 15; 
+acc_max = 2;
 
 %acc of interaction
 acc_inter = zeros(1,2);
@@ -43,4 +43,5 @@ acc_will(1,2) = beta * (v_max - vehicle_array(i,3)) * acc_max;
 
 % sum
 acc = acc_inter + acc_road + acc_will;
+
 end
