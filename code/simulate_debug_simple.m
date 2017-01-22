@@ -3,12 +3,8 @@ load(filename);
 time_now = yyyymmdd(datetime('now'));
 [hh,mm,~] = hms(datetime('now'));
 filename = ['../../figure/',filename,num2str(time_now),'_',num2str(hh),'_',num2str(mm)];
-% if exist(filename,'dir')==0
-%     mkdir(filename);
-% end
 figure(1);
 filename = [filename, '.gif'];
-
 % this code contains one simulation of the traffic
 B = 8; % Tollbooth number
 L = 3; % Regular lane number
@@ -28,8 +24,8 @@ length_veh = [4 7 10];
 global boundaryPoints
 global vehicle_array
 global vehicle_number
-% shapePoints = [32 0; 25 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
-shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
+shapePoints = [32 0; 32 merge_length/4;25 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
+%shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
 boundaryPoints = zeros(merge_length,2); % the second row presents the left boundary.
 boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge_length),'spline');
              
@@ -62,6 +58,7 @@ all_info_matrice = zeros(70, flow_total, 12);
 global test_acc
 test_acc = zeros(1,6);
 
+
 for i=1:70 % one simulation per second;
     
          
@@ -86,7 +83,7 @@ for i=1:70 % one simulation per second;
                         
                        % showVehicule()
                         
-                       is_collide = isCollide([vehicle_array(j,1:2) vehicle_array(j,4)],[vehicle_array(a,1:2) vehicle_array(a,4)],vehicle_array(j,5),vehicle_array(a,5));
+                       is_collide = isCollideSimple([vehicle_array(j,1:2) vehicle_array(j,4)],[vehicle_array(a,1:2) vehicle_array(a,4)],vehicle_array(j,5),vehicle_array(a,5));
                        if is_collide == 1
 
                           %showVehicule()
@@ -102,74 +99,41 @@ for i=1:70 % one simulation per second;
             end
         end
     end
-
-    
     % insert new cars into the traffic
     if fix(i*dt) == i*dt
     addNewVehicle(toll_barrier_state(71-floor(i*dt),:));
     end
     
-    % make and store decision for each driver
+        % make and store decision for each driver
     decision_array = zeros(vehicle_number,2); % colomn 1: acc_x, 2: acc_y
     for j = 1:vehicle_number
         if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
-            decision_array(j,:) = decideAcc3(j);
+            decision_array(j,:) = decideAcc4(j);
             all_info_matrice(i, j, 7:12) = test_acc(1, 1:6);
         end
     end
-    for j = 1:vehicle_number
+     for j = 1:vehicle_number
         if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             acc = decision_array(j,:)';
-            angle = vehicle_array(j,4);
-            speed_old = [vehicle_array(j,3)*cos(angle+pi/2) ;vehicle_array(j,3)*sin(angle+pi/2)];
-            speed = [speed_old(1) +  acc(1)*dt;speed_old(2) +  acc(2)*dt];
+            speed_old = vehicle_array(j,3);
+            speed = vehicle_array(j,3) + acc(2);
             
-            Trans = [cos(angle) -sin(angle); sin(angle) cos(angle)];
-            Trans_back = Trans^-1;
-            speed_old_v = Trans * speed_old;
-            speed_v= Trans * speed;
-                    %speed of vehicule in coord. vehicule.
-            acc_v = Trans * acc;
-            
-           if speed_v(2) <= 0
+            if speed <= 0
                 vehicle_array(j,3) = 0;
                 continue
-           end
-           
-           if speed_v(2) > abs(speed_v(1)) %45 degree
-              if norm(speed_v) > v_max
-                speed_v = speed_v/norm(speed_v);
-                acc_v = (speed_v - speed_old_v)/dt;
-                acc = Trans_back * acc_v;
-                speed = Trans_back *  speed_v;
-              end
-           else 
-               if norm(speed_v) > v_max
-                    speed_v = speed_v/norm(speed_v);
-               end
-               if speed_v(1) > 0
-                    speed_v(1) = speed_v(2);
-                    acc_v(1) = (speed_v(1) - speed_old_v(1))/dt;
-                    acc = Trans_back * acc_v;
-                    speed = Trans_back *  speed_v;
-               
-               elseif speed_v(1) < 0
-                    speed_v(1) = -speed_v(2);
-                    acc_v(1) = (speed_v(1) - speed_old_v(1))/dt;
-                    acc = Trans_back * acc_v;
-                    speed = Trans_back *  speed_v;
-               end
-           end
-               
-           vehicle_array(j,4) = atan2(speed(2),speed(1)) - pi/2;
-           vehicle_array(j,1) = 1/2 * acc(1)*dt^2+ speed_old(1)*dt + vehicle_array(j,1);
-           vehicle_array(j,2) = 1/2 * acc(2)*dt^2+ speed_old(2)*dt + vehicle_array(j,2);
-           vehicle_array(j,3) = norm(speed);
+            end
+            if speed > v_max
+                speed = v_max;
+            end
+           vehicle_array(j,1) = acc(1) + vehicle_array(j,1);
+           vehicle_array(j,2) = 1/2 * acc(2)*dt^2+ speed_old*dt + vehicle_array(j,2);
+           vehicle_array(j,3) = speed;
+        
         end
-    end
-    all_info_matrice(i, :, 1:6) = vehicle_array(:, 1:6);
-    
-%     test part
+     end
+        all_info_matrice(i, :, 1:6) = vehicle_array(:, 1:6);
+     
+     %     test part
     plot(boundaryPoints(:,1),1:200,boundaryPoints(:,2),1:200);
     axis([-100 100 0 200])
     pic = imread('./blue.png');
@@ -181,11 +145,11 @@ for i=1:70 % one simulation per second;
             %pic1 = imrotate(pic, vehicle_array(t,4));
             
             imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2, vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],[vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 , vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic);      
-            Trans1 = [cos(vehicle_array(t,4)) -sin(vehicle_array(t,4)); sin(vehicle_array(t,4)) cos(vehicle_array(t,4))];
-            points(:,1) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-            points(:,2) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-            points(:,3) = Trans1 * [ - width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-            points(:,4) = Trans1 * [ + width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+           
+            points(:,1) = [ + width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,2) = [ - width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,3) = [ - width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,4) = [ + width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
             plot(points(1,:),points(2,:),'.');
             
             hold on 
@@ -202,7 +166,11 @@ for i=1:70 % one simulation per second;
         imwrite(imind,cm,filename,'gif','WriteMode','append');
     end
     clf('figure 1','reset');
+        
 end
 
-visualisation
+%visualisation
 close all;
+
+
+
