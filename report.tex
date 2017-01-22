@@ -178,32 +178,37 @@ It is suggested that at the moment where the vehicle leaves the booth, its speed
 
 In this article, an extented version of Car-following model is proposed, preserving the idea that driving consists of the process of perception, decision making and control. Based on the active vehicles on the road and the road shape, the driver's decision includes acceleration or deacceleration of the direction ahead and the one sideways.
 
-A crucial difference of the model presented compared with the classic ones is that this model preserves the physical dimensions of the vehicle, and enables a relative free movement in a two-dimension plane, instead of a strict restraint of one lane. 
+Response = coefficient Stimulus [公式]
 
-
-Response= coefficient stimulus.
+One crucial difference of the model presented compared with the classic ones is that this model preserves the physical dimensions of the vehicle, and enables a relative free movement in a two-dimension plane, instead of a strict restraint of one lane. Another one is that the decisions of all vehicles active on the road are calculated for the same instant in the simulation, instead of updating firstly the followed vehicle then the following vehicle.
 
 The human-driven vehicles are represented in the model by an approximation of their vertical projection, rectangles of different sizes. To implement the dynamics, Nagel-Schreckenberg (NS) model \cite{acelluar}, GM model and CF (car following) model are taken reference to simulate the driving strategies. The model presented by this paper considers the acceleration of each vehicle a compound decision of three factors: avoidance for collision with other vehicles interpreted as interactions between the vehicles, avoidance for collision with the road boundary, and its intrinsic willingness to achieve a maximum speed. 
 
-The acceleration is represented mathematically by: 
+The acceleration takes three forms for different cases.
 
-$$\overrightarrow{a_{this}(t)}=\overrightarrow{a_i(t)}+\overrightarrow{a_r(t)}+\overrightarrow{a_a(t)}$$
-
-For the interactions, the acceleration decision is made as an two dimensional extention of [REF]. The decision is contributed positively by the current speed, the relative speed in reference with other vehicles and nagatively by the corresponding distance and the cosinus of the relative position angle. This model agrees with the fact that the driver is more stimulated by near-by vehicles, and a deceleration of the vehicle ahead would cause a deceleration of the following vehicle, a fast vehicle would push away the slow vehicle aside. [修改]
+It is considered that on leaving a speed limited zone, the vehicles are supposed to reattain a speed of normal level. This process is simulated by a positive factor of the gap of current speed and the ideal speed. However, the acceleration ahead may cause collision with vehicles in front. For the avoidance, the acceleration decision is made based on avoidance of possible collisions: should the driver preserve its current speed, or do an acceleration, the position of the vehicle in the next moment of decision is to be calculated, and the vehicle would not be in collision with the vehicles in its general front. It is worth noting that if such a vehicle in front doesn't exist, the vehicle would accelerate to a maximum speed.
 
 Thus (this $\ne$ $n$),
 $$\overrightarrow{a_i(t)}=\overrightarrow{a_{interaction}(t)}=\lambda (v_{this}(t))^m \times \sum_n\frac{v_n(t)-v_{this}(t)}{(d_n(t))^l}\times \overrightarrow{dir_{n,this}(t)}$$
 $$d_{n}(t)=distance_n(t)=\sqrt{\delta pos_x(t)^2+\delta pos_y(t)^2}$$
-$$\overrightarrow{dir_{n,this}(t)}=\frac{(pos_x-pos_{x,n},pos_y-pos_{y,n})}{\parallel (pos_{x,this}-pos_{x,n},pos_{y,this}-pos_{y,n}) \parallel} $$\\
+$$\overrightarrow{dir_{n,this}(t)}=\frac{(pos_x-pos_{x,n},pos_y-pos_{y,n})}{\parallel (pos_{x,this}-pos_{x,n},pos_{y,this}-pos_{y,n}) \parallel} $$\\ [加速度第一部分公式]
 
-It is also suggested by the safe-distance psychological model that the drivers drive away from the edge of the road, if the distance between the vehicle and the boundary is too small. The model treats the avoidance of the edge in a similar way of the previous acceleration.
+If a collision is predicted for current speed, the driver would take neccessary measures to avoid the collision: firstly try to take another lane, or secondly if there's no other choice, slow down. In our model, taking another lane is generalized into taking a left or right angle.
 
-$$\overrightarrow{a_r(t)}= \overrightarrow{a_{road}(t)}=\alpha \times distance^{ -l'}_{baundary-left}\times (v(t))^m'\times \overrightarrow{right} \times 1_{d<d_{critical}$$
-	$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$	$$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y)} \arrowvert$$\\
-It is also considered, that on leaving a speed limited zone, the vehicles are supposed to reattain a speed of normal level. This process is simulated by a positive factor of the gap of current speed and the ideal speed.
+To make the choice of taking another line possible, there should in the first place exist a lane to be taken. In order to keep the vehicles in the simulation from colliding with the edge of the road, a safe-distance psychological model, that the drivers drive away from the edge of the road, if the distance between the vehicle and the boundary is too small, is implemented. 
+
+Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility of taking an angle up to approximately 45 [degrees], which is imposed by the physical design of vehicles. If all the vehicles are to preserve its current speed, and if the algorithm finds a spot ahead, the acceleration is calculated so that in the next decision moment, the vehicle could arrive at the spot.
+
+$$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{baundary-left}^{-l'} \times v(t)^m'\times \overrightarrow{right} \times 1_{d<d_{critical}$$
+	$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$
+$$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y)} \arrowvert$$\\ [加速度第二部分公式]
+
+Nevertheless, it is still possible that the vehicle predicts a collision 
 
 $$a_a(t)=a_{acceleration}(t)=\beta (v_{max}-v(t)) \times a_{max} \times \overrightarrow{forward}$$\\
-Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the numeral coefficients that we can adjust.\\
+Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the parameters that we can adjust.\\ [加速度第二部分公式]
+
+The autonomous vehicles are modelled in a similar fashion, whereas the interaction with other cars and the road boundary are taken form as [参考文献]. 
 
 The simulation model is based on a large amount of extensions based on current model, thus takes many parameters that is merely experimental.
 
