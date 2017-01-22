@@ -10,7 +10,7 @@ global v_max;
 lamda =  0.5;
 L = 2.0;
 m = 1.0;
-alpha = 0.01;
+alpha = 0.1;
 L2 = 0.5;
 m2 = 1.0;
 beta = 0.03;
@@ -26,14 +26,20 @@ for j = 1: vehicle_number
     if j == i || vehicle_array(j,5) == 0
         continue
     end
-    angle_var = 1 - 2 * (vehicle_array(j,1) - vehicle_array(i,1))^2/((vehicle_array(j,1) - vehicle_array(i,1))^2+(vehicle_array(j,1) - vehicle_array(i,1))^2);
-    temp_inter = temp_inter + (vehicle_array(j,3) - vehicle_array(i,3)) / norm(vehicle_array(i,1:2)-vehicle_array(j,1:2))^L * (vehicle_array(j,1:2) - vehicle_array(i,1:2)) * angle_var;
+    % angle_var = cos(theta/2) = sqrt((1+cos(theta))/2)
+%     angle_var = real(((1 + (vehicle_array(i,2) - vehicle_array(j,2))/((vehicle_array(j,1) - vehicle_array(i,1))^2+(vehicle_array(j,1) - vehicle_array(i,1))^2)^0.5)/2)^0.5);
+    temp_inter = temp_inter + ((vehicle_array(j,3) - vehicle_array(i,3)) / norm(vehicle_array(i,1:2)-vehicle_array(j,1:2))^L) * (vehicle_array(j,1:2) - vehicle_array(i,1:2));
 end
 acc_inter(1,:)= lamda * (vehicle_array(i,3))^m * temp_inter;
 if acc_inter(1,1) > 0.7
     acc_inter(1,1) = 0.7;
 elseif  acc_inter(1,1) < -0.7
     acc_inter(1,1) = -0.7;
+end
+if acc_inter(1,2) > 1
+    acc_inter(1,2) = 1;
+elseif  acc_inter(1,2) < -0.5
+    acc_inter(1,2) = -0.5;
 end
 if norm(acc_inter(1,:)) > 2 
     acc_inter(1,:) = acc_inter(1,:) / norm(acc_inter(1,:)) *2;

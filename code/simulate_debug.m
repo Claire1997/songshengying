@@ -199,3 +199,4 @@ for i=1:70 % one simulation per second;
 end
 
 visualisation
+close all;
