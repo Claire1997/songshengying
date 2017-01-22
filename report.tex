@@ -151,9 +151,6 @@ Here we list the elements that will influence the throughput of our toll station
 
 
 
-One crucial difference of the model presented compared with the classic ones is that this model preserves the physical dimensions of the vehicle, and enables a relative free movement in a two-dimension plane, instead of a strict restraint of one lane. Another one is that the decisions of all vehicles active on the road are calculated for the same instant in the simulation, instead of updating firstly the followed vehicle then the following vehicle.
-
-The human-driven vehicles are represented in the model by an approximation of their vertical projection, rectangles of different sizes. To implement the dynamics, Nagel-Schreckenberg (NS) model \cite{acelluar}, GM model and CF (car following) model are taken reference to simulate the driving strategies. The model presented by this paper considers the acceleration of each vehicle a compound decision of three factors: avoidance for collision with other vehicles.
 
 \section{Analysis of the Problem}
 To respect the notion of "barrier", and to avoid the complexity of gradient, this article discusses only the toll stations of one storey. It is considered that the approach ramps would complicate the traffic flow in both edge of the station, and the cost would be enormous.
@@ -165,9 +162,53 @@ To respect the notion of "barrier", and to avoid the complexity of gradient, thi
 	\includegraphics{img3.png}
 \end{figure}
 
-
 In the merging area, all the vehicles merging from $B$ tollbooths into $L$ lanes in a short distance of $L_length$ meters.
 With lane width predifined as 2 meters, the merging area is defined as the area surrounded by two curves on a finite two-dimension plane. The curves are represented by two functions, which would be a parameter to be optimized in the problem.
+
+\subsection{Obtaining an adopted shape design}
+
+A primitive idea of establishing an orderly traffic flow is to set up constraints and guidelines for the individualist vehicles: if all participants follow a predefined, well-designed route, there wouldn't be unpredicted crosses at all. It is in addition more practical, to set up such rules in a limited area, where the traffic is limited by the entrance ports of the turnpike.
+
+Thus a design scheme that is capable of coping with the worst traffic conditions, can be inspired by the dynamics of the worst traffic conditions: concurrent vehicles issued from every booth and a high frequency of passages. On finding routing solutions for those vehicle obeying to a centralized control, the convex area covered by the trajectories is the minimum area required by such a traffic in order to merge.
+
+The possible solutions therefore, should guide the vehicles into a proper slot in a queue for each lane, and each vehicle ahead should not be chased by each other, nor the vehicles newly passed through the tollbooth.
+
+Symmetry analyses give that the optimal shape is either symmetrical about the central axis of the turnpike. [fig A and B] This article concerns therefore only symmetrical.
+
+\begin{Theorem} \label{thm:latex}
+The optimal shape is either symmerical about the central axis.
+\end{Theorem}
+
+\begin{proof}
+Reductio ad absurdum: if the traffic is not symmetrical, there exist multiple vehicles that has no corresponding vehicle about the axis of symmetry. If these vehicles are given slots of certain priority in the queue, and all vehicles successfully merged into $L$ lanes, then the slots of the same priority can also be allocated to the non-existing vehicles in the symmetry. Thus this flow is capable of hold more vehicles, this is not the optimal shape.
+\end{proof}
+
+We can furthur show that the comportment of vehicle is also symmetrical about the axis. So only one side of the traffic is to be analysed in the following section.
+
+\begin{Theorem} \label{thm:latex}
+The quickest ways to merge 2 side-by-side vehicles into 1 lanes is to let the vehicle in the lane to be merged to run the quick the possible.
+\end{Theorem}
+[fig C]
+\begin{proof}
+Denote the direction where the road leads the vertical direction.
+Initially, the two vehicles are running side-by-side, and share the same speed v0 and direction.
+The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is [Equa A].
+In the end, vehicle 2 is positioned right after vehicle 1.
+[Equa B]
+The integration of accelerations give the speed at a specific instant:
+[Equa C]
+And the integration of speed give the displacement of a vehicle:
+[Equa D]
+Equation B can therefore be transcribed as 
+[Equa E].
+As the intergration reaches for a constant, t_e can be minimised if the difference of the two accelerations can be maximised, which conclude a_y,1 to be the maximum value permitted by the situation.
+\end{proof}
+
+The queuing strategy can be furthur simplified into a merging problem for two vehicles initially run side by side.
+
+\subsection{Evaluating the design}
+
+In order to evaluate the performance such as throughput, accident rate, this group implements simulation algorithms, mocking the process of vehicles passing through the tollbooth and try to merge without a centralized control: as heavy traffic of everyday definition is not about vehicles of a large size passing the tollbooth continously! The throughput is evaluated by the number of vehicles that successfully enter into the $L$-lane area, and accident rate is calculated by the simulated accident numbers divided by total vehicle numbers.
 
 To begin with, the traffic flow scale is fixed for each simulation experience. $F_t$ stands for the quantity of cars, of various size, passing through the tollbooths every fifteen minutes. The flows of large-scale automobiles, midium-sized vehicles and compact cars are $F_tP_l$, $F_tP_m$, $F_tP_s$.
 
@@ -186,6 +227,11 @@ The vehicles are tagged with its size and nature whether it is human-driven on l
 The merging flow are constituted by vehicles leaving the tollbooth. Since in the problem we are focusing on individual vehicle comportments in an area of 50m x 200m, the vehicles are not to be represented by moving points: the direction of the front of the vehicle, the direction of the speed and interactions from all orientations are to be taken into account.
 
 It is suggested that at the moment where the vehicle leaves the booth, its speed and direction are restricted by the booth, since a speed limit is implemented and the car can only follow the shape of the lane passing through the booth. Thus, the shape of the booth are represented by the initial speed and direction of the vehicles. With each design of the toll station, an interpretation of initial speed and direction would be given.
+
+One crucial difference of the model presented compared with the classic ones is that this model preserves the physical dimensions of the vehicle, and enables a relative free movement in a two-dimension plane, instead of a strict restraint of one lane. Another one is that the decisions of all vehicles active on the road are calculated for the same instant in the simulation, instead of updating firstly the followed vehicle then the following vehicle.
+
+The human-driven vehicles are represented in the model by an approximation of their vertical projection, rectangles of different sizes. To implement the dynamics, Nagel-Schreckenberg (NS) model \cite{acelluar}, GM model and CF (car following) model are taken reference to simulate the driving strategies. The model presented by this paper considers the acceleration of each vehicle a compound decision of three factors: avoidance for collision with other vehicles.
+
 
 In this article, an extented version of Car-following model is proposed, preserving the idea that driving consists of the process of perception, decision making and control. Based on the active vehicles on the road and the road shape, the driver's decision includes acceleration or deacceleration of the direction ahead and the one sideways.
 $$[Response]_n= \alpha [Simulus]_n$$
