@@ -195,5 +195,4 @@ for i=1:70 % one simulation per second;
     else
         imwrite(imind,cm,filename,'gif','WriteMode','append');
     end
-    clf('figure 1','reset');
 end
