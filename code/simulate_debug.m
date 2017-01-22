@@ -28,8 +28,8 @@ length_veh = [4 7 10];
 global boundaryPoints
 global vehicle_array
 global vehicle_number
-% shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
-shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
+ shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
+%shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
 boundaryPoints = zeros(merge_length,2); % the second row presents the left boundary.
 boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge_length),'spline');
              
@@ -42,6 +42,7 @@ global initial_speed
 
 global v_max;
 v_max = 15; 
+global dt;
 dt = 1;
 small_delay = 10; % delay caused by a small vehicle to pass a booth
 medium_delay = 15;
@@ -61,7 +62,7 @@ all_info_matrice = zeros(70, flow_total, 12);
 global test_acc
 test_acc = zeros(1,6);
 
-for i=1:500 % one simulation per second;
+for i=1:70 % one simulation per second;
     
          
     % detect position for collision and merge completion
@@ -112,7 +113,7 @@ for i=1:500 % one simulation per second;
     decision_array = zeros(vehicle_number,2); % colomn 1: acc_x, 2: acc_y
     for j = 1:vehicle_number
         if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
-            decision_array(j,:) = decideAcc(j);
+            decision_array(j,:) = decideAcc2(j);
             all_info_matrice(i, j, 7:12) = test_acc(1, 1:6);
         end
     end
