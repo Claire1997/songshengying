@@ -27,8 +27,6 @@ if count > 0
         output_args = vehicle(1:count,:);
         vehicle_array(vehicle_number+1:vehicle_number + count,:) = output_args;
         vehicle_number = vehicle_number+count;
-    else
-        output_args = [];
 end
 
 end

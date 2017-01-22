@@ -28,8 +28,8 @@ length_veh = [4 7 10];
 global boundaryPoints
 global vehicle_array
 global vehicle_number
-% shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
-shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
+ shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
+%shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
 boundaryPoints = zeros(merge_length,2); % the second row presents the left boundary.
 boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge_length),'spline');
              
@@ -42,7 +42,7 @@ global initial_speed
 
 global v_max;
 v_max = 15; 
-
+dt = 0.1;
 small_delay = 10; % delay caused by a small vehicle to pass a booth
 medium_delay = 15;
 large_delay = 30;
@@ -61,7 +61,7 @@ all_info_matrice = zeros(70, flow_total, 12);
 global test_acc
 test_acc = zeros(1,6);
 
-for i=1:70 % one simulation per second;
+for i=1:500 % one simulation per second;
     
          
     % detect position for collision and merge completion
@@ -104,8 +104,9 @@ for i=1:70 % one simulation per second;
 
     
     % insert new cars into the traffic
-    addNewVehicle(toll_barrier_state(71-i,:));
-    
+    if fix(i*dt) == i*dt
+    addNewVehicle(toll_barrier_state(71-floor(i*dt),:));
+    end
     
     % make and store decision for each driver
     decision_array = zeros(vehicle_number,2); % colomn 1: acc_x, 2: acc_y
@@ -116,7 +117,7 @@ for i=1:70 % one simulation per second;
             acc = decision_array(j,:)';
             angle = vehicle_array(j,4);
             speed_old = [vehicle_array(j,3)*cos(angle+pi/2) ;vehicle_array(j,3)*sin(angle+pi/2)];
-            speed = [speed_old(1) +  acc(1);speed_old(2) +  acc(2)];
+            speed = [speed_old(1) +  acc(1)*dt;speed_old(2) +  acc(2)*dt];
             
             Trans = [cos(angle) -sin(angle); sin(angle) cos(angle)];
             Trans_back = Trans^-1;
@@ -133,7 +134,7 @@ for i=1:70 % one simulation per second;
            if speed_v(2) > abs(speed_v(1)) %45 degree
               if norm(speed_v) > v_max
                 speed_v = speed_v/norm(speed_v);
-                acc_v = speed_v - speed_old_v;
+                acc_v = (speed_v - speed_old_v)/dt;
                 acc = Trans_back * acc_v;
                 speed = Trans_back *  speed_v;
               end
@@ -143,21 +144,21 @@ for i=1:70 % one simulation per second;
                end
                if speed_v(1) > 0
                     speed_v(1) = speed_v(2);
-                    acc_v(1) = speed_v(1) - speed_old_v(1);
+                    acc_v(1) = (speed_v(1) - speed_old_v(1))/dt;
                     acc = Trans_back * acc_v;
                     speed = Trans_back *  speed_v;
                
                elseif speed_v(1) < 0
                     speed_v(1) = -speed_v(2);
-                    acc_v(1) = speed_v(1) - speed_old_v(1);
+                    acc_v(1) = (speed_v(1) - speed_old_v(1))/dt;
                     acc = Trans_back * acc_v;
                     speed = Trans_back *  speed_v;
                end
            end
                
            vehicle_array(j,4) = atan2(speed(2),speed(1)) - pi/2;
-           vehicle_array(j,1) = 1/2 * acc(1)+ speed_old(1) + vehicle_array(j,1);
-           vehicle_array(j,2) = 1/2 * acc(2)+ speed_old(2) + vehicle_array(j,2);
+           vehicle_array(j,1) = 1/2 * acc(1)*dt^2+ speed_old(1)*dt + vehicle_array(j,1);
+           vehicle_array(j,2) = 1/2 * acc(2)*dt^2+ speed_old(2)*dt + vehicle_array(j,2);
            vehicle_array(j,3) = norm(speed);
         end
     end
