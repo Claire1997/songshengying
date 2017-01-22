@@ -7,6 +7,8 @@
 \usepackage{array}
 \usepackage{indentfirst}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfigure}
 \bibliographystyle{apalike}
 \title{An optimized design of the area following the toll barrier }
 
@@ -176,48 +178,65 @@ Thus a design scheme that is capable of coping with the worst traffic conditions
 
 The possible solutions therefore, should guide the vehicles into a proper slot in a queue for each lane, and each vehicle ahead should not be chased by each other, nor the vehicles newly passed through the tollbooth.
 
-Symmetry analyses give that the optimal shape is symmetrical about the central axis of the turnpike. [fig A and B] This article concerns therefore only symmetrical.
+Symmetry analyses give that the optimal shape is symmetrical about the central axis of the turnpike. The article concerns therefore only symmetrical.
+\begin{figure}
+	\begin{minipage}[t]{0.5\linewidth}
+		\centering
+		\includegraphics[width=2.2in]{symmetrical.jpg}
+		\caption{symmetrical}
+		\label{symmetrical}
+	\end{minipage}%
+	\begin{minipage}[t]{0.5\linewidth}
+		\centering
+		\includegraphics[width=2.2in]{asymmetrical.jpg}
+		\caption{asymmetrical}
+		\label{asymmetrical}
+	\end{minipage}
+\end{figure}
 
-\begin{Theorem} \label{thm:latex}
-The optimal shape is symmerical about the central axis.
+
+\begin{Theorem} \label{thm:yingsongsheng}
+The optimal shape is symmetrical about the central axis.
 \end{Theorem}
 
 \begin{proof}
-Reductio ad absurdum: if the traffic is not symmetrical, there exist multiple vehicles that has no corresponding vehicle about the axis of symmetry. If these vehicles are given slots of certain priority in the queue, and all vehicles successfully merged into $L$ lanes, then the slots of the same priority can also be allocated to the non-existing vehicles in the symmetry. Thus this flow is capable of hold more vehicles, this is not the optimal shape.
+Reductio ad absurdum: if the shape is not symmetrical, hence the traffic flow is not symmetrical, so there exist multiple vehicles that have no corresponding vehicles about the axis of symmetry of $L$ lanes. If these vehicles are given slots of certain priority in the queue, and all vehicles successfully merged into $L$ lanes, then the slots of the same priority can also be allocated to the non-existing vehicles in the symmetry. Thus this flow is capable of hold more vehicles, this is not the optimal shape.
 \end{proof}
 
-We can furthur show that the comportment of vehicle is also symmetrical about the axis. So only one side of the traffic is to be analysed in the following section.
+We can furthur show that the comportment of vehicles is also symmetrical about the axis. So only one side of the traffic is to be analysed in the following section.
 
-\begin{Theorem} \label{thm:latex}
-The quickest ways to merge 2 side-by-side vehicles into 1 lanes is to let the vehicle in the lane to be merged to run the quick the possible.
+\begin{Theorem} \label{thm:yingsongsheng2}
+The quickest way to merge 2 side-by-side vehicles into 1 lane is to let the vehicles in the lane to be merged to run the most quickily the possible.
 \end{Theorem}
+
 [fig C]
+
 \begin{proof}
 Denote the direction where the road leads the vertical direction.
-Initially, the two vehicles are running side-by-side, and share the same speed v0 and direction.
-The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is [Equa A].
+Initially, the two vehicles are running side-by-side, and share the same speed $v_0$ and direction.
+The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is: $$x_2(t_0)-x_1(t_0)=lane-width$$\\
 In the end, vehicle 2 is positioned right after vehicle 1.
-[Equa B]
+$y_1(t_e)-y_2(t_e)=L_d+vehicle_length$\\
 The integration of accelerations give the speed at a specific instant:
-[Equa C]
+ $$v_y(t)=v_y(t_0)+ \int_{t_0}^{t}a_y(u)du$$
 And the integration of speed give the displacement of a vehicle:
-[Equa D]
+$$y(t)=y(t_0)+ \int_{t_0}^{t}v_y(u)du=y(t_0)+v_y(t_0) \times (t-t_0)+ \int_{t_0}^{t}\int_{t_0}^{w}a_y(u)dudw$$
 Equation B can therefore be transcribed as 
 [Equa E].
-As the intergration reaches for a constant, t_e can be minimised if the difference of the two accelerations can be maximised, from which conclude a_y,1 to be the maximum value permitted by the situation.
+As the intergration reaches for a constant, $t_e$ can be minimised if the difference of the two accelerations can be maximised, from which conclude $a_{y,1}$ to be the maximum value permitted by the situation.
 \end{proof}
 
-The merging process can be splitted into two phases. [fig D] In phase one, one vehicle is moving faster in order to outrun the other one, the other is approaching its side. In phase two, the merging vehicle moves behind the other. The minimum time required by phase 1 meets the condition of the previous theorem, meanwhile the minimum time required by phase two is achieved by accelerating to the side then deaccelerate so that the sideway speed is reduced to 0 on arriving in place.
+The merging process can be splitted into two phases. [fig D] In phase one, one vehicle is running ahead ...[to be continued]
 
-\begin{Theorem} \label{thm:latex}
+\begin{Theorem} \label{thm:yingsongsheng3}
 The queuing strategy can be simplified into a successive merging problem for two vehicles initially run side by side.
 \end{Theorem}
 
 \begin{proof}
 
+on Evaluating the design
 \end{proof}
 
-\subsection{Evaluating the design}
 
 In order to evaluate the performance such as throughput, accident rate, this group implements simulation algorithms, mocking the process of vehicles passing through the tollbooth and try to merge without a centralized control: as heavy traffic of everyday definition is not about vehicles of a large size passing the tollbooth continously! The throughput is evaluated by the number of vehicles that successfully enter into the $L$-lane area, and accident rate is calculated by the simulated accident numbers divided by total vehicle numbers.
 
@@ -235,7 +254,7 @@ For other cases, the traffic is allocated into each second of the 15 minutes fol
 
 The vehicles are tagged with its size and nature whether it is human-driven on leaving the tollbooth. The two kinds of tags are independently proportionally distributed.
 
-The merging flow are constituted by vehicles leaving the tollbooth. Since in the problem we are focusing on individual vehicle comportments in an area of 50m x 200m, the vehicles are not to be represented by moving points: the direction of the front of the vehicle, the direction of the speed and interactions from all orientations are to be taken into account.
+The merging flow are constituted by vehicles leaving the tollbooth. Since in the problem we are focusing on individual vehicle comportments in an area of $50m\times200m$, the vehicles are not to be represented by moving points: the direction of the front of the vehicle, the direction of the speed and interactions from all orientations are to be taken into account.
 
 It is suggested that at the moment where the vehicle leaves the booth, its speed and direction are restricted by the booth, since a speed limit is implemented and the car can only follow the shape of the lane passing through the booth. Thus, the shape of the booth are represented by the initial speed and direction of the vehicles. With each design of the toll station, an interpretation of initial speed and direction would be given.
 
@@ -276,8 +295,8 @@ To make the choice of taking another line possible, there should in the first pl
 Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility of taking an angle up to approximately $45^{\circ}$, which is imposed by the physical design of vehicles. If all the vehicles are to preserve its current speed, and if the algorithm finds a spot ahead, the acceleration is calculated so that in the next decision moment, the vehicle could arrive at the spot.
 
 $$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{baundary-left}^{-l'} \times v(t)^m'\times \overrightarrow{right} \times 1_{d<d_{critical}}$$
-	$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$
-	$$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y) \arrowvert$$\\
+$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$
+$$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y) \arrowvert$$\\
  $\delta y_{max}=v_yt$, as $a_y=0$ when changing direction.\\
 $\delta x_{max}=v_xt+\frac{1}{2}a'_{max}t^2$, and $a'_{max}=min(a_{max},\frac{v_y-v_x}{t})$, to ensure that the biggest wheel steering angle is $45^{\circ}$.\\
 $$\forall j, if i \ne j, y_j>y_i-\frac{1}{2} \times length_{type\ i}$$
