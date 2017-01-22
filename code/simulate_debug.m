@@ -113,7 +113,7 @@ for i=1:500 % one simulation per second;
     for j = 1:vehicle_number
         if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             decision_array(j,:) = decideAcc(j);
-%             all_info_matrice(i, j, 7:12) = test_acc(1, 1:6);
+            all_info_matrice(i, j, 7:12) = test_acc(1, 1:6);
             acc = decision_array(j,:)';
             angle = vehicle_array(j,4);
             speed_old = [vehicle_array(j,3)*cos(angle+pi/2) ;vehicle_array(j,3)*sin(angle+pi/2)];
@@ -162,7 +162,7 @@ for i=1:500 % one simulation per second;
            vehicle_array(j,3) = norm(speed);
         end
     end
-%     all_info_matrice(i, :, 1:6) = vehicle_array(:, 1:6);
+    all_info_matrice(i, :, 1:6) = vehicle_array(:, 1:6);
     
 %     test part
     plot(boundaryPoints(:,1),1:200,boundaryPoints(:,2),1:200);
@@ -198,3 +198,5 @@ for i=1:500 % one simulation per second;
     end
     clf('figure 1','reset');
 end
+
+visualisation

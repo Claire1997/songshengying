@@ -7,11 +7,13 @@ global vehicle_number
 global boundaryPoints
 global test_acc
 global v_max;
-lamda =  0.1;
+
+lamda =  0.5;
 L = 2.0;
-m = 0.9;
-alpha = 0.1;
-L2 = 3;
+m = 1.0;
+alpha = 0.01;
+L2 = 0.5;
+
 m2 = 1.0;
 beta = 0.03;
 v_max = 15; 
@@ -26,7 +28,7 @@ for j = 1: vehicle_number
     if j == i || vehicle_array(j,5) == 0
         continue
     end
-    angle_var = 1 + (vehicle_array(j,1) - vehicle_array(i,1))^2/((vehicle_array(j,1) - vehicle_array(i,1))^2+(vehicle_array(j,1) - vehicle_array(i,1))^2);
+    angle_var = 1 - 2 * (vehicle_array(j,1) - vehicle_array(i,1))^2/((vehicle_array(j,1) - vehicle_array(i,1))^2+(vehicle_array(j,1) - vehicle_array(i,1))^2);
     temp_inter = temp_inter + (vehicle_array(j,3) - vehicle_array(i,3)) / norm(vehicle_array(i,1:2)-vehicle_array(j,1:2))^L * (vehicle_array(j,1:2) - vehicle_array(i,1:2)) * angle_var;
 end
 acc_inter(1,:)= lamda * (vehicle_array(i,3))^m * temp_inter;
