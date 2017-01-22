@@ -50,7 +50,7 @@ initial_speed = 5;
 % line 1 for vehicle types: 1, small, 2, medium, 3, large
 % line 2 for delay caused by charge mechanisms: 10, conventional, 5, exact exchange, 2,
 % electronic
-flow_total = 400; % total flow
+flow_total = 600; % total flow
 
 vehicle_array = zeros(flow_total,7); % colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type, 6 collision, 7 is_AI
 vehicle_number = 0; % the total vehicle number after the simulation start.
@@ -195,4 +195,5 @@ for i=1:70 % one simulation per second;
     else
         imwrite(imind,cm,filename,'gif','WriteMode','append');
     end
+    clf('figure 1','reset');
 end
