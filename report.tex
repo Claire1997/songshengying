@@ -48,7 +48,7 @@ New Jersey Turnpike Authority,
 
 Our team has proposed an optimized toll station design allowing the increase of throughput and the decrease of cost and accident rate. And a new mathematical model is built in order to help evaluate the performances of designs. 
 
-More specifically, the performance model is developed after taking all important elements related to this problem into consideration, like number of lanes and tollbooths, proportions of tollbooths, varieties of vehicles, change of flows, every decision made by drivers to turn right or left and traffic conditions. 
+More specifically, the performance model is developed after taking all important elements related to this problem into consideration, like number of lanes and tollbooths, proportions of tollbooths, varieties of vehicles, change of flows, every decision made on directions and accelerations by drivers . 
 
 
 
@@ -88,7 +88,7 @@ The proof of theorem.
 \begin{itemize}
 	\item Assumptions for the toll station:
 	\begin{itemize}
-         \item Toll station has a fixed configuration for each simulation: vehicle type & charging process.
+         \item Toll station has a fixed configuration for each simulation: vehicle type and charging process.
          \item Tollbooths allowing large vehicles are also available for smaller vehicles to pass.
        	 \item It takes a contain time for every vehicle to leave the tollbooth, an extra delay is caused by the charging process.
 	\end{itemize}
@@ -180,7 +180,8 @@ In this article, an extented version of Car-following model is proposed, preserv
 
 A crucial difference of the model presented compared with the classic ones is that this model preserves the physical dimensions of the vehicle, and enables a relative free movement in a two-dimension plane, instead of a strict restraint of one lane. 
 
-Response = coefficient Stimulus [公式]
+
+Response= coefficient stimulus.
 
 The human-driven vehicles are represented in the model by an approximation of their vertical projection, rectangles of different sizes. To implement the dynamics, Nagel-Schreckenberg (NS) model \cite{acelluar}, GM model and CF (car following) model are taken reference to simulate the driving strategies. The model presented by this paper considers the acceleration of each vehicle a compound decision of three factors: avoidance for collision with other vehicles interpreted as interactions between the vehicles, avoidance for collision with the road boundary, and its intrinsic willingness to achieve a maximum speed. 
 
@@ -197,14 +198,12 @@ $$\overrightarrow{dir_{n,this}(t)}=\frac{(pos_x-pos_{x,n},pos_y-pos_{y,n})}{\par
 
 It is also suggested by the safe-distance psychological model that the drivers drive away from the edge of the road, if the distance between the vehicle and the boundary is too small. The model treats the avoidance of the edge in a similar way of the previous acceleration.
 
-$$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{baundary-left}^{-l'} \times v(t)^m'\times \overrightarrow{right} \times 1_{d<d_{critical}$$
-	$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$
-$$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y)} \arrowvert$$\\
-
+$$\overrightarrow{a_r(t)}= \overrightarrow{a_{road}(t)}=\alpha \times distance^{ -l'}_{baundary-left}\times (v(t))^m'\times \overrightarrow{right} \times 1_{d<d_{critical}$$
+	$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$	$$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y)} \arrowvert$$\\
 It is also considered, that on leaving a speed limited zone, the vehicles are supposed to reattain a speed of normal level. This process is simulated by a positive factor of the gap of current speed and the ideal speed.
 
 $$a_a(t)=a_{acceleration}(t)=\beta (v_{max}-v(t)) \times a_{max} \times \overrightarrow{forward}$$\\
-Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the parameters that we can adjust.\\
+Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the numeral coefficients that we can adjust.\\
 
 The simulation model is based on a large amount of extensions based on current model, thus takes many parameters that is merely experimental.
 
@@ -224,14 +223,16 @@ In order to propose a better design, the performance of the design can be addres
 
 \subsection{Validating the simulation model}
 
-In order to adjust the parameters and evaluate the performance of the two-dimensional car-following model, motion data of real-life driving must be abundantly supplied to test the model. However, a degradation of dimension can be mocked on setting the tollbooth number [符号] to 1 and the lane number [符号] to 1: the parameters are to be adjusted that the simulated vehicles run similarly with those simulated by a classic car-following model [参考文献，待补充].
+In order to adjust the parameters and evaluate the performance of the two-dimensional car-following model, motion data of real-life driving must be abundantly supplied to test the model. However, a degradation of dimension can be mocked on setting the tollbooth number $B$ to 1 and the lane number $L$ to 1: the parameters are to be adjusted that the simulated vehicles run similarly with those simulated by a classic car-following model [参考文献，待补充].
+
+After running our program with the numeral coefficient adjusted, the vehicles pulling out of 1 tollbooth to 1 lane will not collide, which indicates our simulation model is correct to some extent.
 
 \subsection{Validating the optimization process}
 
+To optimize the process
 
 
 \section{The Model Results}
-
 
 
 
@@ -249,7 +250,7 @@ In order to adjust the parameters and evaluate the performance of the two-dimens
 \subsection{Strengths}
 \begin{itemize}
 \item \textbf{Applies widely}\\
-
+aaa \cite{auto}
 \item \textbf{Improve the quality of the airport service}\\
 
 \item \textbf{}\\
@@ -258,22 +259,10 @@ In order to adjust the parameters and evaluate the performance of the two-dimens
 
 \begin{appendices}
 
-\section{First appendix}
 
-
-Here are simulation programmes we used in our model as follow.\\
-
-\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./code/matlab1.m}
-
-\section{Second appendix}
-
-some more text \textcolor[rgb]{0.98,0.00,0.00}{\textbf{Input C++ source:}}
-\lstinputlisting[language=C++]{./code/sudoku.cpp}
 
 \end{appendices}
-
-	\nocite{*}
+\nocite{*}
 
 \bibliography{math}
 

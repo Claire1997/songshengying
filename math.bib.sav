@@ -30,9 +30,11 @@
   year    = {2007},
 }
 
-@Article{auto,
-  author = {Carlos Fernández1, Raúl Domínguez2, David Fernández-Llorca},
-  title  = {Autonomous Navigation and Obstacle Avoidance of a Micro-bus},
+@Article{,
+  author  = {Carlos Fernandez1 and Raul Dominguez and David Fernandez-Llorca and Javier Alonso and Miguel A.Sotelo},
+  title   = {Autonomous Navigation and Obstacle Avoidance of a Micro-bus},
+  journal = {INTECH},
+  year    = {2013},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

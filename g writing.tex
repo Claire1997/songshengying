@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\begin{document}
+	\section	G
+	\subsection{Acceleration in car following model}
+    If $\frac{v_y^2-v_{y-forward}^2}{2a_{max}}<distance_{forward}$,
+     $$v_{y-forward}= \left\{ \begin{aligned}
+         v_{y-forward} \qquad (car)\\
+            0 \qquad (boundary)
+            \end{aligned}
+            \right.
+            $$
+
+    then for $a_y$:
+    $$\frac{(v_y+a_yt)^2-v_{y-forward}^2}{2a_{max}}=distance_{forward}$$
+    if $a_y>a{max}$, then $a_y=a{max}$, $a_x=0$.
+
+\subsection{Steering}
+   $\delta y_{max}=v_yt$, as $a_y=0$ when changing direction.\\
+   $\delta x_{max}=v_xt+\frac{1}{2}a'_{max}t^2$, and $a'_{max}=min(a_{max},\frac{v_y-v_x}{t})$, to ensure that the biggest wheel steering angle is $45^{\circ}$.\\
+   $$\forall j, if i \ne j, y_j>y_i-\frac{1}{2} \times length_{type\ i}$$
+   $$y_j-\frac{1}{2} \times length_{type\ j} \le y_i+\delta y_{max}$$
+   $$\arrowvert y_i-y_j \arrowvert \le \delta x_{max}+ \frac{1}{2} \times length_{type\ j}$$
+   Then we search for the range of the angle of deflection $\sigma$, so that $\delta l_{ij}>\delta l_{min}$.
+   
+   We note $\alpha=\sigma_{min}$, and then ensure that $\alpha<45^{\circ}$.\\
+   And then we search for the vehicles in  whose $\delta l_{ij}<\delta l_{min}$ with \alpha, its perpendicular towards side boudary of \alpha is $Pos_{cross}$.\\
+   $Pos_{future}=\frac{Pos_{now}+Pos_{cross}{2}$, and we ensure that $a<a_{max}$.
+   	
+\subsection{deceleration}
+For $a_y$ here, $ \frac{v_y^2-v_{y-forward}^2}{2a_{y}}<distance_{forward}$, and we ensure that $\arrowvert a_y \arrowvert<a_{max}$.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+\end{document}
