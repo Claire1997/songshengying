@@ -1,4 +1,4 @@
-filename = 'traffic_400_all';
+filename = 'traffic_400.mat';
 time_now = yyyymmdd(datetime('now'));
 [hh,mm,~] = hms(datetime('now'));
 filename = ['../../figure/',filename,num2str(time_now),'_',num2str(hh),'_',num2str(mm)];
