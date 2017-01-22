@@ -28,8 +28,8 @@ length_veh = [4 7 10];
 global boundaryPoints
 global vehicle_array
 global vehicle_number
- shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
-%shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
+% shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
+shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
 boundaryPoints = zeros(merge_length,2); % the second row presents the left boundary.
 boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge_length),'spline');
              
@@ -42,7 +42,7 @@ global initial_speed
 
 global v_max;
 v_max = 15; 
-dt = 0.1;
+dt = 1;
 small_delay = 10; % delay caused by a small vehicle to pass a booth
 medium_delay = 15;
 large_delay = 30;
@@ -114,6 +114,10 @@ for i=1:500 % one simulation per second;
         if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             decision_array(j,:) = decideAcc(j);
             all_info_matrice(i, j, 7:12) = test_acc(1, 1:6);
+        end
+    end
+    for j = 1:vehicle_number
+        if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             acc = decision_array(j,:)';
             angle = vehicle_array(j,4);
             speed_old = [vehicle_array(j,3)*cos(angle+pi/2) ;vehicle_array(j,3)*sin(angle+pi/2)];
@@ -200,3 +204,4 @@ for i=1:500 % one simulation per second;
 end
 
 visualisation
+close all
