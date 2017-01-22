@@ -1,4 +1,4 @@
-filename = 'traffic_400.mat';
+filename = 'traffic_150.mat';
 load(filename);
 time_now = yyyymmdd(datetime('now'));
 [hh,mm,~] = hms(datetime('now'));
@@ -7,7 +7,6 @@ filename = ['../../figure/',filename,num2str(time_now),'_',num2str(hh),'_',num2s
 %     mkdir(filename);
 % end
 figure(1);
-filename = [filename, '.gif'];
 
 % this code contains one simulation of the traffic
 B = 8; % Tollbooth number
@@ -29,7 +28,7 @@ global boundaryPoints
 global vehicle_array
 global vehicle_number
 % shapePoints = [32 0; 32 merge_length/4;22 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
-shapePoints = [32 0; 30 merge_length/4;26 merge_length/2;18 merge_length/4*3; 12 merge_length];
+shapePoints = [32 0; 32 merge_length/8;24 merge_length/2;16 merge_length/4*3; 12 merge_length];
 boundaryPoints = zeros(merge_length,2); % the second row presents the left boundary.
 boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge_length),'spline');
              
@@ -197,12 +196,12 @@ for i=1:70 % one simulation per second;
     im = frame2im(frame);
     [imind,cm] = rgb2ind(im,256);
     if i == 1
-        imwrite(imind,cm,filename,'gif', 'Loopcount',inf);
+        imwrite(imind,cm,[filename,'.gif'],'gif', 'Loopcount',inf);
     else
-        imwrite(imind,cm,filename,'gif','WriteMode','append');
+        imwrite(imind,cm,[filename,'.gif'],'gif','WriteMode','append');
     end
     clf('figure 1','reset');
 end
 
-visualisation
+% visualisation
 close all;

@@ -12,10 +12,10 @@ global angle_var;
 lamda =  0.5;
 L = 3.0;
 m = 1.0;
-alpha = 0.01;
-L2 = 0.5;
+alpha = 0.015;
+L2 = 1.0;
 
-m2 = 1.0;
+m2 = 1.2;
 beta = 0.03;
 v_max = 15; 
 acc_max = 2;
@@ -66,7 +66,7 @@ acc_will(1,2) = beta * (v_max - vehicle_array(i,3)) * acc_max;
 
 % sum
 acc = acc_inter + acc_road + acc_will;
-if norm(acc) >3 
+if norm(acc) > 3 
     warning('acc is too large');
 end
 
