@@ -30,20 +30,11 @@ The size of toll station, run way length and lane numbers are configured directl
 
 The performance of the design is evaluated by a weighted average of throughput, accident rate statistics and cost. The throughput is obtained by calculating the average merging completion numbers in reaction to multiple simulated traffic flows. The accident rate is calculated by the collision incidents divided by vehicle quantities. The cost is calculated in function of the construction area and tollbooth number. The experiments with different parameters of tollbooth and shape give an analysis of several design schemes, detailed in the report.
 
-
-\begin{keywords}
-;
-\end{keywords}
 \end{abstract}
 
 \maketitle
 \tableofcontents
 \clearpage
-
-
-
-
-
 
 
 
@@ -374,13 +365,15 @@ Meanwhile the optimized navigation route is not yet found, a simple case can be 
 
 Let us study the case where the vehicles are 2 meters wide, 10 meters long, running on the center of two lanes of 4 meters width. In this case, say the both vehicles have one initial speed of 5 m/s, one vehicle brakes immediately at - 5 m/s^2, and another accelerates on its maximum capability: 2 m/s^2. The time to create a vertical relative displacement is 1.7s, using equation E. The side acceleration has a maximum and minimum of 2 m/s^2.
 
-The collision avoidance rule gives that before the instant of 1.7s, the vehicle must not move relatively towards left by a distance of 2 meters (the original gap between the two vehicles). Another optimal condition is that at the instant of 1.7s, the side speed must be maximized. Thus The side speed is presented as [fig].
+The collision avoidance rule gives that before the instant of 1.7s, the vehicle must not move relatively towards left by a distance of 2 meters (the original gap between the two vehicles). Another optimal condition is that at the instant of 1.7s, the side speed must be maximized. 
 
 In the next few moments, the vehicle will continue to accelerate (to the maximum side speed) and then decelerate to get to the front of the other. The time gives 1.4 s to accelerate to the left by 2 meters, and another 1.4 s to decelerate to the left by another 2 meters, with a final side speed equal to 0.
 
 The slowed down vehicle starts accelerating at 1.7s, knowing it will not collide with the vehicle in front for the intergration of speed difference.
 
-The trajectories of the two vehicle is drawn as: 
+All 
+
+The trajectories of the two vehicle is drawn as: [fig]
 
 The whole time to execute these two phases is 1.7 + 1.4 = 3.1 s. 
 
@@ -424,11 +417,11 @@ After using the $MATLAB$ to run our program, the process of merging is simulated
 Fistly, according to the analyses above, the shape of merging area is bound to be symmetrical. 
 
 
-Next, there exists a positive correlation between the capacity of throughput and the size of toll station. Hence by changing $B$, the throughput is changed. 
+Next, there exists a positive correlation between the capacity of throughput and the size of toll station (number of booths). Hence by changing $B$, a new design capable of handling the traffic is proposed, the throughput is changed.
 
 With the degradation of dimension as $B=1$ and $L=1$, the boundary lines are obtained as follows, using trajectories of two vehicles in the overtaking situation. It is this shape that is to be tested, through varying flows, to gain the corresponding throughput.  
 
-
+If the successive merging pattern is used to solve multiple-lane merging problem, the shape can be drawn using the calculation proposed in the article.
 
 
 
