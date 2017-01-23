@@ -312,20 +312,20 @@ If a collision is predicted for current speed, the driver would take neccessary 
 
 To make the choice of taking another line possible, there should in the first place exist a lane to be taken. In order to keep the vehicles in the simulation from colliding with the edge of the road, a safe-distance psychological model, that the drivers drive away from the edge of the road, if the distance between the vehicle and the boundary is too small, is implemented. 
 
-Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility to turn left or turn right.Firstly We assume that all the drivers know the speed of other vehicules around, which is correspond to the real case. Secondly, we assume that when turn left or turn right, all the vehicles are to preserve its current speed ahead. Thirdly, we neglect the time of the turning action, the $Pos_x$ can change 4m in the next iteration(1 Second).
+Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility to turn left or turn right.Firstly We assume that all the drivers know the speed of other vehicules around, which is correspond to the real case. Secondly, we assume that when turn left or turn right, all the vehicles are to preserve its current speed ahead. Thirdly, we neglect the time of the turning action, the $Pos_x$ can change 4m in the next iteration \quad(1 Second).
 
 thus, $\forall j  (j \neq this) $ if
 \begin{itemize}
 		\item $Pos_{future of j}$ and $ Pos_{future of i}$ are not collided, judging with a extra margin $\Delta l$ to eliminating the deviation of speeds.
 		\item $v_{y,this} < v_{y,j} $
-		\item $Pos_{future \_ of \_ j} + v_y^2/{2a_{brake \_ maximum}^2} * \overrightarrow{e_y}$ is not out of boundary
+		\item $Pos_{future \_ of \_ j} + \frac{v_y^2}{2a_{brake \_ maximum}^2} \times \overrightarrow{e_y}$ is not out of boundary.
 		\\ \\ \emph{The third condition ensures that after the vehicle changing a lane, it can stop with the maximaum braking acceleration before colliding with the boundary. }
 \end{itemize}
 
 If the left/right lane satisfies these conditions, then the vehicle will move left/right 4 meters ( the width of a lane).
 
 
-In addition, we consider that $v_{y,this}$ will not change ($a_{y,this} = 0$), except for the case where $v_{y,this} = 0$(when it is waiting for the opportunity to turn). In this special case, we set $a_{y,this} = 1/2 * a_{max \_ acceleration}$.
+In addition, we consider that $v_{y,this}$ will not change ($a_{y,this} = 0$), except for the case where $v_{y,this} = 0$(when it is waiting for the opportunity to turn). In this special case, we set $a_{y,this} = 1/2 \times a_{max \_ acceleration}$.
 
 Thus, \\
 $$Pos_{future\_of\_this\_x} = Pos_{future\_of\_this\_x} \pm 4$$\\
@@ -348,11 +348,11 @@ Thirdly, if the first two strategies can not be applied, the vehicle will brake 
 $$
 	a_y = \frac{v_{y-foward}^2 - v_y^2}{2\times(distance_{foward} - distance_{limite})}
 $$
-	Where $distance_limite$ presents a safe distance.
+	Where $distance_{limite}$ presents a safe distance.
 	The determinated $a_y$ needs to be checked if  $|a_y| > a_{brake_{maximum}} $ 
 
 
-\begin{figure}[htbp]
+\begin{figure}[h]
 	\small 
 	\centering
 	\caption{Our simulation}
@@ -365,24 +365,17 @@ In order to propose a better design, the performance of the design can be addres
 
 $$Thoughput(flow_total, design) = E_{vehicle number who completes the merge}$$
 
-Accident rate(design) = sum(accidents)/sum(vehicle numbers), sum for all simulation cases
+$Accident rate(design)= \frac{\sum accident \quad numbers}{\sum vehicle numbers}$, sum for all simulation cases.
 
 $$Cost(design)=\sum cost_{for booth}(passage type,charge mode,lane length)$$
 $$+cost(surface_{whole area} - L_{length} \times W_{lane} \times L) $$
 
 
-\section{Validating the Model}
+\section{Validating the Simulation Model}
 
-\subsection{Validating the simulation model}
-
-In order to adjust the parameters and evaluate the performance of the two-dimensional car-following model, motion data of real-life driving must be abundantly supplied to test the model. However, a degradation of dimension can be mocked on setting the tollbooth number $B$ to 1 and the lane number $L$ to 1: the parameters are to be adjusted that the simulated vehicles run similarly with those simulated by a classic car-following model [参考文献，待补充].
+In order to adjust the parameters and evaluate the performance of the two-dimensional car-following model, motion data of real-life driving must be abundantly supplied to test the model. However, a degradation of dimension can be mocked on setting the tollbooth number $B$ to 1 and the lane number $L$ to 1: the parameters are to be adjusted that the simulated vehicles run similarly with those simulated by a classic car-following model \cite{[参考文献，待补充]}.
 
 After running our program with the numeral coefficient adjusted, the vehicles pulling out of 1 tollbooth to 1 lane will not collide, which indicates our simulation model is correct to some extent.
-
-\subsection{Validating the optimization process}
-
-To optimize the process
-
 
 \section{The Model Results}
 
@@ -404,13 +397,42 @@ To optimize the process
 \subsection{Weaknesses}
 
 \begin{appendices}
+	Here are simulation programmes we used in our model as follow.\\
+\section{Simulation}
+\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
+\lstinputlisting[language=Matlab]{./codef/code/simulate_simple.m}
 
+\section{Decide the acceleration}
+\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
+\lstinputlisting[language=Matlab]{./codef/code/decideAcc4.m}
 
+\section{Add new vehicles}
+\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
+\lstinputlisting[language=Matlab]{./codef/code/addNewVehicle.m}
+
+\section{Generate vehicles}
+\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
+\lstinputlisting[language=Matlab]{./codef/code/generate_vehicles.m}
+
+\section{Collision}
+\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
+\lstinputlisting[language=Matlab]{./codef/code/isCollide.m}
+
+\section{Boundary}
+\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
+\lstinputlisting[language=Matlab]{./codef/code/isOutBoundary.m}
+
+\section{Toll station}
+\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
+\lstinputlisting[language=Matlab]{./codef/code/updateTollStation.m}
+
+\section{Visualisation}
+\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
+\lstinputlisting[language=Matlab]{./codef/code/visualisation.m}
 
 \end{appendices}
 
 
-\section{References}
 \nocite{*}
 
 \bibliography{math}
