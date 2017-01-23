@@ -370,6 +370,25 @@ $$+cost(surface_{whole\ area} - L_{length} \times W_{lane} \times L) $$
 
 \section{Validating the Simulation Model}
 
+Meanwhile the optimized navigation route is not yet found, a simple case can be solved using the constraints on maximum acceleration, deceleration, speed, minimal time interval and the avoidance of the next batch of vehicles issued from the booth.
+
+Let us study the case where the vehicles are 2 meters wide, 10 meters long, running on the center of two lanes of 4 meters width. In this case, say the both vehicles have one initial speed of 5 m/s, one vehicle brakes immediately at - 5 m/s^2, and another accelerates on its maximum capability: 2 m/s^2. The time to create a vertical relative displacement is 1.7s, using equation E. The side acceleration has a maximum and minimum of 2 m/s^2.
+
+The collision avoidance rule gives that before the instant of 1.7s, the vehicle must not move relatively towards left by a distance of 2 meters (the original gap between the two vehicles). Another optimal condition is that at the instant of 1.7s, the side speed must be maximized. Thus The side speed is presented as [fig].
+
+In the next few moments, the vehicle will continue to accelerate (to the maximum side speed) and then decelerate to get to the front of the other. The time gives 1.4 s to accelerate to the left by 2 meters, and another 1.4 s to decelerate to the left by another 2 meters, with a final side speed equal to 0.
+
+The slowed down vehicle starts accelerating at 1.7s, knowing it will not collide with the vehicle in front for the intergration of speed difference.
+
+The trajectories of the two vehicle is drawn as: 
+
+The whole time to execute these two phases is 1.7 + 1.4 = 3.1 s. 
+
+% If there is another batch of vehicles issued from the booth, and the vehicle is accelerating at its maximum, 
+
+If a similar approach is considered, where the vehicle further away from the center slows down and merges after the vehicles in the center, the speed required to turn the vehicle obliges the group of vehicles to move forward at a certain speed, thus enlarging the area required.
+
+
 In order to adjust the parameters and evaluate the performance of the two-dimensional car-following model, motion data of real-life driving must be abundantly supplied to test the model. However, a degradation of dimension can be mocked on setting the tollbooth number $B$ to 1 and the lane number $L$ to 1: the parameters are to be adjusted that the simulated vehicles run similarly with those simulated by a classic car-following model.
 
 After running our program with the numeral coefficient adjusted, the vehicles pulling out of 1 tollbooth to 1 lane will not collide, which indicates our simulation model is correct to some extent.
