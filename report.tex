@@ -303,7 +303,7 @@ To make the choice of taking another line possible, there should in the first pl
 
 Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility to turn left or turn right.Firstly We assume that all the drivers know the speed of other vehicles around, which is correspond to the real case. Secondly, we assume that when turn left or turn right, all the vehicles are to preserve its current speed ahead. Thirdly, we neglect the time of the turning action, the $Pos_x$ can change 4m in the next iteration\ (1 Second).
 
-thus, $\forall j\ (j \neq this) $ if
+thus, $\forall j\ (j \neq this) $ if the left/right lane satisfies the three conditions,
 \begin{itemize}
 \setlength{\itemindent}{2em}
 		\item $Pos_{future \_of \_j}$ and $ Pos_{future \_of \_i}$ are not collided, judging with a extra margin $\Delta l$ to eliminating the deviation of speeds.
@@ -312,7 +312,7 @@ thus, $\forall j\ (j \neq this) $ if
 		\\ \\ \emph{The third condition ensures that after the vehicle changing a lane, it can stop with the maximum braking acceleration before colliding with the boundary. }
 \end{itemize}
 
-If the left/right lane satisfies these conditions, then the vehicle will move left/right 4 meters ( the width of a lane).
+then the vehicle will move left/right 4 meters ( the width of a lane).
 
 
 In addition, we consider that $v_{y,this}$ will not change ($a_{y,this} = 0$), except for the case where $v_{y,this} = 0$(when it is waiting for the opportunity to turn). In this special case, we set $a_{y,this} = 1/2 \times a_{max \_ acceleration}$.
@@ -391,7 +391,7 @@ If a similar approach is considered, where the vehicle further away from the cen
 
 In order to adjust the parameters and evaluate the performance of the two-dimensional car-following model, motion data of real-life driving must be abundantly supplied to test the model. However, a degradation of dimension can be mocked on setting the tollbooth number $B$ to 1 and the lane number $L$ to 1: the parameters are to be adjusted that the simulated vehicles run similarly with those simulated by a classic car-following model.
 
-After running our program with the numeral coefficient adjusted, the vehicles pulling out of 1 tollbooth to 1 lane will not collide, which indicates our simulation model is correct to some extent.
+After running our program with the numeral coefficient adjusted, the vehicles pulling out of 1 tollbooth to 1 lane will not collided, which indicates our simulation model is correct to some extent.
 
 \section{The Model Results}
 
@@ -400,17 +400,17 @@ After using the $MATLAB$ to run our program, the process of merging is simulated
 \begin{figure}[H]
 	\centering
 	\subfigure[process1]{
-		\begin{minipage}[b]{0.65\textwidth}
+		\begin{minipage}[b]{0.6\textwidth}
 			\includegraphics[width=1\textwidth]{process1.jpg}
 		\end{minipage}
 	}
 	\subfigure[process2]{
-		\begin{minipage}[b]{0.65\textwidth}
+		\begin{minipage}[b]{0.6\textwidth}
 			\includegraphics[width=1\textwidth]{process2.jpg}
 		\end{minipage}
 	}
 	\subfigure[process3]{
-		\begin{minipage}[b]{0.65\textwidth}
+		\begin{minipage}[b]{0.6\textwidth}
 			\includegraphics[width=1\textwidth]{process3.jpg}
 		\end{minipage}
 	}
@@ -420,6 +420,17 @@ After using the $MATLAB$ to run our program, the process of merging is simulated
 
 
 \section{Conclusions}
+
+Fistly, according to the analyses above, the shape of merging area is bound to be symmetrical. 
+
+
+Next, there exists a positive correlation between the capacity of throughput and the size of toll station. Hence by changing $B$, the throughput is changed. 
+
+With the degradation of dimension as $B=1$ and $L=1$, the boundary lines are obtained as follows, using trajectories of two vehicles in the overtaking situation. It is this shape that is to be tested, through varying flows, to gain the corresponding throughput.  
+
+
+
+
 
 
 \section{Strengths and weaknesses}
@@ -433,8 +444,8 @@ After using the $MATLAB$ to run our program, the process of merging is simulated
 \end{itemize}
 \subsection{Weaknesses}
 \begin{itemize}
-\item The model doesn't include the limit of terrain, as the topographic condition is not always suitable for building a symmetrical area, in which case the shape and cost will change, and then our model is not optimal.
-\item Due to the 
+\item The model doesn't include the limit of terrain, as the topographic condition is not always suitable for building a symmetrical area, in which case the shape and cost will change, and then our model will not be optimal.
+\item Due to the lack of data, this model has not been tested with practical datas in real situations.
 
 
 
