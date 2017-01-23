@@ -1,6 +1,4 @@
-
 filename = 'traffic_600.mat';
-
 load(filename);
 time_now = yyyymmdd(datetime('now'));
 [hh,mm,~] = hms(datetime('now'));
@@ -68,11 +66,12 @@ for i=1:70 % one simulation per second;
     for j = 1:vehicle_number
         if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             % check if the merge is completed
-            if vehicle_array(j,2) > merge_length
+            if vehicle_array(j,2) >= merge_length -1
                 vehicle_array(j,5) = -1;
                 completion_count = completion_count + 1;
             else
                 % check if out of boundary
+               
                 isOut = isOutBoundary([vehicle_array(j,1),vehicle_array(j,2)],vehicle_array(j,5));
                 if isOut == 1 % collision with road
                     has_collision = has_collision||isOut;
@@ -171,7 +170,7 @@ for i=1:70 % one simulation per second;
         
 end
 
-%visualisation
+visualisation
 close all;
 
 
