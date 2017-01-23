@@ -54,18 +54,20 @@ In the last part, with different parameters set, an improved design in terms of 
 
 Dear New Jersey Turnpike Authority,		
   		  
-It is a pleasure for us to learn that you are currently considering the employment new toll plaza designs and are actively seeking for inspiring ideas. We are a group of engineering students from Shanghai, China, proposing to you a new design idea, with a simulation program to evaluate the plaza design in random traffic conditions. 		 +\section{A letter to the New Jersey Turnpike Authority}
+It is a pleasure for us to learn that you are currently considering the employment new toll plaza designs and are actively seeking for inspiring ideas. We are a group of engineering students from Shanghai, China, proposing to you a new design idea, with a simulation program to evaluate the plaza design in random traffic conditions. 		 
   		  
 It is in our mind that the throughput of the toll is firstly limited by the toll barrier. Thus under certain conditions, the average time for a specifc vehicle to pass through a tollbooth is determined by the speed limit, the charging method and the length of the vehicle. Thus, the number of tollbooth can, fix the maximum of thoughput. 		
   		  
-Once you has determined the target traffic through put, the shape of the merging area could be drawn based on the vehicle trajectories in an extreme traffic flow: the case where each booth releases a vehicle at the same time and the vehicles are competing for the entrance to a limited number of lanes. A guideline for each vehicle's navigation in such circumstance are proposed in our report. The minimal area is determined by the active area of the vehicles, and out of security purposes, the area can be expanded to a certain degree.		 +New Jersey Turnpike Authority,
+Once you has determined the target traffic through put, the shape of the merging area could be drawn based on the vehicle trajectories in an extreme traffic flow: the case where each booth releases a vehicle at the same time and the vehicles are competing for the entrance to a limited number of lanes. A guideline for each vehicle's navigation in such circumstance are proposed in our report. The minimal area is determined by the active area of the vehicles, and out of security purposes, the area can be expanded to a certain degree.	
   		  
-The simulation model attached examines the performance of the minimal shape for more temporate flows. The simulated vehicles are equipped with movement decision strategies based on Car Following models, and are adjusted to avoid collisions with other vehicles on the road surface. Although we encourage an explicite guidance to be indicated for extreme circumstances indicated as above, the shape is tested to be capable to accomodate moderate traffic flows with almost no accidents occuring in the simulation.		 +Our team has proposed an optimized toll station design allowing the increase of throughput and the decrease of cost and accident rate. And a new mathematical model is built in order to help evaluate the performances of designs. 
+The simulation model attached examines the performance of the minimal shape for more temporate flows. The simulated vehicles are equipped with movement decision strategies based on Car Following models, and are adjusted to avoid collisions with other vehicles on the road surface. Although we encourage an explicite guidance to be indicated for extreme circumstances indicated as above, the shape is tested to be capable to accomodate moderate traffic flows with almost no accidents occuring in the simulation.	
   		  
 More specifically, the performance model is developed after taking all important elements related to this problem into consideration, like number of lanes and tollbooths, proportions of tollbooths, varieties of vehicles, change of flows, every decision made on directions and accelerations by drivers . 
   		  
 Sincerely yours,
-Team 57566
+
+
+Team\ 57566
 
 \section{Introduction}
 
@@ -328,7 +330,7 @@ The simulation model is based on a combination of Nagel-Schreckenberg (NS) model
 
 Thirdly, if the first two strategies can not be applied, the vehicle will brake by the acceleration determinated by $v_{y-{foward}}$ and $distance_{foward}$, waiting for the opportunity to turn left or right.
 $$
-	a_y = \frac{v_{y-foward}^2 - v_y^2}{2\times(distance_{foward} - distance_{limite})}
+	a_y = \frac{v_{y-foward}^2 - v_y^2}{2\times(distance_{foward} - distance_{limit})}
 $$
 	Where $distance_{limite}$ presents a safe distance.
 	The determinated $a_y$ needs to be checked if  $|a_y| > a_{brake_{maximum}} $ 
@@ -355,11 +357,14 @@ $$+cost(surface_{whole area} - L_{length} \times W_{lane} \times L) $$
 
 \section{Validating the Simulation Model}
 
-In order to adjust the parameters and evaluate the performance of the two-dimensional car-following model, motion data of real-life driving must be abundantly supplied to test the model. However, a degradation of dimension can be mocked on setting the tollbooth number $B$ to 1 and the lane number $L$ to 1: the parameters are to be adjusted that the simulated vehicles run similarly with those simulated by a classic car-following model \cite{[参考文献，待补充]}.
+In order to adjust the parameters and evaluate the performance of the two-dimensional car-following model, motion data of real-life driving must be abundantly supplied to test the model. However, a degradation of dimension can be mocked on setting the tollbooth number $B$ to 1 and the lane number $L$ to 1: the parameters are to be adjusted that the simulated vehicles run similarly with those simulated by a classic car-following model.
 
 After running our program with the numeral coefficient adjusted, the vehicles pulling out of 1 tollbooth to 1 lane will not collide, which indicates our simulation model is correct to some extent.
 
 \section{The Model Results}
+
+Using the $MATLAB$ to run our program, the process of merging is simulated as follows:
+
 
 
 
@@ -373,11 +378,18 @@ After running our program with the numeral coefficient adjusted, the vehicles pu
 \subsection{Strengths}
 \begin{itemize}
 \item \textbf{Accommodation of extreme traffic flow}\\ This model is designed in consideration of extreme condition of traffic flow: there are vehicles pulling out from each tollbooth at the same time. So the bearing capacity of designed area is outstanding.
-\item \textbf{Models proposed from two orientations}\\ Two models have been proposed, one for the design of the shape, the other for the simulation of the 
+\item \textbf{Models proposed from two orientations}\\ Two models have been proposed, one for the design of the shape, the other for the simulation of the traffic flow to evaluate the performance of the design.
 
 \end{itemize}
 \subsection{Weaknesses}
+\begin{itemize}
+\item The model doesn't include the limit of terrain, as the topographic condition is not always suitable for building a symmetrical area, in which case the shape and cost will change, and then our model is not optimal.
+\item Due to the 
 
+
+
+
+\end{itemize}
 \begin{appendices}
 	Here are simulation programmes we used in our model as follow.\\
 \section{Simulation}
