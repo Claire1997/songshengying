@@ -149,6 +149,8 @@ Here we list the elements that will influence the throughput of our toll station
    	\hline
    	$L_{length}$ & Merging area length \\
    	\hline
+   	$W_{lane}$ & lane width \\
+   	\hline
    	
    \end{tabular}
 \end{table}\\
@@ -330,11 +332,12 @@ The simulation model is based on a large amount of extensions based on current m
 
 In order to propose a better design, the performance of the design can be addressed as a weighted average index of three factors: throughput, accident rate and cost. 
 
-Thoughput(flow_total, design) = E{vehicle number who completes the merge}
+$$Thoughput(flow_total, design) = E_{vehicle number who completes the merge}$$
 
 Accident rate(design) = sum(accidents)/sum(vehicle numbers), sum for all simulation cases
 
-Cost (design) = sum(cost_for_booth(passage type, charge mode, lane length)) + surface(whole area) - merge_length * lane_width * lane_number
+$$Cost(design)=\sum cost_{for booth}(passage type,charge mode,lane length)$$
+$$+cost(surface_{whole area} - L_length \times W_lane \times L) $$
 
 
 \section{Validating the Model}
