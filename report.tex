@@ -237,7 +237,7 @@ The 2 to 1 merging process can be splitted into two phases. [fig D] In phase one
 As a matter of fact, for all merging processes, it can be considered as a composition of the two phases presented above. Note that shown from the demonstration, that the duration of each phase is dependent upon the initial speed of the vehicles, because the acceleration and deceleration would reduce to zero if the maximum or minimum speed is reached. Thus the whole merging duration can be minimised if an optimized order of the phase repetitions can be found.
 
 
-
+\subsection{Simulation}
 In order to evaluate the performance such as throughput, accident rate, this group implements simulation algorithms, mocking the process of vehicles passing through the tollbooth and try to merge without a centralized control: as heavy traffic of everyday definition is not about vehicles of a large size passing the tollbooth continously! The throughput is evaluated by the number of vehicles that successfully enter into the $L$-lane area, and accident rate is calculated by the simulated accident numbers divided by total vehicle numbers.
 
 To begin with, the traffic flow scale is fixed for each simulation experience. $F_t$ stands for the quantity of cars, of various size, passing through the tollbooths every fifteen minutes. The flows of large-scale automobiles, midium-sized vehicles and compact cars are $F_tP_l$, $F_tP_m$, $F_tP_s$.
@@ -271,10 +271,10 @@ The acceleration takes three forms for different cases.
 
 It is considered that on leaving a speed limited zone, the vehicles are supposed to reattain a speed of normal level. This process is simulated by a positive factor of the gap of current speed and the ideal speed. However, the acceleration ahead may cause collision with vehicles in front. For the avoidance, the acceleration decision is made based on avoidance of possible collisions: should the driver preserve its current speed, or do an acceleration, the position of the vehicle in the next moment of decision is to be calculated, and the vehicle would not be in collision with the vehicles in its general front. It is worth noting that if such a vehicle in front doesn't exist, the vehicle would accelerate to a maximum speed.
 
-Thus (this $\ne$ $n$),
-$$\overrightarrow{a_i(t)}=\overrightarrow{a_{interaction}(t)}=\lambda (v_{this}(t))^m \times \sum_n\frac{v_n(t)-v_{this}(t)}{(d_n(t))^l}\times \overrightarrow{dir_{n,this}(t)}$$
-$$d_{n}(t)=distance_n(t)=\sqrt{\delta pos_x(t)^2+\delta pos_y(t)^2}$$
-$$\overrightarrow{dir_{n,this}(t)}=\frac{(pos_x-pos_{x,n},pos_y-pos_{y,n})}{\parallel (pos_{x,this}-pos_{x,n},pos_{y,this}-pos_{y,n}) \parallel} $$
+Thus %(this $\ne$ $n$),
+%$$\overrightarrow{a_i(t)}=\overrightarrow{a_{interaction}(t)}=\lambda (v_{this}(t))^m \times \sum_n\frac{v_n(t)-v_{this}(t)}{(d_n(t))^l}\times \overrightarrow{dir_{n,this}(t)}$$
+%$$d_{n}(t)=distance_n(t)=\sqrt{\delta pos_x(t)^2+\delta pos_y(t)^2}$$
+%$$\overrightarrow{dir_{n,this}(t)}=\frac{(pos_x-pos_{x,n},pos_y-pos_{y,n})}{\parallel (pos_{x,this}-pos_{x,n},pos_{y,this}-pos_{y,n}) \parallel} $$
 If $\frac{v_y^2-v_{y-forward}^2}{2a_{max}}<distance_{forward}$,
 $$v_{y-forward}= \left\{ 
 \begin{aligned}
@@ -292,32 +292,44 @@ If a collision is predicted for current speed, the driver would take neccessary 
 
 To make the choice of taking another line possible, there should in the first place exist a lane to be taken. In order to keep the vehicles in the simulation from colliding with the edge of the road, a safe-distance psychological model, that the drivers drive away from the edge of the road, if the distance between the vehicle and the boundary is too small, is implemented. 
 
-Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility of taking an angle up to approximately $45^{\circ}$, which is imposed by the physical design of vehicles. If all the vehicles are to preserve its current speed, and if the algorithm finds a spot ahead, the acceleration is calculated so that in the next decision moment, the vehicle could arrive at the spot.
+Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility to turn left or turn right.Firstly We assume that all the drivers know the speed of other vehicules around, which is correspond to the real case. Secondly, we assume that when turn left or turn right, all the vehicles are to preserve its current speed ahead. Thirdly, we neglect the time of the turning action, the $Pos_x$ can change 4m in the next iteration(1 Second).
 
-$$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{baundary-left}^{-l'} \times v(t)^m'\times \overrightarrow{right} \times 1_{d<d_{critical}}$$
-$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$
-$$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y) \arrowvert$$\\
+thus, $\forall j  (j \neq this) $ if
+\begin{itemize}
+		\item $Pos_{future of j}$ and $ Pos_{future of i}$ are not collided, judging with a extra margin $\Delta l$ to eliminating the deviation of speeds.
+		\item $v_{y,this} < v_{y,j} $
+		\item $Pos_{future \_ of \_ j} + v_y^2/{2a_{brake \_ maximum}^2} * \overrightarrow{e_y}$ is not out of boundary
+		\\ \\ \emph{The third condition ensures that after the vehicle changing a lane, it can stop with the maximaum braking acceleration before colliding with the boundary. }
+\end{itemize}
+
+If the left/right lane satisfies these conditions, then the vehicle will move left/right 4 meters ( the width of a lane).
+
+In addition, we consider that $v_{y,this}$ will not change ($a_{y,this} = 0$), except for the case where $v_{y,this} = 0$(when it is waiting for the opportunity to turn). In this special case, we set $a_{y,this} = 1/2 * a_{max \_ acceleration}$.
+
+Thus, \\
+$$Pos_{future\_of\_this\_x} = Pos_{future\_of\_this\_x} \pm 4$$\\
+$$\left\{ 
+\begin{aligned}
+a_{y,this} &= 0 ,   \qquad& (v_{y,this} > 0)\\
+a_{y,this} &= \frac{1}{2}\times a_{max \_ acceleration} \qquad &(v_{y,this} = 0)
+\end{aligned}
+\right.
+$$
+
  $\delta y_{max}=v_yt$, as $a_y=0$ when changing direction.\\
-$\delta x_{max}=v_xt+\frac{1}{2}a'_{max}t^2$, and $a'_{max}=min(a_{max},\frac{v_y-v_x}{t})$, to ensure that the biggest wheel steering angle is $45^{\circ}$.\\
-$$\forall j, if i \ne j, y_j>y_i-\frac{1}{2} \times length_{type\ i}$$
-$$y_j-\frac{1}{2} \times length_{type\ j} \le y_i+\delta y_{max}$$
-$$\arrowvert y_i-y_j \arrowvert \le \delta x_{max}+ \frac{1}{2} \times length_{type\ j}$$
-Then we search for the range of the angle of deflection $\sigma$, so that $\delta l_{ij}>\delta l_{min}$.
 
-We note $\alpha=\sigma_{min}$, and then ensure that $\alpha<45^{\circ}$.\\
-And then we search for the vehicles in  whose $\delta l_{ij}<\delta l_{min}$ with $\alpha$, its perpendicular towards side boudary of $\alpha$ is $Pos_{cross}$.\\
 
-$Pos_{future}=\frac{Pos_{now}+Pos_{cross}}{2}$, and we ensure that $a<a_{max}$.\\
+The autonomous vehicles are modelled in a similar way, whereas the extra margin $\Delta l$ are smaller. 
 
-Nevertheless, it is still possible that the vehicle predicts a collision 
+The simulation model is based on a combination of Nagel-Schreckenberg (NS) model \cite{acelluar}, GM model, CF (car following) model, and a strategy called Obstacle Avoidance of a Micro-bus[Fernandez et al.,2013], thus takes many some parameters that is merely experimental.
 
-$$a_a(t)=a_{acceleration}(t)=\beta (v_{max}-v(t)) \times a_{max} \times \overrightarrow{forward}$$\\
-Here $\lambda$, $l$,$m$, $\alpha$, $l'$, $m'$, $\beta$ and $a_{max}$ are the parameters that we can adjust.\\
-For $a_y$ here, $ \frac{v_y^2-v_{y-forward}^2}{2a_{y}}<distance_{forward}$, and we ensure that $\arrowvert a_y \arrowvert<a_{max}$.
+Thirdly, if the first two strategies can not be applied, the vehicle will brake by the acceleration determinated by $v_{y-{foward}}$ and $distance_{foward}$, waiting for the opportunity to turn left or right.
+$$
+	a_y = \frac{v_{y-foward}^2 - v_y^2}{2\times(distance_{foward} - distance_{limite})}
+$$
+	Where $distance_limite$ presents a safe distance.
+	The determinated $a_y$ needs to be checked if  $|a_y| > a_{brake_{maximum}} $ 
 
-The autonomous vehicles are modelled in a similar way, whereas the interaction with other cars and the road boundary are taken form as [参考文献]. 
-
-The simulation model is based on a large amount of extensions based on current model, thus takes many parameters that is merely experimental.
 
 \begin{figure}[htbp]
 	\small 
