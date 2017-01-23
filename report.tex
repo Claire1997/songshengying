@@ -6,9 +6,11 @@
 \usepackage{palatino}
 \usepackage{array}
 \usepackage{indentfirst}
+\usepackage{float}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{subfigure}
+\newcommand{\reffig}[1]{Figure \ref{#1}}
 \bibliographystyle{apalike}
 \title{An optimized toll plaza design scheme}
 
@@ -18,7 +20,7 @@
 	
 \begin{abstract}
 	
-This paper proposes a design scheme for a better shaped and sized toll plaza based on the analysis of vehicle trajectories in an extremely heavy traffic, where the individual vehicles are navigated by a centralized algorithm control. Once the design is generated, a traffic model coded in MATLAB to evaluate and ameliorate the performance of the toll station is simulated.
+This paper proposes a design scheme for a better shaped and sized toll plaza based on the analysis of vehicle trajectories in an extremely heavy traffic, where the individual vehicles are navigated by a centralized algorithm control. Once the design is generated, a traffic model coded in $MATLAB$ to evaluate and ameliorate the performance of the toll station is simulated.
 
 It is perceived that the boundary of the area where the vehicles actively move is the minimum area required by the normal functionality of toll station. A detailed navigated route is proposed for each vehicle in the area to establish an order among a heavy traffic, which is to successively and non-linearly queue the vehicles into lanes, enabling all those from the tollbooths to successfully merge without causing an accident. 
 
@@ -69,31 +71,6 @@ Team 57566
 
 The design of toll plaza is undoubtedly a state of art as it is hard to find a balance among safety, capacity and cost, facing different situations. It also acts as an essential part in the high-way traffic system. Considering a better toll station design is in demand, mathematical methods and simulation models are implemented to optimize the design schemes, striving to increase the throughput, decrease the cost and accident rate.
 
-
-
-\begin{itemize}
-
-\item 
-\end{itemize}
-
-
-
-
-
-
-
-\begin{Theorem} \label{thm:latex}
-
-\end{Theorem}
-
-\begin{Lemma} \label{thm:tex}
-
-\end{Lemma}
-
-\begin{proof}
-The proof of theorem.
-\end{proof}
-
 \subsection{Assumptions}
 
 \begin{itemize}
@@ -101,7 +78,7 @@ The proof of theorem.
 	\begin{itemize}
          \item Toll station has a fixed configuration for each simulation: vehicle type and charging process.
          \item Tollbooths allowing large vehicles are also available for smaller vehicles to pass.
-       	 \item It takes a contain time for every vehicle to leave the tollbooth, an extra delay is caused by the charging process.
+       	 \item It takes a contained time for every vehicle to leave the tollbooth, an extra delay is caused by the charging process.
 	\end{itemize}
 
     \item Assumptions for the vehicles.
@@ -170,7 +147,7 @@ Here we list the elements that will influence the throughput of our toll station
 \section{Analysis of the Problem}
 To respect the notion of "barrier", and to avoid the complexity of gradient, this article discusses only the toll stations of one storey. It is considered that the approach ramps would complicate the traffic flow in both edge of the station, and the cost would be enormous.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 	\small
 	\centering
 	\caption{Toll station \cite{note}} \label{fig:Ts}
@@ -178,7 +155,7 @@ To respect the notion of "barrier", and to avoid the complexity of gradient, thi
 \end{figure}
 
 In the merging area, all the vehicles merging from $B$ tollbooths into $L$ lanes in a short distance of $L_{length}$ meters.
-With lane width predifined as 2 meters, the merging area is defined as the area surrounded by two curves on a finite two-dimension plane. The curves are represented by two functions, which would be a parameter to be optimized in the problem.
+With lane width predifined as 4 meters, the merging area is defined as the area surrounded by two curves on a finite two-dimension plane. The curves are represented by two functions, which would be a parameter to be optimized in the problem.
 
 \subsection{Obtaining an adopted shape design}
 
@@ -189,7 +166,7 @@ Thus a design scheme that is capable of coping with the worst traffic conditions
 The possible solutions therefore, should guide the vehicles into a proper slot in a queue for each lane, and each vehicle ahead should not be chased by each other, nor the vehicles newly passed through the tollbooth.
 
 Symmetry analyses give that the optimal shape is symmetrical about the central axis of the turnpike. The article concerns therefore only symmetrical designs.
-\begin{figure}
+\begin{figure}[H]
 	\begin{minipage}[t]{0.5\linewidth}
 		\centering
 		\includegraphics[width=2.2in]{symmetrical.jpg}
@@ -208,7 +185,6 @@ Symmetry analyses give that the optimal shape is symmetrical about the central a
 \begin{Theorem} \label{thm:yingsongsheng}
 The optimal shape is symmetrical about the central axis.
 \end{Theorem}
-
 \begin{proof}
 Reductio ad absurdum: if the shape is not symmetrical, hence the traffic flow is not symmetrical, so there exist multiple vehicles that have no corresponding vehicles about the axis of symmetry of $L$ lanes. If these vehicles are given slots of certain priority in the queue, and all vehicles successfully merged into $L$ lanes, then the slots of the same priority can also be allocated to the non-existing vehicles in the symmetry. Thus this flow is capable of hold more vehicles, this is not the optimal shape.
 \end{proof}
@@ -219,34 +195,34 @@ We can furthur show that the comportment of vehicles is also symmetrical about t
 The quickest way for a vehicle originally side by another to depass it is to run the most quickily the possible.
 \end{Theorem}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\begin{minipage}[h]{0.5\linewidth}
 		\centering
 		\includegraphics[width=2.2in]{Attachment-1.jpg}
-		\label{symmetrical}
-	\end{minipage}%
+	\end{minipage}
 	\begin{minipage}[h]{0.5\linewidth}
 		\centering
 		\includegraphics[width=2.2in]{D.jpg}
-		\label{asymmetrical}
+		\caption{Two phases}
+		\label{phase}
 	\end{minipage}
 \end{figure}
 
 \begin{proof}
 Denote the direction where the road leads the vertical direction.
 Initially, the two vehicles are running side-by-side, and share the same speed $v_0$ and direction.
-The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is: $$x_2(t_0)-x_1(t_0)=lane-width \qquad [Equation A]$$\\
+The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is: $$x_2(t_0)-x_1(t_0)=lane-width \qquad [Equation\ A]$$\\
 In the end, vehicle 2 is positioned right after vehicle 1.
-$$y_1(t_e)-y_2(t_e)=L_d+vehicle_length \qquad [Equation B]$$\\
+$$y_1(t_e)-y_2(t_e)=L_d+vehicle_length \qquad [Equation\ B]$$\\
 The integration of accelerations give the speed at a specific instant:
- $$v_y(t)=v_y(t_0)+ \int_{t_0}^{t}a_y(u)du \qquad [Equation C]$$
+ $$v_y(t)=v_y(t_0)+ \int_{t_0}^{t}a_y(u)du \qquad [Equation\ C]$$
 And the integration of speed give the displacement of a vehicle:
 
-$$y(t)=y(t_0)+ \int_{t_0}^{t}v_y(u)du=y(t_0)+v_y(t_0) \times (t-t_0)+ \int_{t_0}^{t}\int_{t_0}^{w}a_y(u)dudw \qquad [Equation D]$$
+$$y(t)=y(t_0)+ \int_{t_0}^{t}v_y(u)du=y(t_0)+v_y(t_0) \times (t-t_0)+ \int_{t_0}^{t}\int_{t_0}^{w}a_y(u)dudw \qquad [Equatio\ D]$$
 Equation B can therefore be transcribed as :
 $$y_1(t_e)-y_2(t_e)=y_1(t_0)+v_{y,1}(t_0)(t_e-t_0)+\int_{t_0}^{t_e}\int_{t_0}^{w}a_{y,1}(u)dudw$$
 $$-y_2(t_0)-v_{y,2}(t_e-t_0)+\int_{t_0}^{t_e}\int_{t_0}^{w}a_{y,2}(u)dudw$$
-$$ =\int_{t_0}^{t_e}\int_{t_0}^{w}(a_{y,1}(u)-a_{y,2}(u)dudw=D_{vehicle type}\qquad [Equation E]$$
+$$ =\int_{t_0}^{t_e}\int_{t_0}^{w}(a_{y,1}(u)-a_{y,2}(u)dudw=D_{general}\qquad [Equation\ E]$$
 As the intergration reaches for a constant, $t_e$ can be minimised if the difference of the two accelerations can be maximised, from which conclude $a_{y,1}$ to be the maximum value permitted by the situation.
 
 \end{proof}
@@ -255,7 +231,7 @@ As the intergration reaches for a constant, $t_e$ can be minimised if the differ
 The quickest way for a moving vehicle to change a lane, is to accelerate to the side with maximum power (until a maximum sideway speed is reached) then decelerate, for all initial sideway speed.
 \end{Theorem}
 
-The 2 to 1 merging process can be splitted into two phases. [fig D] In phase one, one vehicle moving faster in order to outrun the other one, the other is approaching its side. In phase two, the merging vehicle moves behind the other. The minimum time required by phase 1 meets the condition of the previous theorem, meanwhile the minimum time required by phase two is achieved by accelerating to the side then decelerate so that the sideway speed is reduced to 0 on arriving in place.
+The 2 to 1 merging process can be splitted into two phases(\reffig{phase}). In phase one, one vehicle moving faster in order to outrun the other one, the other is approaching its side. In phase two, the merging vehicle moves behind the other. The minimum time required by phase 1 meets the condition of the previous theorem, meanwhile the minimum time required by phase two is achieved by accelerating to the side then decelerate so that the sideway speed is reduced to 0 on arriving in place.
 
 
 As a matter of fact, for all merging processes, it can be considered as a composition of the two phases presented above. Note that shown from the demonstration, that the duration of each phase is dependent upon the initial speed of the vehicles, because the acceleration and deceleration would reduce to zero if the maximum or minimum speed is reached. Thus the whole merging duration can be minimised if an optimized order of the phase repetitions can be found.
@@ -316,9 +292,9 @@ If a collision is predicted for current speed, the driver would take neccessary 
 
 To make the choice of taking another line possible, there should in the first place exist a lane to be taken. In order to keep the vehicles in the simulation from colliding with the edge of the road, a safe-distance psychological model, that the drivers drive away from the edge of the road, if the distance between the vehicle and the boundary is too small, is implemented. 
 
-Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility to turn left or turn right.Firstly We assume that all the drivers know the speed of other vehicules around, which is correspond to the real case. Secondly, we assume that when turn left or turn right, all the vehicles are to preserve its current speed ahead. Thirdly, we neglect the time of the turning action, the $Pos_x$ can change 4m in the next iteration \quad(1 Second).
+Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility to turn left or turn right.Firstly We assume that all the drivers know the speed of other vehicules around, which is correspond to the real case. Secondly, we assume that when turn left or turn right, all the vehicles are to preserve its current speed ahead. Thirdly, we neglect the time of the turning action, the $Pos_x$ can change 4m in the next iteration\ (1 Second).
 
-thus, $\forall j  (j \neq this) $ if
+thus, $\forall j\ (j \neq this) $ if
 \begin{itemize}
 		\item $Pos_{future of j}$ and $ Pos_{future of i}$ are not collided, judging with a extra margin $\Delta l$ to eliminating the deviation of speeds.
 		\item $v_{y,this} < v_{y,j} $
@@ -356,7 +332,7 @@ $$
 	The determinated $a_y$ needs to be checked if  $|a_y| > a_{brake_{maximum}} $ 
 
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\small 
 	\centering
 	\caption{Our simulation}
@@ -394,8 +370,8 @@ After running our program with the numeral coefficient adjusted, the vehicles pu
 
 \subsection{Strengths}
 \begin{itemize}
-\item \textbf{Applies widely}\\
-
+\item \textbf{Accommodation of extreme traffic flow}\\ This model is designed in consideration of extreme condition of traffic flow: there are vehicles pulling out from each tollbooth at the same time. So the bearing capacity of designed area is outstanding.
+\item \textbf{Models proposed from two orientations}\\ Two models have been proposed, one for the 
 
 \end{itemize}
 \subsection{Weaknesses}
@@ -404,35 +380,35 @@ After running our program with the numeral coefficient adjusted, the vehicles pu
 	Here are simulation programmes we used in our model as follow.\\
 \section{Simulation}
 \textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./codef/code/simulate_simple.m}
+\lstinputlisting[language=Matlab]{./code/simulate_simple.m}
 
 \section{Decide the acceleration}
 \textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./codef/code/decideAcc4.m}
+\lstinputlisting[language=Matlab]{./code/decideAcc4.m}
 
 \section{Add new vehicles}
 \textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./codef/code/addNewVehicle.m}
+\lstinputlisting[language=Matlab]{./code/addNewVehicle.m}
 
 \section{Generate vehicles}
 \textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./codef/code/generate_vehicles.m}
+\lstinputlisting[language=Matlab]{./code/generate_vehicles.m}
 
 \section{Collision}
 \textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./codef/code/isCollide.m}
+\lstinputlisting[language=Matlab]{./code/isCollide.m}
 
 \section{Boundary}
 \textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./codef/code/isOutBoundary.m}
+\lstinputlisting[language=Matlab]{./code/isOutBoundary.m}
 
 \section{Toll station}
 \textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./codef/code/updateTollStation.m}
+\lstinputlisting[language=Matlab]{./code/updateTollStation.m}
 
 \section{Visualisation}
 \textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./codef/code/visualisation.m}
+\lstinputlisting[language=Matlab]{./code/visualisation.m}
 
 \end{appendices}
 
