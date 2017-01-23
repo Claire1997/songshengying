@@ -141,6 +141,10 @@ Here we list the elements that will influence the throughput of our toll station
    	\hline
    	$P_l$,  $P_m$, $P_s$ & Probability of large-scale automobiles, midium-sized vehicles and compact cars\\
    	\hline
+   	$D_l$, $D_m$, $D_s$ & The lengths of large-scale automobiles, midium-sized vehicles and compact cars\\
+   	\hline
+   	$D_{general}$ & The length of vehicles regardless of the type\\
+   	\hline
    	$v_{this}$, $a_{this}$ & Speed and acceleration of the vehicle we study\\
    	\hline
    	$v_n$, $a_n$ &  Speed and acceleration of the other vehicles which surround the vehicle we study\\
@@ -169,7 +173,7 @@ To respect the notion of "barrier", and to avoid the complexity of gradient, thi
 	\includegraphics{img3.png}
 \end{figure}
 
-In the merging area, all the vehicles merging from $B$ tollbooths into $L$ lanes in a short distance of $L_length$ meters.
+In the merging area, all the vehicles merging from $B$ tollbooths into $L$ lanes in a short distance of $L_{length}$ meters.
 With lane width predifined as 2 meters, the merging area is defined as the area surrounded by two curves on a finite two-dimension plane. The curves are represented by two functions, which would be a parameter to be optimized in the problem.
 
 \subsection{Obtaining an adopted shape design}
@@ -211,20 +215,33 @@ We can furthur show that the comportment of vehicles is also symmetrical about t
 The quickest way to merge 2 side-by-side vehicles into 1 lane is to let the vehicles in the lane to be merged to run the most quickily the possible.
 \end{Theorem}
 
-[fig C]
+\begin{figure}[h]
+	\begin{minipage}[h]{0.5\linewidth}
+		\centering
+		\includegraphics[width=2.2in]{Attachment-1.jpg}
+		\label{symmetrical}
+	\end{minipage}%
+	\begin{minipage}[h]{0.5\linewidth}
+		\centering
+		\includegraphics[width=2.2in]{D.jpg}
+		\label{asymmetrical}
+	\end{minipage}
+\end{figure}
 
 \begin{proof}
 Denote the direction where the road leads the vertical direction.
 Initially, the two vehicles are running side-by-side, and share the same speed $v_0$ and direction.
-The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is: $$x_2(t_0)-x_1(t_0)=lane-width$$\\
+The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is: $$x_2(t_0)-x_1(t_0)=lane-width \qquad [Equation A]$$\\
 In the end, vehicle 2 is positioned right after vehicle 1.
-$y_1(t_e)-y_2(t_e)=L_d+vehicle_length$\\
+$$y_1(t_e)-y_2(t_e)=L_d+vehicle_length \qquad [Equation B]$$\\
 The integration of accelerations give the speed at a specific instant:
- $$v_y(t)=v_y(t_0)+ \int_{t_0}^{t}a_y(u)du$$
+ $$v_y(t)=v_y(t_0)+ \int_{t_0}^{t}a_y(u)du \qquad [Equation C]$$
 And the integration of speed give the displacement of a vehicle:
-$$y(t)=y(t_0)+ \int_{t_0}^{t}v_y(u)du=y(t_0)+v_y(t_0) \times (t-t_0)+ \int_{t_0}^{t}\int_{t_0}^{w}a_y(u)dudw$$
-Equation B can therefore be transcribed as 
-[Equa E].
+$$y(t)=y(t_0)+ \int_{t_0}^{t}v_y(u)du=y(t_0)+v_y(t_0) \times (t-t_0)+ \int_{t_0}^{t}\int_{t_0}^{w}a_y(u)dudw \qquad [Equation D]$$
+Equation B can therefore be transcribed as :
+$$y_1(t_e)-y_2(t_e)=y_1(t_0)+v_{y,1}(t_0)(t_e-t_0)+\int_{t_0}^{t_e}\int_{t_0}^{w}a_{y,1}(u)dudw$$
+$$-y_2(t_0)-v_{y,2}(t_e-t_0)+\int_{t_0}^{t_e}\int_{t_0}^{w}a_{y,2}(u)dudw$$
+$$ =\int_{t_0}^{t_e}\int_{t_0}^{w}(a_{y,1}(u)-a_{y,2}(u)dudw=D_{vehicle type}\qquad [Equation E]$$
 As the intergration reaches for a constant, $t_e$ can be minimised if the difference of the two accelerations can be maximised, from which conclude $a_{y,1}$ to be the maximum value permitted by the situation.
 \end{proof}
 
@@ -237,8 +254,8 @@ The queuing strategy can be simplified into a successive merging problem for two
 \begin{proof}
 
 on Evaluating the design
-\end{proof}
 
+\end{proof}
 
 In order to evaluate the performance such as throughput, accident rate, this group implements simulation algorithms, mocking the process of vehicles passing through the tollbooth and try to merge without a centralized control: as heavy traffic of everyday definition is not about vehicles of a large size passing the tollbooth continously! The throughput is evaluated by the number of vehicles that successfully enter into the $L$-lane area, and accident rate is calculated by the simulated accident numbers divided by total vehicle numbers.
 
@@ -296,8 +313,7 @@ To make the choice of taking another line possible, there should in the first pl
 
 Secondly, directing the vehicle to the left-front or right-front causes possible collision with other vehicles. The simulation implements a searching algorithm that the vehicle is to search the possibility of taking an angle up to approximately $45^{\circ}$, which is imposed by the physical design of vehicles. If all the vehicles are to preserve its current speed, and if the algorithm finds a spot ahead, the acceleration is calculated so that in the next decision moment, the vehicle could arrive at the spot.
 
-$$\overrightarrow{a_r(t)}=\overrightarrow{a_{road}(t)}=\alpha \times distance_{baundary-left}^{-l'} \times v(t)^m'\times \overrightarrow{right} \times 1_{d<d_{critical}}$$
-$$+\alpha \times distance_{baundary-right}^{-l'} \times v(t)^m'\times \overrightarrow{left} \times 1_{d<d_{critical}}$$
+
 $$distance_{baundary}=\arrowvert pos_x-pos_{distance}(pos_y) \arrowvert$$\\
  $\delta y_{max}=v_yt$, as $a_y=0$ when changing direction.\\
 $\delta x_{max}=v_xt+\frac{1}{2}a'_{max}t^2$, and $a'_{max}=min(a_{max},\frac{v_y-v_x}{t})$, to ensure that the biggest wheel steering angle is $45^{\circ}$.\\
@@ -337,7 +353,7 @@ $$Thoughput(flow_total, design) = E_{vehicle number who completes the merge}$$
 Accident rate(design) = sum(accidents)/sum(vehicle numbers), sum for all simulation cases
 
 $$Cost(design)=\sum cost_{for booth}(passage type,charge mode,lane length)$$
-$$+cost(surface_{whole area} - L_length \times W_lane \times L) $$
+$$+cost(surface_{whole area} - L_{length} \times W_{lane} \times L) $$
 
 
 \section{Validating the Model}
