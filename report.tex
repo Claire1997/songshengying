@@ -1,7 +1,7 @@
 \documentclass{mcmthesis}
 \mcmsetup{CTeX = false, 
         tcn =57566, problem = B,
-        sheet = true, titleinsheet = true, keywordsinsheet = true,
+        sheet = true, titleinsheet = true, keywordsinsheet = false,
         titlepage = false, abstract = true}
 \usepackage{palatino}
 \usepackage{array}
@@ -195,6 +195,7 @@ The quickest way for a vehicle originally side by another to outrun it is to run
 \end{Theorem}
 
 \begin{figure}[H]
+		\caption{Two phases}
 	\begin{minipage}[h]{0.5\linewidth}
 		\centering
 		\includegraphics[width=2.2in]{Attachment-1.jpg}
@@ -202,7 +203,7 @@ The quickest way for a vehicle originally side by another to outrun it is to run
 	\begin{minipage}[h]{0.5\linewidth}
 		\centering
 		\includegraphics[width=2.2in]{D.jpg}
-		\caption{Two phases}
+	
 		\label{phase}
 	\end{minipage}
 \end{figure}
@@ -212,7 +213,7 @@ Denote the direction where the road leads the vertical direction.
 Initially, the two vehicles are running side-by-side, and share the same speed $v_0$ and direction.
 The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is: $$x_2(t_0)-x_1(t_0)=lane-width \qquad [Equation\ A]$$\\
 In the end, vehicle 2 is positioned right after vehicle 1.
-$$y_1(t_e)-y_2(t_e)=L_d+vehicle_length \qquad [Equation\ B]$$\\
+$$y_1(t_e)-y_2(t_e)=L_d+D_{general} \qquad [Equation\ B]$$\\
 The integration of accelerations give the speed at a specific instant:
  $$v_y(t)=v_y(t_0)+ \int_{t_0}^{t}a_y(u)du \qquad [Equation\ C]$$
 And the integration of speed give the displacement of a vehicle:
@@ -286,7 +287,7 @@ $$
 
 Then for $a_y$:
 $$\frac{(v_y+a_yt)^2-v_{y,forward}^2}{2a_{max}}=distance_{forward}$$
-if $a_y>a_{max}$, then $a_y=a{max}$, $a_x=0$.\\
+if $a_y>a_{max}$, then $a_y=a_{max}$, $a_x=0$.\\
 
 If a collision is predicted for current speed, the driver would take necessary measures to avoid the collision: firstly try to take another lane, or secondly if there's no other choice, slow down. In our model, taking another lane is generalized into taking a left or right angle.
 
@@ -363,7 +364,7 @@ $$+cost(surface_{whole\ area} - L_{length} \times W_{lane} \times L) $$
 
 Meanwhile the optimized navigation route is not yet found, a simple case can be solved using the constraints on maximum acceleration, deceleration, speed, minimal time interval and the avoidance of the next batch of vehicles issued from the booth.
 
-Let us study the case where the vehicles are 2 meters wide, 10 meters long, running on the center of two lanes of 4 meters width. In this case, say the both vehicles have one initial speed of 5 m/s, one vehicle brakes immediately at - 5 m/s^2, and another accelerates on its maximum capability: 2 m/s^2. The time to create a vertical relative displacement is 1.7s, using equation E. The side acceleration has a maximum and minimum of 2 m/s^2.
+Let us study the case where the vehicles are 2 meters wide, 10 meters long, running on the center of two lanes of 4 meters width. In this case, say the both vehicles have one initial speed of $5m/s$, one vehicle brakes immediately at $-5m/s^2$, and another accelerates on its maximum capability: $2m/s^2$. The time to create a vertical relative displacement is $1.7s$, using equation E. The side acceleration has a maximum and minimum of $2m/s^2$.
 
 The collision avoidance rule gives that before the instant of 1.7s, the vehicle must not move relatively towards left by a distance of 2 meters (the original gap between the two vehicles). Another optimal condition is that at the instant of 1.7s, the side speed must be maximized. 
 
@@ -371,9 +372,18 @@ In the next few moments, the vehicle will continue to accelerate (to the maximum
 
 The slowed down vehicle starts accelerating at 1.7s, knowing it will not collide with the vehicle in front for the intergration of speed difference.
 
-All 
+The trajectories of the two vehicle is drawn as: 
 
-The trajectories of the two vehicle is drawn as: [fig]
+\begin{figure}[H]
+	\begin{minipage}[h]{0.5\linewidth}
+		\centering
+		\includegraphics[width=2.2in]{trajectory.jpg}
+	\end{minipage}
+	\begin{minipage}[h]{0.5\linewidth}
+		\centering
+		\includegraphics[width=3in]{a_v_pos.jpg}
+	\end{minipage}
+\end{figure}
 
 The whole time to execute these two phases is 1.7 + 1.4 = 3.1 s. 
 
@@ -388,7 +398,10 @@ After running our program with the numeral coefficient adjusted, the vehicles pu
 
 \section{The Model Results}
 
-After using the $MATLAB$ to run our program, the process of merging is simulated as follows:
+After using the $MATLAB$ to run our program, the process of merging is simulated as follows.
+
+
+The blue rectangles in the figures represent different sizes of vehicles. The figures are displayed in time sequence.
 
 \begin{figure}[H]
 	\centering
