@@ -1,11 +1,11 @@
-function [] = simulate_excute()
+
 %一共产生多少车
 %有多少车出去
 %统计撞车数量
 
 % this code contains one simulation of the traffic
-B = 4; % Tollbooth number
-L = 1; % Regular lane number
+B = 8; % Tollbooth number
+L = 3; % Regular lane number
 
 global toll_barrier_config;
 toll_barrier_config = [3,3,3,3,3,3,3,3; 10,10,10,10,10,10,10,10; 0 0 0 0 0 0 0 0];
@@ -22,7 +22,8 @@ length_veh = [4 7 10];
 global boundaryPoints
 global vehicle_array
 global vehicle_number
-shapePoints = [B*4 0; SP(1) merge_length/4;SP(2) merge_length/2;SP(3) merge_length/4*3; L*4 merge_length]; 
+shapePoints = [32 0; 32 merge_length/4;25 merge_length/2;16 ...
+    merge_length/4*3; 12 merge_length]; 
 % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
 boundaryPoints = zeros(merge_length,2); % the second row presents the left boundary.
 boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge_length),'spline');
@@ -175,17 +176,14 @@ for i=1:80 % one simulation per second;
     drawnow
     time_now = yyyymmdd(datetime('now'));
     [hh,mm,~] = hms(datetime('now'));
-    filename = ['../../figure/simulate_excute',num2str(time_now),'_',num2str(hh),'_',num2str(mm),'.gif'];
+    filename = ['../../figure/simulate_excute',num2str(time_now),'_',num2str(hh),'_',num2str(mm)];
+    mkdir(filename, 'dir');
     frame = getframe(1);
     im = frame2im(frame);
     [imind,cm] = rgb2ind(im,256);
-    if i == 1
-        imwrite(imind,cm,filename,'gif', 'Loopcount',inf);
-    else
-        imwrite(imind,cm,filename,'gif','WriteMode','append');
-    end
+    imwrite(imind,cm,[filename, '/', num2str(i), '.jpg'],'jpg');
     clf('figure 1','reset');
     
     
 end
-close all
+%close all
