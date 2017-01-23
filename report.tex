@@ -157,9 +157,9 @@ To respect the notion of "barrier", and to avoid the complexity of gradient, thi
 
 \begin{figure}[H]
 	\small
-	\centering
-	\caption{Toll station \cite{note}} \label{fig:Ts}
+	\centering	
 	\includegraphics{img3.png}
+	\caption{Toll station \cite{note}} \label{fig:Ts}
 \end{figure}
 
 In the merging area, all the vehicles merging from $B$ tollbooths into $L$ lanes in a short distance of $L_{length}$ meters.
@@ -305,6 +305,7 @@ Secondly, directing the vehicle to the left-front or right-front causes possible
 
 thus, $\forall j\ (j \neq this) $ if
 \begin{itemize}
+\setlength{\itemindent}{2em}
 		\item $Pos_{future of j}$ and $ Pos_{future of i}$ are not collided, judging with a extra margin $\Delta l$ to eliminating the deviation of speeds.
 		\item $v_{y,this} < v_{y,j} $
 		\item $Pos_{future \_ of \_ j} + \frac{v_y^2}{2a_{brake \_ maximum}^2} \times \overrightarrow{e_y}$ is not out of boundary.
@@ -344,10 +345,17 @@ $$
 \begin{figure}[H]
 	\small 
 	\centering
-	\caption{Our simulation}
+	
 	\includegraphics{simulation.jpg}
+	\caption{Our simulation}
 \end{figure}
-
+\begin{figure}[H]
+	\small 
+	\centering
+	
+	\includegraphics[width=5in]{decide_acc.png}
+	\caption{Make the decision for each car: decide acceleration}
+\end{figure}
 \subsection{Evaluating the performance}
 
 In order to propose a better design, the performance of the design can be addressed as a weighted average index of three factors: throughput, accident rate and cost. 
