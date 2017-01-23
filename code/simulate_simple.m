@@ -26,8 +26,8 @@ length_veh = [4 7 10];
 global boundaryPoints
 global vehicle_array
 global vehicle_number
-shapePoints = [32 0; 32 merge_length/4;25 merge_length/2;16 merge_length/4*3; 12 merge_length]; % (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
-%shapePoints = [32 0; 32 merge_length/4;32 merge_length/2;32 merge_length/4*3; 32 merge_length];
+shapePoints = [32 0; 32 merge_length/4;25 merge_length/2;16 merge_length/4*3; 12 merge_length]; 
+% (unit: m)the distance from the boundary of roads to the cell limit at y=50, 100, 150
 boundaryPoints = zeros(merge_length,2); % the second row presents the left boundary.
 boundaryPoints(:,1) = interp1(shapePoints(:,2), shapePoints(:,1),-0.5+(1:1:merge_length),'spline');
              
@@ -51,7 +51,8 @@ initial_speed = 5;
 % electronic
 flow_total = 600; % total flow
 
-vehicle_array = zeros(flow_total,7); % colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type, 6 collision, 7 is_AI
+vehicle_array = zeros(flow_total,7); 
+% colomns 1, posx, 2, posy, 3, speed, 4, rad, 5 type, 6 collision, 7 is_AI
 vehicle_number = 0; % the total vehicle number after the simulation start.
 
 completion_count = 0;
@@ -68,12 +69,13 @@ for i=1:70 % one simulation per second;
     for j = 1:vehicle_number
         if vehicle_array(j,5) > 0 && vehicle_array(j,6) ~= 1
             % check if the merge is completed
-            if vehicle_array(j,2) > merge_length
+            if vehicle_array(j,2) >= merge_length -1
                 vehicle_array(j,5) = -1;
                 completion_count = completion_count + 1;
             else
                 % check if out of boundary
-                isOut = isOutBoundary([vehicle_array(j,1),vehicle_array(j,2)],vehicle_array(j,5));
+                isOut = isOutBoundary([vehicle_array(j,1),...
+                    vehicle_array(j,2)],vehicle_array(j,5));
                 if isOut == 1 % collision with road
                     has_collision = has_collision||isOut;
                     vehicle_array(j,6) = 1;
@@ -81,11 +83,15 @@ for i=1:70 % one simulation per second;
                 end
                 % check if collision with other cars
                 for a = 1:vehicle_number
-                    if a ~= j && vehicle_array(a,5) ~= -1 && vehicle_array(a,5) ~= 0
+                    if a ~= j && vehicle_array(a,5) ~= -1 &&...
+                            vehicle_array(a,5) ~= 0
                         
                        % showVehicule()
                         
-                       is_collide = isCollideSimple([vehicle_array(j,1:2) vehicle_array(j,4)],[vehicle_array(a,1:2) vehicle_array(a,4)],vehicle_array(j,5),vehicle_array(a,5),0);
+                       is_collide = isCollideSimple([vehicle_array(j,1:2) ...
+                           vehicle_array(j,4)],[vehicle_array(a,1:2) ...
+                           vehicle_array(a,4)],vehicle_array(j,5),...
+                           vehicle_array(a,5),0);
                        if is_collide == 1
 
                           %showVehicule()
@@ -128,7 +134,8 @@ for i=1:70 % one simulation per second;
                 speed = v_max;
             end
            vehicle_array(j,1) = acc(1) + vehicle_array(j,1);
-           vehicle_array(j,2) = 1/2 * acc(2)*dt^2+ speed_old*dt + vehicle_array(j,2);
+           vehicle_array(j,2) = 1/2 * acc(2)*dt^2+ ...
+               speed_old*dt + vehicle_array(j,2);
            vehicle_array(j,3) = speed;
         
         end
@@ -146,12 +153,19 @@ for i=1:70 % one simulation per second;
             hold on
             %pic1 = imrotate(pic, vehicle_array(t,4));
             
-            imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2, vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],[vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 , vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic);      
+            imagesc([vehicle_array(t,1)-width_veh(vehicle_array(t,5))/2,...
+                vehicle_array(t,1)+width_veh(vehicle_array(t,5))/2],...
+                [vehicle_array(t,2)-length_veh(vehicle_array(t,5))/2 ,...
+                vehicle_array(t,2)+length_veh(vehicle_array(t,5))/2],pic);      
            
-            points(:,1) = [ + width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-            points(:,2) = [ - width_veh(vehicle_array(t,5))/2 ;  + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-            points(:,3) = [ - width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
-            points(:,4) = [ + width_veh(vehicle_array(t,5))/2 ;  - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,1) = [ + width_veh(vehicle_array(t,5))/2 ; ...
+                + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,2) = [ - width_veh(vehicle_array(t,5))/2 ; ...
+                + length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,3) = [ - width_veh(vehicle_array(t,5))/2 ; ...
+                - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
+            points(:,4) = [ + width_veh(vehicle_array(t,5))/2 ; ...
+                - length_veh(vehicle_array(t,5))/2]+vehicle_array(t,1:2)';
             plot(points(1,:),points(2,:),'.');
             
             hold on 
@@ -171,7 +185,7 @@ for i=1:70 % one simulation per second;
         
 end
 
-%visualisation
+visualisation
 close all;
 
 

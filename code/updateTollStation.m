@@ -1,4 +1,6 @@
-function [toll_barrier_state, flow_queue] = updateTollStation(flow_total, flow_instant, toll_barrier_state, toll_barrier_config)
+function [toll_barrier_state, flow_queue] = ...
+    updateTollStation(flow_total, flow_instant, ...
+    toll_barrier_state, toll_barrier_config)
 global small_delay
 global medium_delay
 global large_delay
