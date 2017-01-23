@@ -9,4 +9,5 @@ function[isOut] = isOutBoundary(pos, type)
             end
         end
     end
+    
 end
