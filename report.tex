@@ -96,6 +96,7 @@ A shape design is therefore required to accomodate the traffic and to allow the 
     	\item Each vehicle is considered as a point located in the center of gravity, but the vehicles still have a volume.
     	\item The accelerations of all the vehicles is stimulated by the position and speed of the vehicles around. 
 		\item The vehicles moves in a discrete fashion: the position and acceleration is updated every second.
+		\item The vehicles have a maximum acceleration for $a_{y,max}$, $a_{x,max}$, deceleration $a_{y,min}$, $a{x,min}$ and speed $v_{y,max}$ and $v_{x,max}$.
     	\item The biggest wheel steering angle is $45^{\circ}$, and the turning radius is negleted.
 		\item When the vehicles moves in a greater speed than a critical speed, the vehicle is considered to head forward no matter it is moving towards left or right.
     	
@@ -231,7 +232,8 @@ $$y_1(t_e)-y_2(t_e)=y_1(t_0)+v_{y,1}(t_0)(t_e-t_0)+\int_{t_0}^{t_e}\int_{t_0}^{w
 $$-y_2(t_0)-v_{y,2}(t_e-t_0)+\int_{t_0}^{t_e}\int_{t_0}^{w}a_{y,2}(u)dudw$$
 $$ =\int_{t_0}^{t_e}\int_{t_0}^{w}(a_{y,1}(u)-a_{y,2}(u)dudw=D_{general}\qquad [Equation\ E]$$
 As the intergration reaches for a constant, $t_e$ can be minimised if the difference of the two accelerations can be maximised, from which conclude $a_{y,1}$ to be the maximum value permitted by the situation.
-
+$$ \int_{t_0}^{t}(a_{y,i}(u)du \in [0, v_{y,max}]$$
+$$ \int_{t_0}^{t}(a_{y,i}(u)du \in [0, v_{x,max}]$$
 \end{proof}
 
 \begin{Theorem} \label{thm:yingsongsheng3}
