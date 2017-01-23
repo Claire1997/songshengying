@@ -347,12 +347,12 @@ $$
 
 In order to propose a better design, the performance of the design can be addressed as a weighted average index of three factors: throughput, accident rate and cost. 
 
-$$Thoughput(flow_total, design) = E_{vehicle number who completes the merge}$$
+$$Thoughput(flow_{total, design}) = E_{vehic\ number\ who\ completes\ the\ merge}$$
 
-$Accident rate(design)= \frac{\sum accident \quad numbers}{\sum vehicle numbers}$, sum for all simulation cases.
+$Accident\ rate(design)= \frac{\sum accident\ numbers}{\sum vehicle numbers}$, sum for all simulation cases.
 
-$$Cost(design)=\sum cost_{for booth}(passage type,charge mode,lane length)$$
-$$+cost(surface_{whole area} - L_{length} \times W_{lane} \times L) $$
+$$Cost(design)=\sum cost_{for\ booth}(passage\ type,charge\ mode,lane\ length)$$
+$$+cost(surface_{whole\ area} - L_{length} \times W_{lane} \times L) $$
 
 
 \section{Validating the Simulation Model}
@@ -363,9 +363,27 @@ After running our program with the numeral coefficient adjusted, the vehicles pu
 
 \section{The Model Results}
 
-Using the $MATLAB$ to run our program, the process of merging is simulated as follows:
+After using the $MATLAB$ to run our program, the process of merging is simulated as follows:
 
-
+\begin{figure}[H]
+	\centering
+	\subfigure[process1]{
+		\begin{minipage}[b]{0.65\textwidth}
+			\includegraphics[width=1\textwidth]{process1.jpg}
+		\end{minipage}
+	}
+	\subfigure[process2]{
+		\begin{minipage}[b]{0.65\textwidth}
+			\includegraphics[width=1\textwidth]{process2.jpg}
+		\end{minipage}
+	}
+	\subfigure[process3]{
+		\begin{minipage}[b]{0.65\textwidth}
+			\includegraphics[width=1\textwidth]{process3.jpg}
+		\end{minipage}
+	}
+		\caption{Process} \label{process}
+	\end{figure}
 
 
 
