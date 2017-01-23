@@ -72,40 +72,46 @@ Team\ 57566
 
 The design of toll plaza is undoubtedly a state of art as it is hard to find a balance among safety, capacity and cost, facing different situations. It also acts as an essential part in the high-way traffic system. Considering a better toll station design is in demand, mathematical methods and simulation models are implemented to optimize the design schemes, striving to increase the throughput, decrease the cost and accident rate.
 
+A shape design is therefore required to accomodate the traffic and to allow the vehicles go through the plaza smoothly without too much interference of the vehicles around.
+
 \subsection{Assumptions}
 
 \begin{itemize}
 	\item Assumptions for the toll station:
 	\begin{itemize}
-         \item Toll station has a fixed configuration for each simulation: vehicle type and charging process.
+         \item Toll station has a fixed configuration for each simulation: vehicle type and charging method.
          \item Tollbooths allowing large vehicles are also available for smaller vehicles to pass.
-       	 \item It takes a contained time for every vehicle to leave the tollbooth, an extra delay is caused by the charging process.
+       	 \item It takes a certain time for every type of vehicle to leave the tollbooth.
+	     \item An extra delay is caused by the charging process, the most fast for electronic payments, then for exact-changes, the slowest for conventional tollbooths.
 	\end{itemize}
 
     \item Assumptions for the vehicles.
     \begin{itemize}
-    	\item The proportions of different types of vehicles are fixed along the time.
+    	\item The proportion of different types of vehicles passing through the barrier is fixed along the time.
     	\item All vehicles are enabled for all 3 types of charging.
-    	\item All vehicles leave the tollbooths with a given speed.
-    	\item Each vehicle is regarded as a point located in the center of gravity, but the vehicles still have a volume.
-    	\item The accelerations of all the vehicles depend on the others who surround themselves.Time is devided into 1 second, drivers' decisions in every second depend on the surroundings and the status are updated every second.
+    	\item All vehicles leave the tollbooths with a fixed speed.
+		\item All vehicles must move in respect of the direction of tollbooth lane.
+    	\item Each vehicle is considered as a point located in the center of gravity, but the vehicles still have a volume.
+    	\item The accelerations of all the vehicles is stimulated by the position and speed of the vehicles around. 
+		\item The vehicles moves in a discrete fashion: the position and acceleration is updated every second.
     	\item The biggest wheel steering angle is $45^{\circ}$, and the turning radius is negleted.
+		\item When the vehicles moves in a greater speed than a critical speed, the vehicle is considered to head forward no matter it is moving towards left or right.
     	
     \end{itemize}
+
     \item Assumptions for the flow generating:
     \begin{itemize}
-    \item A fixed total flow $F_t$ is uniformly distributed into seconds, which passes the tollbooths, and then gain the merging flow.
-   	\item In cicumstances where traffic is light, the tollbooths the vehicles arrive are random.
-    \item In circumsatances where traffic is busy, the vehicles begin to queue up before the tollbooths, therefore every tollbooth is allowing a maximun flow to pass following the proportiional.
-    \item Light and heavy traffic is distinguished by a critical flow  $F_c$, which is determined by tollbooth simulation.
+    \item When a flow is fixed for a time duration, the total flow $F_t$ is uniformly distributed into each second.
+	\item Vehicles in the simulation must first pass the tollbooths, then join the merging flow.
+   	\item In cicumstances where traffic is light, the flow passing through tollbooths respect the distribution mentioned above.
+    \item In circumsatances where traffic is busy, the vehicles begin to queue up reasonably before the tollbooths, therefore every tollbooth is allowing a maximun flow to pass following the proportion and time gap.
+    \item Light and heavy traffic is distinguished by a critical flow $F_c$, which is determined by the tollbooth capacity in simulation.
     \end{itemize}
 	
 	
 \end{itemize}
 
-
-
-Here we list the elements that will influence the throughput of our toll station:
+Following is a list of notions used in the article:
 \begin{table}[h]
 \centering
    \begin{tabular}{|m{7cm}<{\centering}|p{7cm}<{\centering}|}
@@ -142,11 +148,9 @@ Here we list the elements that will influence the throughput of our toll station
 \end{table}\\
 
 
-
-
-
 \section{Analysis of the Problem}
-To respect the notion of "barrier", and to avoid the complexity of gradient, this article discusses only the toll stations of one storey. It is considered that the approach ramps would complicate the traffic flow in both edge of the station, and the cost would be enormous.
+
+To respect the notion of "barrier", and to avoid the complexity of gradient, this article discusses only the toll stations of one storey. It is considered that the approach ramps would complicate the traffic flow in both edge of the station, and the cost would be enormous. A separation of lanes implemented by the road rail would decrease the liberty of the traffic flow.
 
 \begin{figure}[H]
 	\small
