@@ -83,7 +83,7 @@ for i=1:70 % one simulation per second;
                         
                        % showVehicule()
                         
-                       is_collide = isCollideSimple([vehicle_array(j,1:2) vehicle_array(j,4)],[vehicle_array(a,1:2) vehicle_array(a,4)],vehicle_array(j,5),vehicle_array(a,5));
+                       is_collide = isCollideSimple([vehicle_array(j,1:2) vehicle_array(j,4)],[vehicle_array(a,1:2) vehicle_array(a,4)],vehicle_array(j,5),vehicle_array(a,5),0);
                        if is_collide == 1
 
                           %showVehicule()

@@ -8,13 +8,13 @@ global width_veh
 global length_veh
 global dt
 
-
+DeBug_Pos_i = vehicle_array(i,2);
 acc_max = 2;
 acc_brake = 8;
 Speed_v = [0;vehicle_array(i,3)];
 distance_foward_max = 200;Speed_foward=0;
 vehicle_other_v = zeros(40,4);
-criticle_limite_intervehicle = 1;
+criticle_limite_intervehicle = 3;
 
 acc_v = zeros(2,1);
 foward_flag = 0; %can we go foward?
@@ -31,7 +31,7 @@ for j = 1: vehicle_number
         
 
         if Pos_j_v(2) > 0 
-            if abs(Pos_j_future_v(1)) < criticle_limite_intervehicle + 1/2 *( width_veh(vehicle_array(i,5))+width_veh(vehicle_array(j,5)))
+            if abs(Pos_j_future_v(1)) < 1 + 1/2 *( width_veh(vehicle_array(i,5))+width_veh(vehicle_array(j,5)))
                 if Pos_j_future_v(2) - 1/2 *( length_veh(vehicle_array(i,5))+length_veh(vehicle_array(j,5))) - criticle_limite_intervehicle < distance_foward_max
                     distance_foward_max = Pos_j_future_v(2) - 1/2 *( length_veh(vehicle_array(i,5))+length_veh(vehicle_array(j,5))) - criticle_limite_intervehicle;
                     Speed_foward = Speed_j_v(2) + Speed_v(2);
@@ -85,22 +85,22 @@ boundaryPoints_right(1,:) = boundaryPoints(:,1)- vehicle_array(i,1);
    
    turn_flag =0;
    % second part
-  if(foward_flag == 0 || foward_flag == -1)
-      Pos_future_v = [4;Speed_v(2)];
+  if(foward_flag == 0 || foward_flag == -1) && (Speed_foward == 0 || distance_foward_max < 10)
+      Pos_future_v = [-4;0];
       count1 = 0; count2 =0;
       for j = 1: vehicle_number
         if i ~= j && vehicle_array(j,5) > 0  
-            if ~isCollideSimple(Pos_future_v,vehicle_other_v(j,1:2),vehicle_array(i,5),vehicle_array(j,5)) && ~isOutBoundary(Pos_future_v + vehicle_array(i,1:2)',vehicle_array(i,5))
+            if (~isCollideSimple(Pos_future_v,vehicle_other_v(j,1:2),vehicle_array(i,5),vehicle_array(j,5),5)) &&(~isOutBoundary([(Pos_future_v(1) + vehicle_array(i,1));(Pos_future_v(2)+ vehicle_array(i,2) + vehicle_array(i,3) + vehicle_array(i,3)^2/2/acc_brake+1)],vehicle_array(i,5))) && (Speed_j_v(2) >= 0)
             else 
                 count1 = 1; break
             end
         end
       end
       if count1 == 1
-          Pos_future_v = [-4;Speed_v(2)];
+          Pos_future_v = [4;0];
           for j = 1: vehicle_number
           if i ~= j && vehicle_array(j,5) > 0  
-              if ~isCollideSimple(Pos_future_v,vehicle_other_v(j,1:2),vehicle_array(i,5),vehicle_array(j,5)) && ~isOutBoundary(Pos_future_v + vehicle_array(i,1:2)',vehicle_array(i,5))
+              if (~isCollideSimple(Pos_future_v,vehicle_other_v(j,1:2),vehicle_array(i,5),vehicle_array(j,5),5)) &&(~isOutBoundary([Pos_future_v(1) + vehicle_array(i,1);Pos_future_v(2)+ vehicle_array(i,2) + vehicle_array(i,3) + vehicle_array(i,3)^2/2/acc_brake + 1],vehicle_array(i,5))) && (Speed_j_v(2) >= 0)
               else 
                  count2 = 1; break
               end
@@ -110,19 +110,19 @@ boundaryPoints_right(1,:) = boundaryPoints(:,1)- vehicle_array(i,1);
       if count1 == 0
           turn_flag = 1;
           if Speed_v(2) == 0
-             acc_v(1) =  4;
+             acc_v(1) =  -4;
              acc_v(2) = 1/2 * acc_max;
           else
-             acc_v(1) = 4;
+             acc_v(1) = -4;
              acc_v(2) = 0;
           end
       elseif count2 == 0
           turn_flag = 1;
           if Speed_v(2) == 0
-             acc_v(1) =  -4 ;
+             acc_v(1) =  4 ;
              acc_v(2) = 1/2 * acc_max;
           else
-             acc_v(1) = -4;
+             acc_v(1) = 4;
              acc_v(2) = 0;
           end
       else foward_flag = 0;
