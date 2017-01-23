@@ -141,6 +141,10 @@ Here we list the elements that will influence the throughput of our toll station
    	\hline
    	$P_l$,  $P_m$, $P_s$ & Probability of large-scale automobiles, midium-sized vehicles and compact cars\\
    	\hline
+   	$D_l$, $D_m$, $D_s$ & The lengths of large-scale automobiles, midium-sized vehicles and compact cars\\
+   	\hline
+   	$D_{general}$ & The length of vehicles regardless of the type\\
+   	\hline
    	$v_{this}$, $a_{this}$ & Speed and acceleration of the vehicle we study\\
    	\hline
    	$v_n$, $a_n$ &  Speed and acceleration of the other vehicles which surround the vehicle we study\\
@@ -151,7 +155,7 @@ Here we list the elements that will influence the throughput of our toll station
    	\hline
    	$W_{lane}$ & lane width \\
    	\hline
-   	
+
    \end{tabular}
 \end{table}\\
 
@@ -169,7 +173,7 @@ To respect the notion of "barrier", and to avoid the complexity of gradient, thi
 	\includegraphics{img3.png}
 \end{figure}
 
-In the merging area, all the vehicles merging from $B$ tollbooths into $L$ lanes in a short distance of $L_length$ meters.
+In the merging area, all the vehicles merging from $B$ tollbooths into $L$ lanes in a short distance of $L_{length}$ meters.
 With lane width predifined as 2 meters, the merging area is defined as the area surrounded by two curves on a finite two-dimension plane. The curves are represented by two functions, which would be a parameter to be optimized in the problem.
 
 \subsection{Obtaining an adopted shape design}
@@ -180,7 +184,7 @@ Thus a design scheme that is capable of coping with the worst traffic conditions
 
 The possible solutions therefore, should guide the vehicles into a proper slot in a queue for each lane, and each vehicle ahead should not be chased by each other, nor the vehicles newly passed through the tollbooth.
 
-Symmetry analyses give that the optimal shape is symmetrical about the central axis of the turnpike. The article concerns therefore only symmetrical.
+Symmetry analyses give that the optimal shape is symmetrical about the central axis of the turnpike. The article concerns therefore only symmetrical designs.
 \begin{figure}
 	\begin{minipage}[t]{0.5\linewidth}
 		\centering
@@ -208,37 +212,51 @@ Reductio ad absurdum: if the shape is not symmetrical, hence the traffic flow is
 We can furthur show that the comportment of vehicles is also symmetrical about the axis. So only one side of the traffic is to be analysed in the following section.
 
 \begin{Theorem} \label{thm:yingsongsheng2}
-The quickest way to merge 2 side-by-side vehicles into 1 lane is to let the vehicles in the lane to be merged to run the most quickily the possible.
+The quickest way for a vehicle originally side by another to depass it is to run the most quickily the possible.
 \end{Theorem}
 
-[fig C]
+\begin{figure}[h]
+	\begin{minipage}[h]{0.5\linewidth}
+		\centering
+		\includegraphics[width=2.2in]{Attachment-1.jpg}
+		\label{symmetrical}
+	\end{minipage}%
+	\begin{minipage}[h]{0.5\linewidth}
+		\centering
+		\includegraphics[width=2.2in]{D.jpg}
+		\label{asymmetrical}
+	\end{minipage}
+\end{figure}
 
 \begin{proof}
 Denote the direction where the road leads the vertical direction.
 Initially, the two vehicles are running side-by-side, and share the same speed $v_0$ and direction.
-The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is: $$x_2(t_0)-x_1(t_0)=lane-width$$\\
+The vertical distance between the two vehicles (calculated by the position of the center of the vehicle) is 0, the horizontal distance is: $$x_2(t_0)-x_1(t_0)=lane-width \qquad [Equation A]$$\\
 In the end, vehicle 2 is positioned right after vehicle 1.
-$y_1(t_e)-y_2(t_e)=L_d+vehicle_length$\\
+$$y_1(t_e)-y_2(t_e)=L_d+vehicle_length \qquad [Equation B]$$\\
 The integration of accelerations give the speed at a specific instant:
- $$v_y(t)=v_y(t_0)+ \int_{t_0}^{t}a_y(u)du$$
+ $$v_y(t)=v_y(t_0)+ \int_{t_0}^{t}a_y(u)du \qquad [Equation C]$$
 And the integration of speed give the displacement of a vehicle:
-$$y(t)=y(t_0)+ \int_{t_0}^{t}v_y(u)du=y(t_0)+v_y(t_0) \times (t-t_0)+ \int_{t_0}^{t}\int_{t_0}^{w}a_y(u)dudw$$
-Equation B can therefore be transcribed as 
-[Equa E].
-As the intergration reaches for a constant, $t_e$ can be minimised if the difference of the two accelerations can be maximised, from which conclude $a_{y,1}$ to be the maximum value permitted by the situation.
-\end{proof}
 
-moving faster in order to outrun the other one, the other is approaching its side. In phase two, the merging vehicle moves behind the other. The minimum time required by phase 1 meets the condition of the previous theorem, meanwhile the minimum time required by phase two is achieved by accelerating to the side then deaccelerate so that the sideway speed is reduced to 0 on arriving in place.
+$$y(t)=y(t_0)+ \int_{t_0}^{t}v_y(u)du=y(t_0)+v_y(t_0) \times (t-t_0)+ \int_{t_0}^{t}\int_{t_0}^{w}a_y(u)dudw \qquad [Equation D]$$
+Equation B can therefore be transcribed as :
+$$y_1(t_e)-y_2(t_e)=y_1(t_0)+v_{y,1}(t_0)(t_e-t_0)+\int_{t_0}^{t_e}\int_{t_0}^{w}a_{y,1}(u)dudw$$
+$$-y_2(t_0)-v_{y,2}(t_e-t_0)+\int_{t_0}^{t_e}\int_{t_0}^{w}a_{y,2}(u)dudw$$
+$$ =\int_{t_0}^{t_e}\int_{t_0}^{w}(a_{y,1}(u)-a_{y,2}(u)dudw=D_{vehicle type}\qquad [Equation E]$$
+As the intergration reaches for a constant, $t_e$ can be minimised if the difference of the two accelerations can be maximised, from which conclude $a_{y,1}$ to be the maximum value permitted by the situation.
+
+\end{proof}
 
 \begin{Theorem} \label{thm:yingsongsheng3}
-The queuing strategy can be simplified into a successive merging problem for two vehicles initially run side by side. 
+The quickest way for a moving vehicle to change a lane, is to accelerate to the side with maximum power (until a maximum sideway speed is reached) then decelerate, for all initial sideway speed.
 \end{Theorem}
 
-\begin{proof}
+The 2 to 1 merging process can be splitted into two phases. [fig D] In phase one, one vehicle moving faster in order to outrun the other one, the other is approaching its side. In phase two, the merging vehicle moves behind the other. The minimum time required by phase 1 meets the condition of the previous theorem, meanwhile the minimum time required by phase two is achieved by accelerating to the side then decelerate so that the sideway speed is reduced to 0 on arriving in place.
 
-on Evaluating the design
 
-\end{proof}
+As a matter of fact, for all merging processes, it can be considered as a composition of the two phases presented above. Note that shown from the demonstration, that the duration of each phase is dependent upon the initial speed of the vehicles, because the acceleration and deceleration would reduce to zero if the maximum or minimum speed is reached. Thus the whole merging duration can be minimised if an optimized order of the phase repetitions can be found.
+
+
 \subsection{Simulation}
 In order to evaluate the performance such as throughput, accident rate, this group implements simulation algorithms, mocking the process of vehicles passing through the tollbooth and try to merge without a centralized control: as heavy traffic of everyday definition is not about vehicles of a large size passing the tollbooth continously! The throughput is evaluated by the number of vehicles that successfully enter into the $L$-lane area, and accident rate is calculated by the simulated accident numbers divided by total vehicle numbers.
 
@@ -265,7 +283,7 @@ One crucial difference of the model presented compared with the classic ones is 
 The human-driven vehicles are represented in the model by an approximation of their vertical projection, rectangles of different sizes. To implement the dynamics, Nagel-Schreckenberg (NS) model \cite{acelluar}, GM model and CF (car following) model are taken reference to simulate the driving strategies. The model presented by this paper considers the acceleration of each vehicle a compound decision of three factors: avoidance for collision with other vehicles.
 
 
-In this article, an extented version of Car-following model is proposed, preserving the idea that driving consists of the process of perception, decision making and control. Based on the active vehicles on the road and the road shape, the driver's decision includes acceleration or deacceleration of the direction ahead and the one sideways.
+In this article, an extented version of Car-following model is proposed, preserving the idea that driving consists of the process of perception, decision making and control. Based on the active vehicles on the road and the road shape, the driver's decision includes acceleration or deceleration of the direction ahead and the one sideways.
 $$[Response]_n= \alpha [Simulus]_n$$
  interpreted as interactions between the vehicles, avoidance for collision with the road boundary, and its intrinsic willingness to achieve a maximum speed. 
 
@@ -305,6 +323,7 @@ thus, $\forall j  (j \neq this) $ if
 \end{itemize}
 
 If the left/right lane satisfies these conditions, then the vehicle will move left/right 4 meters ( the width of a lane).
+
 
 In addition, we consider that $v_{y,this}$ will not change ($a_{y,this} = 0$), except for the case where $v_{y,this} = 0$(when it is waiting for the opportunity to turn). In this special case, we set $a_{y,this} = 1/2 * a_{max \_ acceleration}$.
 
@@ -349,7 +368,7 @@ $$Thoughput(flow_total, design) = E_{vehicle number who completes the merge}$$
 Accident rate(design) = sum(accidents)/sum(vehicle numbers), sum for all simulation cases
 
 $$Cost(design)=\sum cost_{for booth}(passage type,charge mode,lane length)$$
-$$+cost(surface_{whole area} - L_length \times W_lane \times L) $$
+$$+cost(surface_{whole area} - L_{length} \times W_{lane} \times L) $$
 
 
 \section{Validating the Model}
